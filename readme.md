@@ -3,7 +3,7 @@
 _____________________________________________________________________
 
 ## Overview
-Django-table is a customizable application of django based on [datatable](http://datatables.net)
+Django-table is a customizable application of django based on [datatable](http://datatables.net).
 _____________________________________________________________________
 
 ## Requirements
