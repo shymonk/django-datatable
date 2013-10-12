@@ -1,21 +1,22 @@
-# Django-table
+=====
+Django-table
+=====
 
-_____________________________________________________________________
+Table is a simple Django app to origanize data in tabular form.
+It is based on [datatable](http://datatables.net).
 
-## Overview
-Django-table is a customizable application of django based on [datatable](http://datatables.net).
-_____________________________________________________________________
+Quick start
+-----------
 
-## Requirements
-* Python 2.7
-* Django 1.5
-_____________________________________________________________________
+1. Add "polls" to your INSTALLED_APPS setting like this::
 
-## Install
-_____________________________________________________________________
+      INSTALLED_APPS = (
+          ...
+          'table',
+      )
 
-## Usage
-_____________________________________________________________________
+2. Include the polls URLconf in your project urls.py like this::
 
-## Support
-_____________________________________________________________________
+      url(r'^table/', include('table.urls')),
+
+

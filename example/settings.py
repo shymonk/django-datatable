@@ -1,4 +1,4 @@
-# Django settings for djangotable project.
+# Django settings for table project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -78,7 +78,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 't5foa#9#&amp;(mmpwv9+xbdpk4aog-=x^wr)5l$7^iz^a^hbq#p1g'
+SECRET_KEY = 'sq9c#o&amp;a0wyo%iv8gicf=3!eb=r9k9!lm!oz1150+=7g@-5i*^'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -97,10 +97,10 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'djangotable.urls'
+ROOT_URLCONF = 'table.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'djangotable.wsgi.application'
+WSGI_APPLICATION = 'table.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
