@@ -12,7 +12,7 @@ setup(
     packages=['table'],
     include_package_data=True,
     license='BSD License',  # example license
-    description='A simple Django app to conduct Web-based polls.',
+    description='A simple Django app to origanize data in tabular form.',
     long_description=README,
     url='http://www.example.com/',
     author='guoqs',
