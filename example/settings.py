@@ -1,5 +1,10 @@
 # Django settings for table project.
 import os
+import sys
+
+
+# make table package importable
+sys.path.append('..')
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
