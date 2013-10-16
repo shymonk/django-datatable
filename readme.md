@@ -15,7 +15,9 @@ _____________________________________________________________________
 
 2. Add "table" to your INSTALLED_APPS setting like this:
 
-   <code>INSTALLED_APPS = (</code>
-   <code>    ...</code>
-   <code>    'table',</code>
-   <code>)</code>
+   <pre><code>
+   INSTALLED_APPS = (
+       ...
+       'table',
+   )
+   </code></pre>
