@@ -7,7 +7,7 @@ _____________________________________________________________________
 Table is a simple Django app to origanize data in tabular form.
 It is based on [datatable](http://datatables.net).
 
-## Quick start  
+## Quick start
 <br>
 1.Setup Django-table application in Python environment:
 
