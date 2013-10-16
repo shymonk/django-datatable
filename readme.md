@@ -9,11 +9,11 @@ It is based on [datatable](http://datatables.net).
 ## Quick start
 1. Setup Django-table application in Python environment:
 
-<code>$ python setup.py install</code>
+<p><code>$ python setup.py install</code></p>
 
 2. Add "table" to your INSTALLED_APPS setting like this:
 
-<code><>INSTALLED_APPS = (<br>
-<pre>    ...<pre>
-<pre>    'table',</pre>
-)</code>
+<p><code><>INSTALLED_APPS = (
+    ...
+    'table',
+)</code></p>
