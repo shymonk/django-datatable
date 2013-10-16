@@ -13,7 +13,7 @@ It is based on [datatable](http://datatables.net).
 
 2. Add "table" to your INSTALLED_APPS setting like this:
 
-<p><code><>INSTALLED_APPS = (
-    ...
-    'table',
+<p><code>INSTALLED_APPS = (  
+    ...  
+    'table',  
 )</code></p>
