@@ -9,15 +9,14 @@ It is based on [datatable](http://datatables.net).
 
 ## Quick start
 _____________________________________________________________________
-1. Add "polls" to your INSTALLED_APPS setting like this::
+1. Setup Django-table application in Python environment:
 
-      INSTALLED_APPS = (
+   <p>$ python setup.py install</p>
+
+2. Add "table" to your INSTALLED_APPS setting like this:
+
+   <p>INSTALLED_APPS = (
           ...
           'table',
-      )
-
-2. Include the polls URLconf in your project urls.py like this::
-
-      url(r'^table/', include('table.urls')),
-
+      )</p>
 
