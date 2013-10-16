@@ -14,6 +14,6 @@ It is based on [datatable](http://datatables.net).
 2. Add "table" to your INSTALLED_APPS setting like this:
 
 <code>INSTALLED_APPS = (  
-    ...  
-    'table',  
+      ...  
+      'table',  
 )</code>
