@@ -15,5 +15,5 @@ It is based on [datatable](http://datatables.net).
 
 <code>INSTALLED_APPS = (  
 &nbsp;&nbsp;&nbsp;&nbsp;...  
-      'table',  
+<space><space><space><space>'table',  
 )</code>
