@@ -4,7 +4,7 @@ _____________________________________________________________________
 
 ## Overview
 <br>
-Django-able is a simple Django app to origanize data in tabular form.
+Django-table is a simple Django app to origanize data in tabular form.
 It is based on [datatable](http://datatables.net).
 
 ## Quick start
