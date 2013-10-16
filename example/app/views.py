@@ -2,7 +2,9 @@ from django.shortcuts import render
 from app.models import Person
 
 def people(request):
-    thead = ['ID', 'NAME']
-    tbody = Person.objects.all()
-    return render(request, "index.html", {'thead': thead, 'hbody': tbody})
+    table = {}
+    table['name'] = 'people'
+    table['thead'] = [u'序号', u'姓名']
+    table['tbody'] = Person.objects.all()
+    return render(request, "index.html", {'people': table})
 
