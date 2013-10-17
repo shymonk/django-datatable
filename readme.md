@@ -10,18 +10,18 @@ It is based on [datatable](http://datatables.net).
 ## Quick start
 <br>
 
-1. Setup Django-table application in Python environment:
+<p>1.Setup Django-table application in Python environment:</p>
 
 <pre>$ python setup.py install</pre>
 
-2. Add "table" to your INSTALLED_APPS setting like this:
+<p>2.Add "table" to your INSTALLED_APPS setting like this:</p>
 
 <pre>INSTALLED_APPS = (
     ...,
     'table',
 )</pre>
 
-3. Define a simple model named Person:
+<p>3.Define a simple model named Person:</p>
 
 <pre>#example/app/models.py
 class Person(models.Model):
@@ -46,7 +46,7 @@ def people(request):
     people['body'] = Person.objects.all()
     return render(request, "index.html", {'people': people})</pre>
 
-5. Finally, implement the template:
+<p>5.Finally, implement the template:</p>
 
 <pre>{# example/templates/index.html}
 {% load static %}
@@ -55,4 +55,5 @@ def people(request):
 < include jquery and bootstrap css and js files >
 
 {% include 'table_include.html' %}
+
 {% render_table people %}</pre>
