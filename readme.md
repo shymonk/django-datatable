@@ -26,7 +26,7 @@ It is based on [datatable](http://datatables.net).
 class Person(models.Model):
     name = models.CharField(max_length=100)</pre>
 
-4.<p>Add some data so you have something to display in the table. Now write a view to pass people dictionary into a template, it contains three keys:</p><br>
+<p>4.Add some data so you have something to display in the table. Now write a view to pass people dictionary into a template, it contains three keys:</p><br>
 
 - Name of table, it will render as the id attribute of table.<br>
 
