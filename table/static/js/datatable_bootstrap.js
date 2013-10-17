@@ -1,6 +1,6 @@
 /* Set the defaults for DataTables initialisation */
 $.extend( true, $.fn.dataTable.defaults, {
-    "sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
+	"sDom": "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
     "sPaginationType": "bootstrap",
     "oLanguage": {
         "sLengthMenu": "_MENU_ records per page"
@@ -10,7 +10,9 @@ $.extend( true, $.fn.dataTable.defaults, {
 
 /* Default class modification */
 $.extend( $.fn.dataTableExt.oStdClasses, {
-    "sWrapper": "dataTables_wrapper form-inline"
+    "sWrapper": "dataTables_wrapper form-inline",
+    "sFilterInput": "form-control input-sm",
+    "sLengthSelect": "form-control input-sm"
 } );
 
 
@@ -45,8 +47,8 @@ $.extend( $.fn.dataTableExt.oPagination, {
 
             $(nPaging).append(
                 '<ul class="pagination">'+
-                    '<li class="prev disabled"><a href="#"><i class="icon-double-angle-left"></i> '+oLang.sPrevious+'</a></li>'+
-                    '<li class="next disabled"><a href="#">'+oLang.sNext+' <i class="icon-double-angle-right"></i></a></li>'+
+					'<li class="prev disabled"><a href="#">&larr; '+oLang.sPrevious+'</a></li>'+
+					'<li class="next disabled"><a href="#">'+oLang.sNext+' &rarr; </a></li>'+
                 '</ul>'
             );
             var els = $('a', nPaging);
@@ -118,7 +120,7 @@ if ( $.fn.DataTable.TableTools ) {
     $.extend( true, $.fn.DataTable.TableTools.classes, {
         "container": "DTTT btn-group",
         "buttons": {
-            "normal": "btn",
+            "normal": "btn btn-default",
             "disabled": "disabled"
         },
         "collection": {
@@ -146,14 +148,3 @@ if ( $.fn.DataTable.TableTools ) {
     } );
 }
 
-
-/* Table initialisation */
-// $(document).ready(function() {
-//     $('#example').dataTable( {
-//         "sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
-//         "sPaginationType": "bootstrap",
-//         "oLanguage": {
-//             "sLengthMenu": "_MENU_ records per page"
-//         }
-//     } );
-// } );
