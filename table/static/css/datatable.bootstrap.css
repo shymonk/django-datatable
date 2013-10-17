@@ -1,5 +1,5 @@
-
 div.dataTables_length label {
+	font-weight: normal;
 	float: left;
 	text-align: left;
 }
@@ -9,7 +9,12 @@ div.dataTables_length select {
 }
 
 div.dataTables_filter label {
+	font-weight: normal;
 	float: right;
+}
+
+div.dataTables_filter input {
+	width: 16em;
 }
 
 div.dataTables_info {
@@ -21,12 +26,15 @@ div.dataTables_paginate {
 	margin: 0;
 }
 
+div.dataTables_paginate ul.pagination {
+	margin: 2px;
+}
+
 table.table {
-    clear: both;
-    margin-bottom: 6px !important;
-    max-width: none !important;
-    table-layout: fixed;
-    word-wrap: break-word;
+	clear: both;
+	margin-top: 6px !important;
+	margin-bottom: 6px !important;
+	max-width: none !important;
 }
 
 table.table thead .sorting,
@@ -35,7 +43,6 @@ table.table thead .sorting_desc,
 table.table thead .sorting_asc_disabled,
 table.table thead .sorting_desc_disabled {
 	cursor: pointer;
-	*cursor: hand;
 }
 
 table.table thead .sorting { background: url('../images/sort_both.png') no-repeat center right; }
@@ -100,7 +107,6 @@ div.dataTables_scrollFoot table {
 
 table.DTTT_selectable tbody tr {
 	cursor: pointer;
-	*cursor: hand;
 }
 
 div.DTTT .btn {
@@ -112,14 +118,25 @@ div.DTTT .btn:hover {
 	text-decoration: none !important;
 }
 
+ul.DTTT_dropdown.dropdown-menu {
+  z-index: 2003;
+}
 
 ul.DTTT_dropdown.dropdown-menu a {
 	color: #333 !important; /* needed only when demo_page.css is included */
 }
 
+ul.DTTT_dropdown.dropdown-menu li {
+	position: relative;
+}
+
 ul.DTTT_dropdown.dropdown-menu li:hover a {
 	background-color: #0088cc;
 	color: white !important;
+}
+
+div.DTTT_collection_background {
+	z-index: 2002;	
 }
 
 /* TableTools information display */
@@ -148,35 +165,44 @@ div.DTTT_print_info p {
  */
 div.DTFC_LeftHeadWrapper table,
 div.DTFC_LeftFootWrapper table,
+div.DTFC_RightHeadWrapper table,
+div.DTFC_RightFootWrapper table,
 table.DTFC_Cloned tr.even {
-	background-color: white;
+    background-color: white;
 }
-
+ 
+div.DTFC_RightHeadWrapper table ,
 div.DTFC_LeftHeadWrapper table {
-	margin-bottom: 0 !important;
-	border-top-right-radius: 0 !important;
-	border-bottom-left-radius: 0 !important;
-	border-bottom-right-radius: 0 !important;
+    margin-bottom: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
 }
-
+ 
+div.DTFC_RightHeadWrapper table thead tr:last-child th:first-child,
+div.DTFC_RightHeadWrapper table thead tr:last-child td:first-child,
 div.DTFC_LeftHeadWrapper table thead tr:last-child th:first-child,
 div.DTFC_LeftHeadWrapper table thead tr:last-child td:first-child {
-	border-bottom-left-radius: 0 !important;
-	border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
 }
-
+ 
+div.DTFC_RightBodyWrapper table,
 div.DTFC_LeftBodyWrapper table {
-	border-top: none;
-	margin-bottom: 0 !important;
+    border-top: none;
+    margin-bottom: 0 !important;
 }
-
+ 
+div.DTFC_RightBodyWrapper tbody tr:first-child th,
+div.DTFC_RightBodyWrapper tbody tr:first-child td,
 div.DTFC_LeftBodyWrapper tbody tr:first-child th,
 div.DTFC_LeftBodyWrapper tbody tr:first-child td {
-	border-top: none;
+    border-top: none;
 }
-
+ 
+div.DTFC_RightFootWrapper table,
 div.DTFC_LeftFootWrapper table {
-	border-top: none;
+    border-top: none;
 }
 
 .table-bordered > thead > tr > th,
