@@ -30,11 +30,10 @@ It is based on [datatable](http://datatables.net).
 **4**. Add some data so you have something to display in the table. Now write a view to pass people dictionary into a template, it contains three keys:<br>
 
 - Name of table, it will render as the id attribute of table.<br>
+- Head of table, it is a list of tuples, every tuple contains 2 elements: column name and corresponding attribute name of the model.<br>
+- Body of table, it is a queryset.
 
-- Head of table, it is a list of tuples, every tuple contains 2 elements: column name and corresponding attribute name of the model<br>
-
-- Body of table, it is a queryset of mode.<br>
-
+-
     # example/app/views.py
     from django.shortcuts import render
     from app.models import Person
@@ -63,7 +62,7 @@ It is based on [datatable](http://datatables.net).
             <title>person</title>
         </head>
         <body>
-            <div class="container" style="margin-top: 10px"> 
+            <div class="container" style="margin-top: 10px">
                 <h1>people</h1>
                 <br />
                 {% render_table people %}
