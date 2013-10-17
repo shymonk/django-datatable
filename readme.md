@@ -26,13 +26,12 @@ It is based on [datatable](http://datatables.net).
 class Person(models.Model):
     name = models.CharField(max_length=100)</pre>
 
-4.Add some data so you have something to display in the table.
-Now write a view to pass people dictionary into a template,
-it contains three keys:
-    1. Name of table, it will render as the id attribute of table.
-    2. Head of table, it is a list of tuples, every tuple contains 2 elements:
-       column name and corresponding attribute name of the model
-    3. Body of table, it is a queryset of model.
+4.Add some data so you have something to display in the table.<br>
+Now write a view to pass people dictionary into a template,<br>
+it contains three keys:<br>
+1. Name of table, it will render as the id attribute of table.
+2. Head of table, it is a list of tuples, every tuple contains 2 elements: column name and corresponding attribute name of the model
+3. Body of table, it is a queryset of model.
 <pre># example/app/models.py
 class Person(models.Model):
     name = models.CharField(max_length=100)</pre>
