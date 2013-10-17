@@ -47,12 +47,19 @@ def people(request):
 
 **5**. Finally, implement the template:<br>
 
-<pre>{# example/templates/index.html}
-{% load static %}
-{% load table %}
+    {# example/templates/index.html}
+    {% load static %}
+    {% load table %}
 
-< include jquery and bootstrap css and js files >
+    < include jquery and bootstrap css and js files >
 
-{% include 'table_include.html' %}
+    {% include 'table_include.html' %}
 
-{% render_table people %}</pre>
+    <body>
+        <div class="container" style="margin-top: 10px"> 
+        <h1>people</h1>
+        <br />
+        {% render_table people %}
+        </div>
+    </body>
+
