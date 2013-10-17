@@ -10,24 +10,24 @@ It is based on [datatable](http://datatables.net).
 ## Quick start
 <br>
 
-<p>1.Setup Django-table application in Python environment:</p>
+<p>**1**.S etup Django-table application in Python environment:</p>
 
 <pre>$ python setup.py install</pre>
 
-<p>2.Add "table" to your INSTALLED_APPS setting like this:</p>
+<p>**2**. Add "table" to your INSTALLED_APPS setting like this:</p>
 
 <pre>INSTALLED_APPS = (
     ...,
     'table',
 )</pre>
 
-<p>3.Define a simple model named Person:</p>
+<p>**3**. Define a simple model named Person:</p>
 
 <pre>#example/app/models.py
 class Person(models.Model):
     name = models.CharField(max_length=100)</pre>
 
-<p>4.Add some data so you have something to display in the table. Now write a view to pass people dictionary into a template, it contains three keys:</p>
+<p>**4**. Add some data so you have something to display in the table. Now write a view to pass people dictionary into a template, it contains three keys:</p>
 
 - Name of table, it will render as the id attribute of table.<br>
 
@@ -46,7 +46,7 @@ def people(request):
     people['body'] = Person.objects.all()
     return render(request, "index.html", {'people': people})</pre>
 
-<p>5.Finally, implement the template:</p>
+<p>**5**. Finally, implement the template:</p>
 
 <pre>{# example/templates/index.html}
 {% load static %}
