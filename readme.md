@@ -48,7 +48,7 @@ def people(request):
     return render(request, "index.html", {'people': people})</pre>
 
 5.Finally, implement the template:
-<pre><code>
+<code><pre>
 {% load static %}
 {% load table %}
 
@@ -72,4 +72,4 @@ def people(request):
         {% render_table people %}
         </div>
     </body>
-</html></code></pre>
+</html></pre></code>
