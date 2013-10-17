@@ -49,7 +49,7 @@ def people(request):
     return render(request, "index.html", {'people': people})</pre>
 
 5.Finally, implement the template:
-<pre># example/templates/index.html
+<pre>{# example/templates/index.html}
 {% load static %}
 {% load table %}
 
