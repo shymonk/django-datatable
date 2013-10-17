@@ -48,14 +48,11 @@ def people(request):
     return render(request, "index.html", {'people': people})</pre>
 
 5.Finally, implement the template:
-<code><pre>
-{% load static %}
+<pre>{% load static %}
 {% load table %}
-
 <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
-
 {% include 'table_include.html' %}
 
 <!DOCTYPE html>
@@ -72,4 +69,4 @@ def people(request):
         {% render_table people %}
         </div>
     </body>
-</html></pre></code>
+</html></pre>
