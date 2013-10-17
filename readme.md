@@ -33,11 +33,12 @@ it contains three keys:
     2. Head of table, it is a list of tuples, every tuple contains 2 elements:
        column name and corresponding attribute name of the model
     3. Body of table, it is a queryset of model.
-<pre>#example/app/models.py
+<pre># example/app/models.py
 class Person(models.Model):
     name = models.CharField(max_length=100)</pre>
 
-<pre>from django.shortcuts import render
+<pre># example/app/views.py
+from django.shortcuts import render
 from app.models import Person
 
 def people(request):
@@ -48,20 +49,11 @@ def people(request):
     return render(request, "index.html", {'people': people})</pre>
 
 5.Finally, implement the template:
-<pre>
-    {% load static %}
-    {% load table %}
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
-    <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    {% include 'table_include.html' %}
-
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	    <title>person</title>
-    </head>
+<pre># example/templates/index.html
+{% load static %}
+{% load table %}
+< include jquery and bootstrap css and js files >
+{% include 'table_include.html' %}
 
     <body>
         <div class="container" style="margin-top: 10px"> 
@@ -69,6 +61,4 @@ def people(request):
         <br />
         {% render_table people %}
         </div>
-    </body>
-    </html>
-</pre>
+    </body></pre>
