@@ -53,8 +53,8 @@ def people(request):
 {% load static %}
 {% load table %}
 < include jquery and bootstrap css and js files >
-{% include 'table_include.html' %}
 
+{% include 'table_include.html' %}
 <body>
     <div class="container" style="margin-top: 10px"> 
         <h1>people</h1>
