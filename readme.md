@@ -52,13 +52,15 @@ def people(request):
 <pre># example/templates/index.html
 {% load static %}
 {% load table %}
+
 < include jquery and bootstrap css and js files >
 
 {% include 'table_include.html' %}
-<body>
+    <body>
     <div class="container" style="margin-top: 10px"> 
         <h1>people</h1>
             <br />
             {% render_table people %}
     </div>
-</body></pre>
+    </body>
+</pre>
