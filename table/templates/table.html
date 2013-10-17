@@ -1,4 +1,4 @@
-<table id={{ name }} cellpadding="0" cellspacing="0" border="0" class="table">
+<table id={{ name }} cellpadding="0" cellspacing="0" border="0" class="table table-bordered">
     <thead>
         <tr>
             {% for column in columns %}
@@ -7,12 +7,10 @@
         </tr>
     </thead>
     <tbody>
-        {% for row in objects_list %}
+        {% for row in object_list %}
         <tr>
             {% for column in row %}
-            <th>
-                {{ column }}
-            </th>
+            <th>{{ column }}</th>
             {% endfor %}
         </tr>
         {% endfor %}
@@ -21,5 +19,15 @@
 
 
 <script type="text/javascript" charset="utf-8">
-    $('#{{ name }}').dataTable();
+    $('#{{ name }}').dataTable({
+        "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+		"sPaginationType": "bootstrap",
+		"oLanguage": {"sLengthMenu": "_MENU_ records per page"},
+        "fnPreDrawCallback": function(oSettings, json) {
+            $('.dataTables_filter input').addClass('form-control input-sm');
+            $('.dataTables_filter input').css('width', '200px');
+            $('.dataTables_length select').addClass('form-control input-sm');
+            $('.dataTables_length select').css('width', '75px');
+        }
+    });
 </script>
