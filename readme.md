@@ -4,6 +4,7 @@ _____________________________________________________________________
 
 ## Overview
 <br>
+![preview](http://redmine.funshion.com/redmine/attachments/download/54280/django-table.png)
 Django-table is a simple Django app to origanize data in tabular form.
 It is based on [datatable](http://datatables.net).
 
