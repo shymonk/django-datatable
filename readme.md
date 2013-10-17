@@ -27,9 +27,9 @@ class Person(models.Model):
     name = models.CharField(max_length=100)</pre>
 
 4.Add some data so you have something to display in the table.Now write a view to pass people dictionary into a template,it contains three keys:<br>
-* Name of table, it will render as the id attribute of table.<br>
-* Head of table, it is a list of tuples, every tuple contains 2 elements: column name and corresponding attribute name of the model<br>
-* Body of table, it is a queryset of mode.<br>
+- Name of table, it will render as the id attribute of table.<br>
+- Head of table, it is a list of tuples, every tuple contains 2 elements: column name and corresponding attribute name of the model<br>
+- Body of table, it is a queryset of mode.<br>
 <pre># example/app/views.py
 from django.shortcuts import render
 from app.models import Person
