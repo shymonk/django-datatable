@@ -33,7 +33,8 @@ It is based on [datatable](http://datatables.net).
 - Head of table, it is a list of tuples, every tuple contains 2 elements: column name and corresponding attribute name of the model.<br>
 - Body of table, it is a queryset.
 
-Let us check the code: 
+Let us check the code:<br>
+
     # example/app/views.py
     from django.shortcuts import render
     from app.models import Person
