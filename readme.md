@@ -33,16 +33,17 @@ It is based on [datatable](http://datatables.net).
 - Head of table, it is a list of tuples, every tuple contains 2 elements: column name and corresponding attribute name of the model.<br>
 - Body of table, it is a queryset.
 
-        # example/app/views.py
-        from django.shortcuts import render
-        from app.models import Person
+Let us check the code: 
+    # example/app/views.py
+    from django.shortcuts import render
+    from app.models import Person
 
-        def people(request):
-            people = {}
-            people['name'] = 'people'
-            people['head'] = [(u'序号', 'id'), (u'姓名', 'name')]
-            people['body'] = Person.objects.all()
-            return render(request, "index.html", {'people': people})</pre>
+    def people(request):
+        people = {}
+        people['name'] = 'people'
+        people['head'] = [(u'序号', 'id'), (u'姓名', 'name')]
+        people['body'] = Person.objects.all()
+        return render(request, "index.html", {'people': people})</pre>
 
 **5**. Finally, implement the template:<br>
 
