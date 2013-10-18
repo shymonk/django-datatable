@@ -2,9 +2,11 @@
 
 _____________________________________________________________________
 
+![preview](http://redmine.funshion.com/redmine/attachments/download/54280/django-table.png)
+_____________________________________________________________________
+
 ## Overview
 <br>
-![preview](http://redmine.funshion.com/redmine/attachments/download/54280/django-table.png)
 Django-table is a simple Django app to origanize data in tabular form.
 It is based on [datatable](http://datatables.net).
 
@@ -12,7 +14,7 @@ It is based on [datatable](http://datatables.net).
 <br>
 **1**.Setup Django-table application in Python environment:<br>
 
-    $ python setup.py install</pre>
+    $ python setup.py install
 
 **2**. Add "table" to your INSTALLED_APPS setting like this:<br>
 
@@ -25,7 +27,7 @@ It is based on [datatable](http://datatables.net).
 
     # example/app/models.py
     class Person(models.Model):
-        name = models.CharField(max_length=100)</pre>
+        name = models.CharField(max_length=100)
 
 **4**. Add some data so you have something to display in the table. Now write a view to pass people dictionary into a template, it contains three keys:<br>
 
@@ -33,7 +35,8 @@ It is based on [datatable](http://datatables.net).
 - Head of table, it is a list of tuples, every tuple contains 2 elements: column name and corresponding attribute name of the model.<br>
 - Body of table, it is a queryset.
 
-x
+Let us check the code:<br>
+
     # example/app/views.py
     from django.shortcuts import render
     from app.models import Person
@@ -43,7 +46,7 @@ x
         people['name'] = 'people'
         people['head'] = [(u'序号', 'id'), (u'姓名', 'name')]
         people['body'] = Person.objects.all()
-        return render(request, "index.html", {'people': people})</pre>
+        return render(request, "index.html", {'people': people})
 
 **5**. Finally, implement the template:<br>
 
