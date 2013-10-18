@@ -14,7 +14,7 @@ It is based on [datatable](http://datatables.net).
 <br>
 **1**.Setup Django-table application in Python environment:<br>
 
-    $ python setup.py install</pre>
+    $ python setup.py install
 
 **2**. Add "table" to your INSTALLED_APPS setting like this:<br>
 
@@ -27,7 +27,7 @@ It is based on [datatable](http://datatables.net).
 
     # example/app/models.py
     class Person(models.Model):
-        name = models.CharField(max_length=100)</pre>
+        name = models.CharField(max_length=100)
 
 **4**. Add some data so you have something to display in the table. Now write a view to pass people dictionary into a template, it contains three keys:<br>
 
@@ -46,7 +46,7 @@ Let us check the code:<br>
         people['name'] = 'people'
         people['head'] = [(u'序号', 'id'), (u'姓名', 'name')]
         people['body'] = Person.objects.all()
-        return render(request, "index.html", {'people': people})</pre>
+        return render(request, "index.html", {'people': people})
 
 **5**. Finally, implement the template:<br>
 
