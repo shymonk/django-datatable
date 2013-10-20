@@ -29,14 +29,30 @@ It is based on [datatable](http://datatables.net).
     class Person(models.Model):
         name = models.CharField(max_length=100)
 
-**4**. Add some data so you have something to display in the table. Now define a table file. <br>
+**4**. Add some data so you have something to display in the table.
+Now define a PersonTable class without any options in table file.<br>
 
     # example/app/tables.py
+    from models import Person
     from table import Table, Column
     
     class PersonTable(Table):
         id = Column(field='id')
-        
+        name = Column(field='name')
+
+        class Meta:
+            model = Person
+            id = 'people'
+
+And pass a table instance to the view.
+
+    # example/app/views.py
+    from django.shortcuts import render
+    from app.tables import PersonTable
+
+    def people(request):
+        people = PersonTable()
+        return render(request, "index.html", {'people': people})
 
 **5**. Finally, implement the template:<br>
 
