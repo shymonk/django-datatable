@@ -29,24 +29,14 @@ It is based on [datatable](http://datatables.net).
     class Person(models.Model):
         name = models.CharField(max_length=100)
 
-**4**. Add some data so you have something to display in the table. Now write a view to pass people dictionary into a template, it contains three keys:<br>
+**4**. Add some data so you have something to display in the table. Now define a table file. <br>
 
-- Name of table, it will render as the id attribute of table.<br>
-- Head of table, it is a list of tuples, every tuple contains 2 elements: column name and corresponding attribute name of the model.<br>
-- Body of table, it is a queryset.
-
-Let us check the code:<br>
-
-    # example/app/views.py
-    from django.shortcuts import render
-    from app.models import Person
-
-    def people(request):
-        people = {}
-        people['name'] = 'people'
-        people['head'] = [(u'序号', 'id'), (u'姓名', 'name')]
-        people['body'] = Person.objects.all()
-        return render(request, "index.html", {'people': people})
+    # example/app/tables.py
+    from table import Table, Column
+    
+    class PersonTable(Table):
+        id = Column(field='id')
+        
 
 **5**. Finally, implement the template:<br>
 

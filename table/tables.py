@@ -25,9 +25,7 @@ class TableMetaClass(type):
     """
 
     def __new__(cls, name, bases, attrs):
-        print attrs
         attrs['columns'] = [value for key, value in attrs.items() if isinstance(value, Column)]
-        print '###:', attrs['columns']
         attrs['opts'] = TableOptions(attrs.get('Meta', None))
         if not attrs['opts'].id:
             attrs['opts'].id = name.lower()
