@@ -28,7 +28,7 @@
     $('#{{ name }}').dataTable({
         "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
 		"sPaginationType": "bootstrap",
-		"oLanguage": {"sLengthMenu": "_MENU_ records per page"},
+		"oLanguage": {"sLengthMenu": "_MENU_", "sSearch": ""},
         "fnPreDrawCallback": function(oSettings, json) {
             $('.dataTables_filter input').addClass('form-control input-sm');
             $('.dataTables_filter input').css('width', '200px');
