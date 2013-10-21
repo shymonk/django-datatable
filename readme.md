@@ -1,5 +1,5 @@
 # Django-table
----
+***
 
 ![preview](http://redmine.funshion.com/redmine/attachments/download/54280/django-table.png)
 
