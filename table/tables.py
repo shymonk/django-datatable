@@ -3,15 +3,42 @@
 
 
 from column import Column
-
+from django.db.models.query import QuerySet
 
 
 class BaseTable(object):
-    """ Main table base class.
-    """
-    
+
     def __init__(self, data=None):
-        self.data = data
+        if data:
+            if isinstance(data, QuerySet):
+                self.queryset = data
+            else isinstance(data, list):
+                self.list = data
+        else:
+            model = getattr(self.opts, 'model')
+            self.queryset = model.objects.all()
+
+    @property
+    def rows(self):
+        return self.queryset if hasattr(self, 'queryset') else self.list
+
+    def render(self):
+        pass
+
+class TableData(object):
+    def __init__(self, data, table):
+        """ Build table data to QuerySet.
+        """
+        if data:
+            if isinstance(data, QuerySet):
+                self.queryset = data
+            else:
+                # data is dict-list, construct it to QuerySet-like object
+                pass
+        else:
+            model = getattr(self.opts, 'model')
+            self.queryset = model.objects.all()
+
 
 
 class TableOptions(object):
