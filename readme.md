@@ -102,7 +102,7 @@ Provides a way to define global settings for table, as opposed to defining them 
   > **type**: classobj
   
   > **default**: None
-  
+  >
   >     # models.py
   >     class Person(models.Model):
   >         name = models.CharField(max_length=40)
@@ -129,7 +129,7 @@ Provides a way to define global settings for table, as opposed to defining them 
 
       > **Parameters**: 
       > * links: List of directory that key is content of < a > tag and value is the url that href specified, So:
-
+      >
       >         from table import LinkColumn
       >         c = LinkColumn(links=[{'update': 'http://update', 'delete': 'http://delete'}])
   * Checkbox Column
