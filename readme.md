@@ -83,16 +83,51 @@ And pass a table instance to the view.
 * Dict-List
 * Json
 #### Options
+To define the model that bound to the table or customize attributes of the table, 
+Provides a way to define global settings for table, as opposed to defining them for each instance.
+
 * model
-* id
+  
+  > The model class that binded to the table, the queryset contains all objects for the model will be used to render table by default. It is the basic form to offer the data source.
+
+  > **type**: classobj
+  
+  > **default**: None
+  
+  >     # models.py
+  >     class Person(models.Model):
+  >         name = models.CharField(max_length=40)
+  > 
+  >     # tables.py
+  >     from table import Table, Column
+  >
+  >     class PersonTable(Table):
+  >         id = Column(field='id')
+  >         name = Column(field='name')
+  >         class Meta:
+  >             model = Person
+
 * attrs
 * sort
 ### Column
 * Build-in Column
-  * Text Column
+  * Column
+  * Link Column
+      > Renders value as an internal hyperlink to another page, such as UPDATE, DELETE. 
+
+      > **class table.LinkColumn(links=[]):**
+
+      > **Parameters**: 
+      > * links: List of directory that key is content of < a > tag and value is the url that href specified, So:
+
+      >         from table import LinkColumn
+      >         c = LinkColumn(links=[{'update': 'http://update', 'delete': 'http://delete'}])
   * Checkbox Column
 
 * Custom Column
 
-  If you want full control over the way the table is rendered, ignore the built-in Columns,
-and instead pass an instance of your Table subclass into your own template.
+  > If you want full control over the way the table is rendered, ignore the built-in Columns,
+and instead pass an instance of your Table subclass into your own template. So you can define
+a column with two hyperlink like this:
+  
+  
