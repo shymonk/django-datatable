@@ -1,16 +1,16 @@
 # Django-table
-
-_____________________________________________________________________
+---
 
 ![preview](http://redmine.funshion.com/redmine/attachments/download/54280/django-table.png)
-_____________________________________________________________________
 
 ## Overview
+---
 
 Django-table is a simple Django app to origanize data in tabular form.
 It is based on [datatable](http://datatables.net).
 
 ## Quick start
+---
 <br>
 1. Setup Django-table application in Python environment:<br>
 
@@ -75,8 +75,9 @@ And pass a table instance to the view.
         </body>
     </html>
 
+<br>
 ## Reference
-
+---
 ### Table
 #### DataSource
 * Model
