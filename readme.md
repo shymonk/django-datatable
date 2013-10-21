@@ -6,7 +6,7 @@ _____________________________________________________________________
 _____________________________________________________________________
 
 ## Overview
-<br>
+
 Django-table is a simple Django app to origanize data in tabular form.
 It is based on [datatable](http://datatables.net).
 
@@ -75,3 +75,24 @@ And pass a table instance to the view.
         </body>
     </html>
 
+## Reference
+
+### Table
+#### DataSource
+* Model
+* Dict-List
+* Json
+#### Options
+* model
+* id
+* attrs
+* sort
+### Column
+* Build-in Column
+  * Text Column
+  * Checkbox Column
+
+* Custom Column
+
+  If you want full control over the way the table is rendered, ignore the built-in Columns,
+and instead pass an instance of your Table subclass into your own template.
