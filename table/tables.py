@@ -18,7 +18,8 @@ class TableOptions(object):
     def __init__(self, options=None):
         self.model = getattr(options, 'model', None)
         self.id = getattr(options, 'id', None)
-
+        self.attrs = getattr(options, 'attrs', {})
+        self.sort = getattr(options, 'sort', [])
 
 class TableMetaClass(type):
     """ Meta class for create Table class instance.
@@ -32,4 +33,4 @@ class TableMetaClass(type):
         return super(TableMetaClass, cls).__new__(cls, name, bases, attrs)
 
 
-Table = TableMetaClass('Table', (), {})
+Table = TableMetaClass('Table', (BaseTable,), {})
