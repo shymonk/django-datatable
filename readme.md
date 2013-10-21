@@ -80,10 +80,13 @@ And pass a table instance to the view.
 ***
 
 ### Table
+<br>
+
 #### DataSource
 * Model
 * Dict-List
 * Json
+
 #### Options
 To define the model that bound to the table or customize attributes of the table, 
 Provides a way to define global settings for table, as opposed to defining them for each instance.
@@ -111,6 +114,7 @@ Provides a way to define global settings for table, as opposed to defining them 
 
 * attrs
 * sort
+
 ### Column
 * Build-in Column
   * Column
