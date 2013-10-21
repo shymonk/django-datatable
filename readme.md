@@ -83,12 +83,14 @@ And pass a table instance to the view.
 <br>
 
 #### DataSource
+<br>
 
 * Model
 * Dict-List
 * Json
 
 #### Options
+<br>
 
   To define the model that bound to the table or customize attributes of the table, 
 Provides a way to define global settings for table, as opposed to defining them for each instance.
@@ -121,7 +123,7 @@ Provides a way to define global settings for table, as opposed to defining them 
 * Build-in Column
   * Column
   * Link Column
-      > Renders value as an internal hyperlink to another page, such as UPDATE, DELETE. 
+      > Renders value as an internal hyperlink to another page, such as update, delete. 
 
       > **class table.LinkColumn(links=[]):**
 
