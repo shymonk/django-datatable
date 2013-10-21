@@ -12,24 +12,21 @@ It is based on [datatable](http://datatables.net).
 
 ## Quick start
 <br>
-**1**.Setup Django-table application in Python environment:<br>
+1. Setup Django-table application in Python environment:<br>
 
     $ python setup.py install
-
-**2**. Add "table" to your INSTALLED_APPS setting like this:<br>
+2. Add "table" to your INSTALLED_APPS setting like this:<br>
 
     INSTALLED_APPS = (
         ...,
         'table',
     )
-
-**3**. Define a simple model named Person:<br>
+3. Define a simple model named Person:<br>
 
     # example/app/models.py
     class Person(models.Model):
         name = models.CharField(max_length=100)
-
-**4**. Add some data so you have something to display in the table.
+4. Add some data so you have something to display in the table.
 Now define a PersonTable class without any options in table file.<br>
 
     # example/app/tables.py
@@ -53,8 +50,7 @@ And pass a table instance to the view.
     def people(request):
         people = PersonTable()
         return render(request, "index.html", {'people': people})
-
-**5**. Finally, implement the template:<br>
+5. Finally, implement the template:<br>
 
     {# example/templates/index.html}
     {% load static %}
