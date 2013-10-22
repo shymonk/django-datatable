@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from table import Table, Column
+from table.column import Column
+from table import Table
 from models import Person
+
 
 class PersonTable(Table):
     id = Column(field='id', header=u'序号', header_attrs={'width': '50%'})
@@ -10,4 +12,3 @@ class PersonTable(Table):
 
     class Meta:
         model = Person
-        id = 'people'

@@ -3,4 +3,4 @@
 
 
 from tables import Table
-from column import Column
+import column
