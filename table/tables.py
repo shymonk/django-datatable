@@ -44,10 +44,20 @@ class TableMetaClass(type):
     """
 
     def __new__(cls, name, bases, attrs):
-        attrs['columns'] = [value for key, value in attrs.items() if isinstance(value, Column)]
-        attrs['opts'] = TableOptions(attrs.get('Meta', None))
+        columns, meta = [], None
+        # extract declared columns and meta
+        for attr_name, attr in attrs.items():
+            if isinstance(attr, Column):
+                columns.append(attr)
+            else:
+                meta = attr
+
+        columns.sort(key=lambda x: x.instance_order)
+        attrs['columns'] = columns
+        attrs['opts'] = TableOptions(meta)
         if not attrs['opts'].id:
             attrs['opts'].id = name.lower()
+
         return super(TableMetaClass, cls).__new__(cls, name, bases, attrs)
 
 
