@@ -3,16 +3,34 @@
 
 
 from column import Column
-
+from django.db.models.query import QuerySet
+from django.utils.datastructures import SortedDict
 
 
 class BaseTable(object):
-    """ Main table base class.
-    """
-    
-    def __init__(self, data=None):
-        self.data = data
 
+    def __init__(self, data=None):
+        model = getattr(self.opts, 'model', None)
+        if model:
+            self.queryset = model.objects.all()
+        else:
+            if isinstance(data, QuerySet):
+                self.queryset = data
+            elif isinstance(data, list):
+                self.list = data
+            else:
+                raise ValueError("Model class or QuerySet-like object is required.")
+
+    @property
+    def rows(self):
+        rows = []
+        objects = self.queryset if hasattr(self, 'queryset') else self.list
+        for obj in objects:
+            row = SortedDict()
+            for col in self.columns:
+                row[col] = getattr(obj, col.field) if hasattr(col, 'field') else col.render()
+            rows.append(row)
+        return rows
 
 class TableOptions(object):
     def __init__(self, options=None):
