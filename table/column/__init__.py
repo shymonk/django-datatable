@@ -2,3 +2,4 @@
 # coding: utf-8
 
 from .base import Column
+from .linkcolumn import LinkColumn

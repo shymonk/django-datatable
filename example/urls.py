@@ -5,8 +5,10 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r'^$', 'app.views.base', name='base'),
+    url(r'^linkcolumn/$', 'app.views.linkcolumn', name='linkcolumn'),
+
     # Examples:
-    url(r'^$', 'app.views.people', name='people'),
     # url(r'^table/', include('table.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
