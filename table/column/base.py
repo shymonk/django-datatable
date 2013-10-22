@@ -2,11 +2,16 @@
 # coding: utf-8
 
 class Column(object):
+    
+    instance_order = 0
+
     def __init__(self, field=None, index=False, attrs={}, header=None, header_attrs={}):
         self.field = field
         self.index = index
         self.attrs = attrs
         self.header = ColumnHeader(text=header, attrs=header_attrs)
+        self.instance_order = Column.instance_order
+        Column.instance_order += 1
 
     def render_attrs(self):
         """ Render attributes of <td> to html.
