@@ -10,19 +10,8 @@ class TableNode(template.Node):
         self.table = template.Variable(table)
 
     def render(self, context):
-        table = self.table.resolve(context)
-
-        objects = []
-        if table.opts.model:
-            queryset = table.opts.model.objects.all()
-        else:
-            queryset = table.data
-        fields = [col.field for col in table.columns if col.field]
-        for obj in queryset:
-            objects.append([getattr(obj, field) for field in fields])
-        
-        # context = Context({'name': table.opts.id, 'columns': columns, 'object_list': objects})
-        context = Context({'table': table, 'object_list': objects})
+        table = self.table.resolve(context)        
+        context = Context({'table': table})
         t = template.loader.get_template("table.html")        
         return t.render(context)
 
