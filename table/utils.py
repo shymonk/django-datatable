@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+from django.db import models
+
 
 class Accessor(str):
     """ A string describing a path from one object to another via attribute/index
@@ -10,16 +12,30 @@ class Accessor(str):
     """
     SEPARATOR = '.'
     
-    def resolve(self, context, safe=True, quiet=False):
+    def resolve(self, context, quiet=False):
         """
         Return an object described by the accessor by traversing the attributes
         of context.
 
         """
-        pass
+        print self.levels
+        print type(context)
+        try:
+            obj = context
+            for level in self.levels:
+                if isinstance(obj, dict):
+                    obj = obj[level]
+                if isinstance(obj, models.Model):
+                    obj = getattr(obj, level)
+                if not obj:
+                    break
+            return obj
+        except:
+            if not quiet:
+                raise
 
     @property
-    def bits(self):
+    def levels(self):
         if self == '':
             return ()
         return self.split(self.SEPARATOR)

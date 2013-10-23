@@ -1,12 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+
+from table.utils import Accessor
+
+
 class Column(object):
     
     instance_order = 0
 
     def __init__(self, field=None, index=False, attrs={}, header=None, header_attrs={}):
-        self.field = field
+        self.accessor = Accessor(field)
         self.index = index
         self.attrs = attrs
         self.header = ColumnHeader(text=header, attrs=header_attrs)
@@ -24,7 +28,7 @@ class Column(object):
     def render(self, obj):
         """ Render cell for current obj. 
         """
-        return getattr(obj, self.field)
+        return self.accessor.resolve(obj)
 
 class ColumnHeader(object):
 
