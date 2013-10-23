@@ -2,7 +2,7 @@
 # coding: utf-8
 
 from django.shortcuts import render
-from app.tables import PersonTable
+from tables import PersonTable, LinkColumnTable
 
 
 def base(request):
@@ -13,3 +13,7 @@ def base(request):
 def linkcolumn(request):
     people = LinkColumnTable()
     return render(request, "index.html", {'people': people})
+
+
+def edit(request, id):
+    pass

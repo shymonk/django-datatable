@@ -6,6 +6,7 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
     url(r'^$', 'app.views.base', name='base'),
+    url(r'^edit/(\d+)/$', 'app.views.edit', name='edit'),
     url(r'^linkcolumn/$', 'app.views.linkcolumn', name='linkcolumn'),
 
     # Examples:
