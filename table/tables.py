@@ -28,7 +28,7 @@ class BaseTable(object):
         for obj in objects:
             row = SortedDict()
             for col in self.columns:
-                row[col] = getattr(obj, col.field) if hasattr(col, 'field') else col.render()
+                row[col] = col.render(obj)
             rows.append(row)
         return rows
 

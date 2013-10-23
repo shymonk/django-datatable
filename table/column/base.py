@@ -21,6 +21,10 @@ class Column(object):
             html = html + '{0}={1}'.format(attr, self.attrs.get(attr))
         return html
 
+    def render(self, obj):
+        """ Render cell for current obj. 
+        """
+        return getattr(obj, self.field)
 
 class ColumnHeader(object):
 
