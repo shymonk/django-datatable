@@ -21,7 +21,7 @@
         <tr>
             {% for column, td in row.items %}
             {% if column.attrs %}
-            <td {{ column.render_attrs }}>{{ td }}</td>
+            <td {{ column.render_attrs }}>{{ td|escape }}</td>
             {% else %}
             <td>{{ td }}</td>
             {% endif %}
