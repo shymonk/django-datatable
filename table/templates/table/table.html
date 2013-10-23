@@ -21,9 +21,9 @@
         <tr>
             {% for column, td in row.items %}
             {% if column.attrs %}
-            <td {{ column.render_attrs }}>{{ td|escape }}</td>
+            <td {{ column.render_attrs }}>{{ td|safe }}</td>
             {% else %}
-            <td>{{ td }}</td>
+            <td>{{ td|safe }}</td>
             {% endif %}
             {% endfor %}
         </tr>
