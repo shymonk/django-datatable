@@ -18,8 +18,6 @@ class Accessor(str):
         of context.
 
         """
-        print self.levels
-        print type(context)
         try:
             obj = context
             for level in self.levels:
