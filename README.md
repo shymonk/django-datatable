@@ -119,24 +119,51 @@ Provides a way to define global settings for table, as opposed to defining them 
 * sort
 
 ### Column
-* Build-in Column
-  * Column
-  * Link Column
-      > Renders value as an internal hyperlink to another page, such as update, delete. 
+#### Build-in Column
+  * **Column**
+  
+  * **Link Column**
 
-      > **class table.LinkColumn(links=[]):**
+      > **class table.columns.LinkColumn(links=[], delimiter=' ', *args, **kwargs)**
 
-      > **Parameters**: 
-      > * links: List of directory that key is content of < a > tag and value is the url that href specified, So:
-      >
-      >         from table import LinkColumn
-      >         c = LinkColumn(links=[{'update': 'http://update', 'delete': 'http://delete'}])
-  * Checkbox Column
+      > > Renders value as an internal hyperlink to another page, such as update, delete. 
 
-* Custom Column
+      > > **Parameters:** 
+      > > * **links**: List of *Link* instance. See class table.columns.Link for more details.
+      > > * **delimiter**: Separate links in single column.
+      > >
+      >         # models.py
+      >         from django.db import models
+      >         class Person(models.Model):
+      >             name = models.CharField(max_length=100)
+      > >        
+      >         # urls.py
+      >         urlpatterns = patterns('',
+      >             url(r'^edit/(\d+)/$', 'app.views.edit', name='edit'),
+      >         )
+      > >
+      >         # tables.py
+      >         from table import Table
+      >         from table.columns import LinkColumn, Link
+      >         class PersonTable(Table):
+      >             action = LinkColumn(header=u'操作', links=[Link(text=u'编辑', viewname='app.views.edit', args=('id',)),]
+    
+      > **class table.columns.Link(text, viewname, args=[], kwargs={}, urlconf=None, current_app=None)**
+      
+      > > Represents a label `<a>` that defined hyperlink, it will render as `<a  href="http://example.com">text</a>` 
+      
+      > > **Parameters:**
+      > > * **text**: content of tag `<a>`
+      > > * **viewname**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+      > > * **args**: field names of model corresponded to the value that passed to the url pattern, see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+      > > * **kwargs**: key-value form for args
+      > > * **urlconf**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+      > > * **current_app**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+
+
+
+
+#### Custom Column
 
   > If you want full control over the way the table is rendered, ignore the built-in Columns,
-and instead pass an instance of your Table subclass into your own template. So you can define
-a column with two hyperlink like this:
-  
-  
+and instead pass an instance of your Table subclass into your own template.

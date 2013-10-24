@@ -39,6 +39,4 @@ class Accessor(str):
             return ()
         return self.split(self.SEPARATOR)
 
-
-
 A = Accessor
