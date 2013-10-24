@@ -2,9 +2,9 @@
 # coding: utf-8
 
 
-from column import Column
 from django.db.models.query import QuerySet
 from django.utils.datastructures import SortedDict
+from columns import Column
 
 
 class BaseTable(object):

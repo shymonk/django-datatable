@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from table.column import Column, LinkColumn, Link
+from table.columns import Column, LinkColumn, Link
 from table import Table
 from models import Person
 

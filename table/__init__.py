@@ -3,4 +3,3 @@
 
 
 from tables import Table
-import column
