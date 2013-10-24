@@ -24,7 +24,8 @@ class Accessor(str):
                 if isinstance(obj, dict):
                     obj = obj[level]
                 if isinstance(obj, models.Model):
-                    obj = getattr(obj, level)
+                    display = 'get_%s_display' % level
+                    obj = getattr(obj, display)() if hasattr(obj, display) else getattr(obj, level)
                 if not obj:
                     break
             return obj
