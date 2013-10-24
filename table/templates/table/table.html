@@ -37,7 +37,17 @@
         "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
         "bAutoWidth": false,
 		"sPaginationType": "bootstrap",
-		"oLanguage": {"sLengthMenu": "_MENU_", "sSearch": ""},
+		"oLanguage": {
+            "sLengthMenu": "_MENU_", 
+            "sSearch": "",
+            "sInfo": "显示 _START_ 到 _END_ (共_TOTAL_条)",
+            "oPaginate": {
+                "sFirst": "首页",
+                "sLast": "末页",
+                "sNext": "下一页",
+                "sPrevious": "上一页"
+            }
+        },
         "fnPreDrawCallback": function(oSettings, json) {
             $('.dataTables_filter input').addClass('form-control input-sm');
             $('.dataTables_filter input').css('width', '200px');
