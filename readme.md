@@ -132,21 +132,23 @@ Provides a way to define global settings for table, as opposed to defining them 
       > > * **links**: List of *Link* instance. See class table.columns.Link for more details.
       > > * **delimiter**: Separate links in single column.
       > >
-      >         # models.py
-      >         from django.db import models
-      >         class Person(models.Model):
-      >             name = models.CharField(max_length=100)
+      > > Example:
       > >
-      >         # urls.py
-      >         urlpatterns = patterns('',
-      >             url(r'^edit/(\d+)/$', 'app.views.edit', name='edit'),
-      >         )
+      >     # models.py
+      >     from django.db import models
+      >     class Person(models.Model):
+      >         name = models.CharField(max_length=100)
+      > >        
+      >     # urls.py
+      >     urlpatterns = patterns('',
+      >         url(r'^edit/(\d+)/$', 'app.views.edit', name='edit'),
+      >     )
       > >
-      >         # tables.py
-      >         from table import Table
-      >         from table.columns import LinkColumn, Link
-      >         class PersonTable(Table):
-      >             action = LinkColumn(header=u'操作', links=[Link(text=u'编辑', viewname='app.views.edit', args=('id',)),]
+      >     # tables.py
+      >     from table import Table
+      >     from table.columns import LinkColumn, Link
+      >     class PersonTable(Table):
+      >         action = LinkColumn(header=u'操作', links=[Link(text=u'编辑', viewname='app.views.edit', args=('id',)),]
     
       > **class table.columns.Link(text, viewname, args=[], kwargs={}, urlconf=None, current_app=None)**
       
