@@ -9,7 +9,7 @@ class Column(object):
     
     instance_order = 0
 
-    def __init__(self, field=None, attrs={}, header=None, header_attrs={}):
+    def __init__(self, field=None, attrs=None, header=None, header_attrs=None):
         self.accessor = Accessor(field)
         self.attrs = attrs
         self.header = ColumnHeader(text=header, attrs=header_attrs)
