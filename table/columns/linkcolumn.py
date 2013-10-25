@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, NoReverseMatch
 from django.utils.safestring import mark_safe
 from .base import Column
 
@@ -15,6 +15,8 @@ class LinkColumn(Column):
         return self.delimiter.join([link.as_html(obj) for link in self.links])
 
 class Link(object):
+    """ Represents a link element in html.
+    """
     def __init__(self, text, viewname, args=[], kwargs={}, urlconf=None, current_app=None):
         self.text = text
         self.viewname = viewname
@@ -41,7 +43,11 @@ class Link(object):
         if self.current_app:
             params['current_app'] = self.current_app
 
-        return reverse(viewname, **params)
+        try:
+            url = reverse(viewname, **params)
+        except NoReverseMatch:
+            url = ''
+        return url
     
     def as_html(self, obj):
         url = self.resolve(obj)
