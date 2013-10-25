@@ -1,11 +1,16 @@
 div.dataTables_length label {
+    float: right;
+    padding-top: 4px
+}
+
+
+div.dataTables_length label {
 	font-weight: normal;
-	float: left;
 	text-align: left;
 }
 
 div.dataTables_length select {
-	width: 75px;
+	width: 65px;
 }
 
 div.dataTables_filter label {

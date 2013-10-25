@@ -34,13 +34,14 @@
 
 <script type="text/javascript" charset="utf-8">
     $('#{{ table.opts.id }}').dataTable({
-        "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+        // "sDom": "<'row'<'col-md-6 col-md-offset-6'f>r>t<'row'<'col-md-6'i><'col-md-3'p><'col-md-3'l>>",
+        "sDom": "<'row'<'col-md-6 col-md-offset-6'f>r>t<'row'<'col-md-6 col-md-offset-5'p><'col-md-1'l>>",
         "bAutoWidth": false,
 		"sPaginationType": "bootstrap",
 		"oLanguage": {
             "sLengthMenu": "_MENU_", 
             "sSearch": "",
-            "sInfo": "显示 _START_ 到 _END_ (共_TOTAL_条)",
+            "sInfo": "共_TOTAL_条",
             "sZeroRecords": "无记录",
             "sInfoFiltered": "",
             "sInfoEmpty": "",
@@ -55,7 +56,6 @@
             $('.dataTables_filter input').addClass('form-control input-sm');
             $('.dataTables_filter input').css('width', '200px');
             $('.dataTables_length select').addClass('form-control input-sm');
-            $('.dataTables_length select').css('width', '75px');
         }
     });
 </script>
