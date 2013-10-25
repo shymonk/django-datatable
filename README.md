@@ -76,20 +76,23 @@ And pass a table instance to the view.
 
 <br>
 ## Reference
-***
 
-### Table
+## Table
 <br>
 
-#### DataSource
-
+### DataSource
 
 * Model
+  
+  
+
 * Dict-List
+
 * Json
 
-#### Options
+  Developing
 
+### Options
 
   To define the model that bound to the table or customize attributes of the table, 
 Provides a way to define global settings for table, as opposed to defining them for each instance.
@@ -118,19 +121,73 @@ Provides a way to define global settings for table, as opposed to defining them 
 * attrs
 * sort
 
-### Column
-#### Build-in Column
+## Column
+<br>
+
+### Build-in Column
   * **Column**
   
-  * **Link Column**
+      > class table.columns.***Column***(*field=None*, *attrs=None*, *header=None*, *header_attrs=None*)
 
-      > **class table.columns.LinkColumn(links=[], delimiter=' ', *args, **kwargs)**
-
-      > > Renders value as an internal hyperlink to another page, such as update, delete. 
+      > > A single column of table. 
 
       > > **Parameters:** 
-      > > * **links**: List of *Link* instance. See class table.columns.Link for more details.
-      > > * **delimiter**: Separate links in single column.
+      > > * **field**: 
+        
+      > >   For model data source, it is field name that corresponded to the current column. For dict-list data source, use the key instead.
+      
+      > >   **type**: string
+      
+      > >   **default**: None
+      > > 
+      > > * **attrs**: 
+           
+      > >   Html attributes for <td> elements.
+
+      > >   **type**: dict
+      
+      > >   **default**: None
+      
+      > > * **header**:
+      
+      > >   Title text of current column, will rendered as <th>text</th>
+      
+      > >   **type**: string
+      
+      > >   **default**: field value
+      
+      > > * **header_attrs**:
+      
+      > >   Html attributes for <td> elements.
+      
+      > >   **type**: dict
+      
+      > >   **default**: None
+      
+      > > Example:
+      > >
+      >     # models.py
+      >     from django.db import models
+      >     class Person(models.Model):
+      >         name = models.CharField(max_length=100)
+      >         age = models.IntegerField()
+      > > 
+      >     # tables.py
+      >     from table import Table
+      >     from table.columns import Column
+      >     class PersonTable(Table):
+      >         name = Column(field='name', attrs={'class': 'custom'}, header=u'姓名', header_attrs={'width': '50%'})
+      >         addr = Column(field='age', header=u'年龄', header_attrs={'width': '50%'})
+    
+  * **LinkColumn**
+
+      > class table.columns.***LinkColumn***(*links*, *delimiter=' '*, **args*, ***kwrags*)
+
+      > > Column with hyperlinks that link to another page, such as update, delete. 
+
+      > > **Parameters:** 
+      > > * **links**: List of *Link* instance. See *class table.columns.Link* for more details.
+      > > * **delimiter**: Separate links in single column, use SPACE as default.
       > >
       > > Example:
       > >
@@ -138,7 +195,7 @@ Provides a way to define global settings for table, as opposed to defining them 
       >     from django.db import models
       >     class Person(models.Model):
       >         name = models.CharField(max_length=100)
-      > >
+      > >        
       >     # urls.py
       >     urlpatterns = patterns('',
       >         url(r'^edit/(\d+)/$', 'app.views.edit', name='edit'),
@@ -150,7 +207,7 @@ Provides a way to define global settings for table, as opposed to defining them 
       >     class PersonTable(Table):
       >         action = LinkColumn(header=u'操作', links=[Link(text=u'编辑', viewname='app.views.edit', args=('id',)),]
     
-      > **class table.columns.Link(text, viewname, args=[], kwargs={}, urlconf=None, current_app=None)**
+      > class table.columns.***Link***(*text*, *viewname*, *args=[]*, *kwargs={}*, *urlconf=None*, *current_app=None*)
       
       > > Represents a label `<a>` that defined hyperlink, it will render as `<a  href="http://example.com">text</a>` 
       
@@ -163,9 +220,7 @@ Provides a way to define global settings for table, as opposed to defining them 
       > > * **current_app**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
 
 
-
-
-#### Custom Column
+### Custom Column
 
   > If you want full control over the way the table is rendered, ignore the built-in Columns,
 and instead pass an instance of your Table subclass into your own template.
