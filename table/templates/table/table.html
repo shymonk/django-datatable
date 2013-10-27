@@ -34,7 +34,7 @@
 
 <script type="text/javascript" charset="utf-8">
     $('#{{ table.opts.id }}').dataTable({
-        "sDom": "<'row'<'col-md-6 col-md-offset-6'f>r>t<'row'<'col-md-2'i><'col-md-6 col-md-offset-3'p><'col-md-1'l>>",
+        "sDom": "<'row'<'col-md-3 col-md-offset-9'f>r>t<'row'<'col-md-2'i><'col-md-6 col-md-offset-3'p><'col-md-1'l>>",
         "bAutoWidth": false,
 		"sPaginationType": "bootstrap",
 		"oLanguage": {
@@ -53,9 +53,11 @@
         },
         "fnPreDrawCallback": function(oSettings, json) {
             $('.dataTables_filter input').addClass('form-control input');
-            $('.dataTables_filter input').css('width', '200px');
+            <!-- $('.dataTables_filter input').css('width', '200px'); -->
             $('.dataTables_length select').addClass('form-control input');
             $('.dataTables_info').addClass('form-control input');
+            $('.dataTables_filter input').wrap('<div class="input-group"></div>')
+            $('.dataTables_filter input').before('<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>')
         }
     });
 </script>
