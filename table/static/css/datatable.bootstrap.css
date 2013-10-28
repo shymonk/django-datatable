@@ -28,7 +28,7 @@ div.dataTables_filter input {
 
 div.dataTables_info {
     margin-top: 4px;
-    width: 90px;
+    width:auto;
 }
 
 div.dataTables_paginate {
