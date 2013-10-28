@@ -36,7 +36,6 @@ class BaseTable(object):
     def render_ext_button(self):
         html = ''
         if self.opts.ext_button_link:
-            # use add button as default
             html = '<a href="%s" target="_blank" class="btn btn-default">%s</a>' % \
                 (self.opts.ext_button_link, self.opts.ext_button)
         return mark_safe(html)
