@@ -10,6 +10,7 @@ class LinkColumn(Column):
         super(LinkColumn, self).__init__(*args, **kwargs)
         self.links = links
         self.delimiter = delimiter
+        self.searchable = False
 
     def render(self, obj):
         return self.delimiter.join([link.as_html(obj) for link in self.links])
