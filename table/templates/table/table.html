@@ -1,6 +1,6 @@
 {% load static %}
 
-<link href="{% static 'css/datatable.bootstrap.css' %}" rel="stylesheet" media="screen">    
+<link href="{% static 'css/datatable.bootstrap.css' %}" rel="stylesheet" media="screen">
 <script src="{% static 'js/jquery.dataTables.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/bootstrap.dataTables.js' %}" type="text/javascript"> </script>
 
@@ -37,8 +37,20 @@
         "sDom": "<'row'<'col-md-9 ext-btn'><'col-md-3'f>r>t<'row'<'col-md-3'i><'col-md-6 col-md-offset-2'p><'col-md-1'l>>",
         "bAutoWidth": false,
 		"sPaginationType": "bootstrap",
+        "aoColumns": [
+            {% for column in table.columns %}
+            {
+                {% if not column.searchable %}
+                "bSearchable": false,
+                {% endif %}
+                {% if not column.sortable %}
+                "bSortable": false,
+                {% endif %}
+            },
+            {% endfor %}
+        ],
 		"oLanguage": {
-            "sLengthMenu": "_MENU_", 
+            "sLengthMenu": "_MENU_",
             "sSearch": "",
             "sInfo": "总条目_TOTAL_",
             "sZeroRecords": "无记录",
