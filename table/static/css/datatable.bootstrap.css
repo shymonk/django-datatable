@@ -15,14 +15,14 @@ div.dataTables_filter label {
 	float: right;
 }
 
-div.dataTable_filter span {
-    border-right: 0px;
-    background-color: #FFFFFF;
-}
-
 div.dataTables_filter input {
 	width: 16em;
     border-left: 0px;
+    background-color: #FFFFFF;
+}
+
+.filter_icon {
+    border-right: 0px;
     background-color: #FFFFFF;
 }
 

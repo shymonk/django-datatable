@@ -53,11 +53,13 @@
         },
         "fnPreDrawCallback": function(oSettings, json) {
             $('.dataTables_filter input').addClass('form-control input');
-            <!-- $('.dataTables_filter input').css('width', '200px'); -->
             $('.dataTables_length select').addClass('form-control input');
             $('.dataTables_info').addClass('form-control input');
-            $('.dataTables_filter input').wrap('<div class="input-group"></div>')
-            $('.dataTables_filter input').before('<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>')
+        },
+        "fnInitComplete": function(oSettings, json) {
+            $('.dataTables_filter input').wrap('<div class="input-group"></div>');
+            $('.dataTables_filter input').before('<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>');
+            $('.dataTables_filter span').addClass('filter_icon')
         }
     });
 </script>
