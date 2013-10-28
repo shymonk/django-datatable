@@ -73,7 +73,7 @@
             $('.dataTables_filter input').wrap('<div class="input-group"></div>');
             $('.dataTables_filter input').after('<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>');
             $('.dataTables_filter span').addClass('filter_icon');
-            $('.ext-btn').append('<a href="" target="_blank" type="button" class="btn btn-primary" style="width: 90px"><span class="glyphicon glyphicon-plus"></span> 添加</a>');
+            $('.ext-btn').append('{{ table.render_ext_button }}');
         }
     });
 </script>
