@@ -50,8 +50,9 @@ class TableOptions(object):
 
         # options for table add-on
 
-        self.search_placeholder = getattr(options, 'search_placeholder', None)
+        self.search_placeholder = getattr(options, 'search_placeholder', u'搜索')
         self.info = getattr(options, 'info', u'总条目 _TOTAL_')
+        self.zero_records = getattr(options, 'zero_records', u'无记录')
 
         self.page_first = getattr(options, 'page_first', '首页')
         self.page_last = getattr(options, 'page_last', '末页')

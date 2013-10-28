@@ -52,20 +52,20 @@
 		"oLanguage": {
             "sLengthMenu": "_MENU_",
             "sSearch": "",
-            "sInfo": "总条目 _TOTAL_",
-            "sZeroRecords": "无记录",
+            "sInfo": "{{ table.opts.info }}",
+            "sInfoEmpty": "{{ table.opts.info }}",
+            "sZeroRecords": "{{ table.opts.zero_records }}",
             "sInfoFiltered": "",
-            "sInfoEmpty": "",
             "oPaginate": {
-                "sFirst": "首页",
-                "sLast": "末页",
-                "sNext": "下一页",
-                "sPrevious": "上一页"
+                "sFirst": "{{ table.opts.page_first }}",
+                "sLast": "{{ table.opts.page_last }}",
+                "sNext": "{{ table.opts.page_next }}",
+                "sPrevious": "{{ table.opts.page_prev }}"
             }
         },
         "fnPreDrawCallback": function(oSettings, json) {
             $('.dataTables_filter input').addClass('form-control input');
-            $('.dataTables_filter input').attr("placeholder", "搜索");
+            $('.dataTables_filter input').attr("placeholder", "{{ table.opts.search_placeholder }}");
             $('.dataTables_length select').addClass('form-control input');
             $('.dataTables_info').addClass('form-control input');
         },
