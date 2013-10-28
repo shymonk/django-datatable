@@ -21,6 +21,11 @@ div.dataTables_filter input {
     background-color: #FFFFFF;
 }
 
+div.dataTables_filter .glyphicon-search:before {
+  content: "\e003";
+  color: #999999;
+}
+
 .filter_icon {
     border-left: 0px;
     background-color: #FFFFFF;
