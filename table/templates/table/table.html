@@ -39,7 +39,11 @@
         "sDom": "<'row'<'col-md-9 ext-btn'><'col-md-3'f>r>t<'row'<'col-md-3'i><'col-md-6 col-md-offset-2'p><'col-md-1'l>>",
         "bAutoWidth": false,
 		"sPaginationType": "bootstrap",
-        "aaSorting": [],
+        "aaSorting": [
+            {% for index, order in table.opts.sort %}
+            [ {{ index }}, "{{ order }}" ],
+            {% endfor %}
+         ],
         "aoColumns": [
             {% for column in table.columns %}
             {
@@ -55,7 +59,7 @@
             },
             {% endfor %}
         ],
-		"oLanguage": {
+            "oLanguage": {
             "sLengthMenu": "_MENU_",
             "sSearch": "",
             "sInfo": "{{ table.opts.info }}",

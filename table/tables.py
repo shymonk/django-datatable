@@ -45,8 +45,19 @@ class TableOptions(object):
         self.model = getattr(options, 'model', None)
         self.id = getattr(options, 'id', None)
         self.attrs = getattr(options, 'attrs', {})
-        self.sort = getattr(options, 'sort', [])
 
+        # inspect sorting option
+
+        self.sort = []
+        for column, order in getattr(options, 'sort', []):
+            if not isinstance(column, int):
+                raise ValueError('Sorting option must be organized by following'
+                                 ' forms: [(0, "asc"), (1, "desc")]')
+            if order not in ('asc', 'desc'):
+                raise ValueError('Order value must be "asc" or "desc", '
+                                 '"%s" is unsupported.' % order)
+            self.sort.append((column, order))
+            
         # options for table add-on
 
         self.search_placeholder = getattr(options, 'search_placeholder', u'搜索')
