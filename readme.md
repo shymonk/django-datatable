@@ -95,7 +95,6 @@ In order to define the model datasource, customize attributes of the table, tabl
 
 * #### model
 
-
   The model class that binded to the table, the queryset contains all objects for the model will be used to render table by default. It is the basic form to offer the data source.  
 
   **type**: classobj
@@ -114,9 +113,30 @@ In order to define the model datasource, customize attributes of the table, tabl
             class Meta:
                 model = Person
 
+* #### id
+
 * #### attrs
 
 * #### sort
+
+* #### search_placeholder
+
+* #### info
+
+* #### zero_records
+
+* #### page_first
+
+* #### page_last
+
+* #### page_prev
+
+* #### page_next
+
+* #### ext_button_text
+
+* #### ext_button_link
+
 
 ### Column
     
