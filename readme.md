@@ -90,7 +90,8 @@ And pass a table instance to the view.
 <br>
 ### Table Options
 
-  To define the model that bound to the table or customize attributes of the table, Provides a way to define global settings for table, as opposed to defining them for each instance.
+<br>
+In order to define the model datasource, customize attributes of the table, table options provides a way to define global settings for table.
 
 * #### model
   
