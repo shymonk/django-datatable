@@ -226,25 +226,37 @@ In order to define the model datasource, customize attributes of the table, tabl
 
     **Parameters:**
 
-    **field**:
-    For model data source, it is field name that corresponded to the current column. For dict-list data source, use the key instead.
-    **type**: string
-    **default**: None
+    * **field**:
+    
+      For model data source, it is field name that corresponded to the current column. For dict-list data source, use the key instead.
 
-    **attrs**:
-    Html attributes for <td> elements.
-    **type**: dict
-    **default**: None
+      **type**: string
 
-    **header**:
-    Title text of current column, will rendered as <th>text</th>
-    **type**: string
-    **default**: field value
+      **default**: None
 
-    **header_attrs**:
-    Html attributes for <td> elements.
-    **type**: dict
-    **default**: None
+    * **attrs**:
+    
+      Html attributes for `<td>` tag.
+    
+      **type**: dict
+    
+      **default**: None
+
+    * **header**:
+    
+      Title text of current column, will rendered as `<th>text</th>`
+    
+      **type**: string
+    
+      **default**: field value
+
+    * **header_attrs**:
+    
+      Html attributes for `<th>` elements.
+    
+      **type**: dict
+    
+      **default**: None
 
     Example:
 
@@ -265,19 +277,19 @@ In order to define the model datasource, customize attributes of the table, tabl
 
     * **links**:
 
-    List of *Link* instance. See *class table.columns.Link* for more details.
+      List of *Link* instance. See *class table.columns.Link* for more details.
 
-    **type**: *Link*
+      **type**: *Link*
 
-    **default**: *[]*
+      **default**: *[]*
 
     * **delimiter**:
 
-    Separate links in single column, use SPACE as default.
+      Separate links in single column, use SPACE as default.
 
-    **type**: string
+      **type**: string
 
-    **default**: " "
+      **default**: " "
 
     Example:
         # models.py
@@ -310,6 +322,4 @@ In order to define the model datasource, customize attributes of the table, tabl
 
 
 ### Custom Column
-
-    If you want full control over the way the table is rendered, ignore the built-in Columns,
-    and instead pass an instance of your Table subclass into your own template.
+If you want full control over the way the column is rendered, ignore the built-in Columns, and instead place an instance of Column subclass into your Table.
