@@ -115,8 +115,28 @@ In order to define the model datasource, customize attributes of the table, tabl
 
 * #### id
 
+  The id attribute for `<table>` tag, it will rendered as `<table id="id">`. If not present, it will use your table class name inherit from `table.Table` in lowcase form.
+
+  **type**: string
+
+  **default**: None
+
 * #### attrs
 
+  Allows custom HTML attributes to be specified which will be added to the <table> tag.
+  Note: *attrs* should not contains *id* key.
+
+  **type**: dict
+
+  **default**: {}
+
+        # tables.py
+        from table import Table, Column
+        class PersonTable(Table):
+            id = Column(field='id')
+            name = Column(field='name')
+            class Meta:
+                attrs = {'class': 'custom_class'}
 * #### sort
 
 * #### search_placeholder
@@ -139,7 +159,7 @@ In order to define the model datasource, customize attributes of the table, tabl
 
 
 ### Column
-    
+
 ### Build-in Column
   * **Column**
   
