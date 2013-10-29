@@ -9,10 +9,16 @@ class Column(object):
     
     instance_order = 0
 
-    def __init__(self, field=None, attrs=None, header=None, header_attrs=None):
+    def __init__(self, field=None, sortable=True, searchable=True, safe=True,
+                 visible=True, attrs=None, header=None, header_attrs=None):
         self.accessor = Accessor(field)
         self.attrs = attrs
+        self.sortable = sortable
+        self.searchable = searchable
+        self.safe = safe
+        self.visible = visible
         self.header = ColumnHeader(text=header, attrs=header_attrs)
+
         self.instance_order = Column.instance_order
         Column.instance_order += 1
 

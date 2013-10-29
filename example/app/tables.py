@@ -12,6 +12,7 @@ class PersonTable(Table):
 
     class Meta:
         model = Person
+        ext_button_link = "http://www.baidu.com"
 
 
 class LinkColumnTable(Table):

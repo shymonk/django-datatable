@@ -1,6 +1,6 @@
 {% load static %}
 
-<link href="{% static 'css/datatable.bootstrap.css' %}" rel="stylesheet" media="screen">    
+<link href="{% static 'css/datatable.bootstrap.css' %}" rel="stylesheet" media="screen">
 <script src="{% static 'js/jquery.dataTables.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/bootstrap.dataTables.js' %}" type="text/javascript"> </script>
 
@@ -21,10 +21,12 @@
         <tr>
             {% for column, td in row.items %}
             {% if column.attrs %}
-            <td {{ column.render_attrs }}>{{ td|safe }}</td>
+            <td {{ column.render_attrs }}>
             {% else %}
-            <td>{{ td|safe }}</td>
+            <td>
             {% endif %}
+            {% if column.safe %}{{ td }}{% else %}{{ td|safe }}{% endif %}
+            </td>
             {% endfor %}
         </tr>
         {% endfor %}
@@ -34,30 +36,54 @@
 
 <script type="text/javascript" charset="utf-8">
     $('#{{ table.opts.id }}').dataTable({
-        "sDom": "<'row'<'col-md-3 col-md-offset-9'f>r>t<'row'<'col-md-2'i><'col-md-6 col-md-offset-3'p><'col-md-1'l>>",
+        "sDom": "<'row'<'col-md-9 ext-btn'><'col-md-3'f>r>t<'row'<'col-md-3'i><'col-md-6 col-md-offset-2'p><'col-md-1'l>>",
         "bAutoWidth": false,
 		"sPaginationType": "bootstrap",
-		"oLanguage": {
-            "sLengthMenu": "_MENU_", 
+        "aaSorting": [
+            {% for index, order in table.opts.sort %}
+            [ {{ index }}, "{{ order }}" ],
+            {% endfor %}
+         ],
+        "aoColumns": [
+            {% for column in table.columns %}
+            {
+                {% if not column.searchable %}
+                "bSearchable": false,
+                {% endif %}
+                {% if not column.sortable %}
+                "bSortable": false,
+                {% endif %}
+                {% if not column.visible %}
+                "bVisible": false,
+                {% endif %}
+            },
+            {% endfor %}
+        ],
+            "oLanguage": {
+            "sLengthMenu": "_MENU_",
             "sSearch": "",
-            "sInfo": "总条目_TOTAL_",
-            "sZeroRecords": "无记录",
+            "sInfo": "{{ table.opts.info }}",
+            "sInfoEmpty": "{{ table.opts.info }}",
+            "sZeroRecords": "{{ table.opts.zero_records }}",
             "sInfoFiltered": "",
-            "sInfoEmpty": "",
             "oPaginate": {
-                "sFirst": "首页",
-                "sLast": "末页",
-                "sNext": "下一页",
-                "sPrevious": "上一页"
+                "sFirst": "{{ table.opts.page_first }}",
+                "sLast": "{{ table.opts.page_last }}",
+                "sNext": "{{ table.opts.page_next }}",
+                "sPrevious": "{{ table.opts.page_prev }}"
             }
         },
         "fnPreDrawCallback": function(oSettings, json) {
             $('.dataTables_filter input').addClass('form-control input');
-            <!-- $('.dataTables_filter input').css('width', '200px'); -->
+            $('.dataTables_filter input').attr("placeholder", "{{ table.opts.search_placeholder }}");
             $('.dataTables_length select').addClass('form-control input');
             $('.dataTables_info').addClass('form-control input');
-            $('.dataTables_filter input').wrap('<div class="input-group"></div>')
-            $('.dataTables_filter input').before('<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>')
+        },
+        "fnInitComplete": function(oSettings, json) {
+            $('.dataTables_filter input').wrap('<div class="input-group"></div>');
+            $('.dataTables_filter input').after('<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>');
+            $('.dataTables_filter span').addClass('filter_icon');
+            $('.ext-btn').append('{{ table.render_ext_button }}');
         }
     });
 </script>
