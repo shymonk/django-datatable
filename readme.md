@@ -93,18 +93,18 @@ And pass a table instance to the view.
 <br>
 In order to define the model datasource, customize attributes of the table, table options provides a way to define global settings for table.
 
-* #### model
+    * #### model
 
-  The model class that binded to the table, the queryset contains all objects for the model will be used to render table by default. It is the basic form to offer the data source.  
+    The model class that binded to the table, the queryset contains all objects for the model will be used to render table by default. It is the basic form to offer the data source.  
 
-  **type**: classobj
+    **type**: classobj
  
-  **default**: None
+    **default**: None
   
         # models.py
         class Person(models.Model):
             name = models.CharField(max_length=40)
-            
+        
         # tables.py
         from table import Table, Column
         class PersonTable(Table):
