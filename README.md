@@ -225,37 +225,26 @@ In order to define the model datasource, customize attributes of the table, tabl
     A single column of table.
 
     **Parameters:**
-    * **field**:
 
-      For model data source, it is field name that corresponded to the current column. For dict-list data source, use the key instead.
+    **field**:
+    For model data source, it is field name that corresponded to the current column. For dict-list data source, use the key instead.
+    **type**: string
+    **default**: None
 
-      **type**: string
+    **attrs**:
+    Html attributes for <td> elements.
+    **type**: dict
+    **default**: None
 
-      **default**: None
+    **header**:
+    Title text of current column, will rendered as <th>text</th>
+    **type**: string
+    **default**: field value
 
-    * **attrs**:
-
-      Html attributes for <td> elements.
-
-      **type**: dict
-
-      **default**: None
-
-    * **header**:
-
-      Title text of current column, will rendered as <th>text</th>
-
-      **type**: string
-
-      **default**: field value
-
-    * **header_attrs**:
-
-      Html attributes for <td> elements.
-
-      **type**: dict
-
-      **default**: None
+    **header_attrs**:
+    Html attributes for <td> elements.
+    **type**: dict
+    **default**: None
 
     Example:
 
