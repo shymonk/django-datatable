@@ -1,6 +1,6 @@
 {% load static %}
 
-<link href="{% static 'css/datatable.bootstrap.css' %}" rel="stylesheet" media="screen">    
+<link href="{% static 'css/datatable.bootstrap.css' %}" rel="stylesheet" media="screen">
 <script src="{% static 'js/jquery.dataTables.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/bootstrap.dataTables.js' %}" type="text/javascript"> </script>
 
@@ -52,20 +52,20 @@
 		"oLanguage": {
             "sLengthMenu": "_MENU_",
             "sSearch": "",
-            "sInfo": "总条目_TOTAL_",
-            "sZeroRecords": "无记录",
+            "sInfo": "{{ table.opts.info }}",
+            "sInfoEmpty": "{{ table.opts.info }}",
+            "sZeroRecords": "{{ table.opts.zero_records }}",
             "sInfoFiltered": "",
-            "sInfoEmpty": "",
             "oPaginate": {
-                "sFirst": "首页",
-                "sLast": "末页",
-                "sNext": "下一页",
-                "sPrevious": "上一页"
+                "sFirst": "{{ table.opts.page_first }}",
+                "sLast": "{{ table.opts.page_last }}",
+                "sNext": "{{ table.opts.page_next }}",
+                "sPrevious": "{{ table.opts.page_prev }}"
             }
         },
         "fnPreDrawCallback": function(oSettings, json) {
             $('.dataTables_filter input').addClass('form-control input');
-            $('.dataTables_filter input').attr("placeholder", "搜索");
+            $('.dataTables_filter input').attr("placeholder", "{{ table.opts.search_placeholder }}");
             $('.dataTables_length select').addClass('form-control input');
             $('.dataTables_info').addClass('form-control input');
         },
@@ -73,7 +73,7 @@
             $('.dataTables_filter input').wrap('<div class="input-group"></div>');
             $('.dataTables_filter input').after('<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>');
             $('.dataTables_filter span').addClass('filter_icon');
-            $('.ext-btn').append('<a href="" target="_blank" type="button" class="btn btn-primary" style="width: 90px"><span class="glyphicon glyphicon-plus"></span> 添加</a>');
+            $('.ext-btn').append('{{ table.render_ext_button }}');
         }
     });
 </script>

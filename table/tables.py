@@ -3,6 +3,7 @@
 
 
 from django.db.models.query import QuerySet
+from django.utils.safestring import mark_safe
 from django.utils.datastructures import SortedDict
 from columns import Column
 
@@ -32,6 +33,13 @@ class BaseTable(object):
             rows.append(row)
         return rows
 
+    def render_ext_button(self):
+        html = ''
+        if self.opts.ext_button_link:
+            html = '<a href="%s" target="_blank" class="btn btn-default">%s</a>' % \
+                (self.opts.ext_button_link, self.opts.ext_button)
+        return mark_safe(html)
+
 class TableOptions(object):
     def __init__(self, options=None):
         self.model = getattr(options, 'model', None)
@@ -39,12 +47,28 @@ class TableOptions(object):
         self.attrs = getattr(options, 'attrs', {})
         self.sort = getattr(options, 'sort', [])
 
+        # options for table add-on
+
+        self.search_placeholder = getattr(options, 'search_placeholder', u'搜索')
+        self.info = getattr(options, 'info', u'总条目 _TOTAL_')
+        self.zero_records = getattr(options, 'zero_records', u'无记录')
+
+        self.page_first = getattr(options, 'page_first', '首页')
+        self.page_last = getattr(options, 'page_last', '末页')
+        self.page_prev = getattr(options, 'page_prev', '上一页')
+        self.page_next = getattr(options, 'page_next', '下一页')
+
+        self.ext_button = getattr(options, 'ext_button', u'添加记录 +')
+        self.ext_button_link = getattr(options, 'ext_button_link', None)
+
+
 class TableMetaClass(type):
     """ Meta class for create Table class instance.
     """
 
     def __new__(cls, name, bases, attrs):
         columns, meta = [], None
+
         # extract declared columns and meta
         for attr_name, attr in attrs.items():
             if isinstance(attr, Column):

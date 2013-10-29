@@ -10,9 +10,9 @@ class TableNode(template.Node):
         self.table = template.Variable(table)
 
     def render(self, context):
-        table = self.table.resolve(context)        
+        table = self.table.resolve(context)
         context = Context({'table': table})
-        t = template.loader.get_template("table/table.html")        
+        t = template.loader.get_template("table/table.html")
         return t.render(context)
 
 
