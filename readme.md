@@ -95,7 +95,7 @@ And pass a table instance to the view.
   To define the model that bound to the table or customize attributes of the table, 
 Provides a way to define global settings for table, as opposed to defining them for each instance.
 
-* model
+* #### model
   
   > The model class that binded to the table, the queryset contains all objects for the model will be used to render table by default. It is the basic form to offer the data source.  
 
@@ -116,8 +116,8 @@ Provides a way to define global settings for table, as opposed to defining them 
   >         class Meta:
   >             model = Person
 
-* attrs
-* sort
+* #### attrs
+* #### sort
 
 ## Column
 <br>
