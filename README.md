@@ -11,7 +11,6 @@ It is based on [datatable](http://datatables.net).
 
 ***
 ## Quick start
-<<<<<<< HEAD
 - Setup Django-table application in Python environment:
 
         $ python setup.py install
@@ -86,45 +85,10 @@ Now define a PersonTable class without any options in table file.
 * Model
 * QuerySet
 
-<br>
 ### Table Options
-
-<br>
 In order to define the model datasource, customize attributes of the table, table options provides a way to define global settings for table.
 
 * #### model
-
-<<<<<<< HEAD
-  To define the model that bound to the table or customize attributes of the table,
-Provides a way to define global settings for table, as opposed to defining them for each instance.
-
-* model
-
-  > The model class that binded to the table, the queryset contains all objects for the model will be used to render table by default. It is the basic form to offer the data source.
-
-  > **type**: classobj
-
-  > **default**: None
-  >
-  >     # models.py
-  >     class Person(models.Model):
-  >         name = models.CharField(max_length=40)
-  >
-  >     # tables.py
-  >     from table import Table, Column
-  >
-  >     class PersonTable(Table):
-  >         id = Column(field='id')
-  >         name = Column(field='name')
-  >         class Meta:
-  >             model = Person
-
-* attrs
-* sort
-
-## Column
-<br>
-=======
   The model class that binded to the table, the queryset contains all objects for this model will be used to render table by default. It is the basic form to offer the data source.
 
   **type**: classobj
@@ -145,7 +109,6 @@ Provides a way to define global settings for table, as opposed to defining them 
 
 
 * #### id
-
   The id attribute for `<table>` tag, it will rendered as `<table id="id">`. If not present, it will use your table class name inherit from `table.Table` in lowcase form.
 
   **type**: string
@@ -153,7 +116,6 @@ Provides a way to define global settings for table, as opposed to defining them 
   **default**: None
 
 * #### attrs
-
   Allows custom HTML attributes to be specified which will be added to the `<table>` tag.
   Note: *attrs* should not contains *id* key.
 
@@ -169,7 +131,6 @@ Provides a way to define global settings for table, as opposed to defining them 
             class Meta:
                 attrs = {'class': 'custom_class'}
 * #### sort
-
   Allows changing default behavior about sorting. By this varible, you can define which column(s) the sort is performed upon, and the sorting direction.
 
   The *sort* list should contain an tuple for each column to be sorted initially containing the column's index and a direction string ('asc' or 'desc').
@@ -207,7 +168,6 @@ Provides a way to define global settings for table, as opposed to defining them 
 
 
 ### Column
->>>>>>> 5238fe36be7f3f7542fe1443a6d6b63f929e8db0
 
 ### Build-in Column
   * **Column**
