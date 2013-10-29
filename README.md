@@ -149,123 +149,178 @@ In order to define the model datasource, customize attributes of the table, tabl
 
 
 * #### search_placeholder
+  Placeholder attribute for search box.
+
+  **type**: unicode
+
+  **default**: u"Search"
 
 * #### info
+  This string gives information to the end user about the information that is current on display on the page.
+  The `_START_`, `_END_`, `_TOTAL_` variables are all dynamically replaced as the table display updates, and can be freely moved or removed.
+
+  **type**: unicode
+
+  **default**: u"Total `_TOTAL_`"
 
 * #### zero_records
+  Text shown inside the table records when the is no information to be
+  displayed after filtering. sEmptyTable is shown when there is simply no
+  information in the table at all (regardless of filtering)
+
+  **type**: unicode
+
+  **default**: u"No records"
 
 * #### page_first
+  The text to use for pagination 'next' button.
+
+  **type**: unicode
+
+  **default**: u"First"
 
 * #### page_last
+  The text to use for pagination 'last' button.
+
+  **type**: unicode
+
+  **default**: u"Last"
 
 * #### page_prev
+  The text to use for pagination 'previous' button.
+
+  **type**: unicode
+
+  **default**: u"Prev"
 
 * #### page_next
+  The text to use for pagination 'previous' button.
 
-* #### ext_button_text
+  **type**: unicode
+
+  **default**: u"Next"
 
 * #### ext_button_link
+  The link for extense button(top-left corner). If provided, it will rendered as `<button href="ext_button_link">`,
+  else, the extense button will be hided.
 
+  **type**: string
+
+  **default**: None
+
+* #### ext_button_text
+  The text to use for extense button(top-left corner).
+
+  **type**: unicode
+
+  **default**: u"Add record"
 
 ### Column
 
 ### Build-in Column
   * **Column**
 
-      > class table.columns.***Column***(*field=None*, *attrs=None*, *header=None*, *header_attrs=None*)
+    class *table.columns*.***Column***(*field=None*, *attrs=None*, *header=None*, *header_attrs=None*)
 
-      > > A single column of table.
+    A single column of table.
 
-      > > **Parameters:**
-      > > * **field**:
+    **Parameters:**
+    * **field**:
 
-      > >   For model data source, it is field name that corresponded to the current column. For dict-list data source, use the key instead.
+      For model data source, it is field name that corresponded to the current column. For dict-list data source, use the key instead.
 
-      > >   **type**: string
+      **type**: string
 
-      > >   **default**: None
-      > >
-      > > * **attrs**:
+      **default**: None
+    
+    * **attrs**:
 
-      > >   Html attributes for <td> elements.
+      Html attributes for <td> elements.
 
-      > >   **type**: dict
+      **type**: dict
 
-      > >   **default**: None
+      **default**: None
 
-      > > * **header**:
+    * **header**:
 
-      > >   Title text of current column, will rendered as <th>text</th>
+      Title text of current column, will rendered as <th>text</th>
 
-      > >   **type**: string
+      **type**: string
 
-      > >   **default**: field value
+      **default**: field value
 
-      > > * **header_attrs**:
+    * **header_attrs**:
 
-      > >   Html attributes for <td> elements.
+      Html attributes for <td> elements.
 
-      > >   **type**: dict
+      **type**: dict
 
-      > >   **default**: None
+      **default**: None
 
-      > > Example:
-      > >
-      >     # models.py
-      >     from django.db import models
-      >     class Person(models.Model):
-      >         name = models.CharField(max_length=100)
-      >         age = models.IntegerField()
-      > >
-      >     # tables.py
-      >     from table import Table
-      >     from table.columns import Column
-      >     class PersonTable(Table):
-      >         name = Column(field='name', attrs={'class': 'custom'}, header=u'姓名', header_attrs={'width': '50%'})
-      >         addr = Column(field='age', header=u'年龄', header_attrs={'width': '50%'})
+    Example:
+    
+        # tables.py
+        from table import Table
+        from table.columns import Column
+        class PersonTable(Table):
+            name = Column(field='name', attrs={'class': 'custom'}, header=u'姓名', header_attrs={'width': '50%'})
+            addr = Column(field='age', header=u'年龄', header_attrs={'width': '50%'})
 
   * **LinkColumn**
 
-      > class table.columns.***LinkColumn***(*links*, *delimiter=' '*, **args*, ***kwrags*)
+      class *table.columns*.***LinkColumn***(*links*, *delimiter=' '*, **args*, ***kwrags*)
 
-      > > Column with hyperlinks that link to another page, such as update, delete.
+      Column with hyperlinks that link to another page, such as update, delete.
 
-      > > **Parameters:**
-      > > * **links**: List of *Link* instance. See *class table.columns.Link* for more details.
-      > > * **delimiter**: Separate links in single column, use SPACE as default.
-      > >
-      > > Example:
-      > >
-      >     # models.py
-      >     from django.db import models
-      >     class Person(models.Model):
-      >         name = models.CharField(max_length=100)
-      > >
-      >     # urls.py
-      >     urlpatterns = patterns('',
-      >         url(r'^edit/(\d+)/$', 'app.views.edit', name='edit'),
-      >     )
-      > >
-      >     # tables.py
-      >     from table import Table
-      >     from table.columns import LinkColumn, Link
-      >     class PersonTable(Table):
-      >         action = LinkColumn(header=u'操作', links=[Link(text=u'编辑', viewname='app.views.edit', args=('id',)),]
+      **Parameters:**
 
-      > class table.columns.***Link***(*text*, *viewname*, *args=[]*, *kwargs={}*, *urlconf=None*, *current_app=None*)
+      * **links**:
 
-      > > Represents a label `<a>` that defined hyperlink, it will render as `<a  href="http://example.com">text</a>`
+      List of *Link* instance. See *class table.columns.Link* for more details.
 
-      > > **Parameters:**
-      > > * **text**: content of tag `<a>`
-      > > * **viewname**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
-      > > * **args**: field names of model corresponded to the value that passed to the url pattern, see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
-      > > * **kwargs**: key-value form for args
-      > > * **urlconf**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
-      > > * **current_app**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+      **type**: *Link*
 
+      **default**: *[]*
+      
+      * **delimiter**:
+
+      Separate links in single column, use SPACE as default.
+      
+      **type**: string
+
+      **default**: " "
+      
+    Example:
+      
+          # models.py
+          from django.db import models
+          class Person(models.Model):
+              name = models.CharField(max_length=100)
+      
+          # urls.py
+          urlpatterns = patterns('',
+              url(r'^edit/(\d+)/$', 'app.views.edit', name='edit'),
+          )
+      
+          # tables.py
+          from table import Table
+          from table.columns import LinkColumn, Link
+          class PersonTable(Table):
+              action = LinkColumn(header=u'操作', links=[Link(text=u'编辑', viewname='app.views.edit', args=('id',)),]
+
+      class *table.columns*.***Link***(*text*, *viewname*, *args=[]*, *kwargs={}*, *urlconf=None*, *current_app=None*)
+
+      Represents a label `<a>` that defined hyperlink, it will render as `<a  href="http://example.com">text</a>`
+
+      **Parameters:**
+      * **text**: content of tag `<a>`
+      * **viewname**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+      * **args**: field names of model corresponded to the value that passed to the url pattern, see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+      * **kwargs**: key-value form for args
+      * **urlconf**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+      * **current_app**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
 
 ### Custom Column
 
-  > If you want full control over the way the table is rendered, ignore the built-in Columns,
-and instead pass an instance of your Table subclass into your own template.
+    If you want full control over the way the table is rendered, ignore the built-in Columns,
+    and instead pass an instance of your Table subclass into your own template.
