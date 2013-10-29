@@ -113,6 +113,7 @@ In order to define the model datasource, customize attributes of the table, tabl
             class Meta:
                 model = Person
 
+
 * #### id
 
   The id attribute for `<table>` tag, it will rendered as `<table id="id">`. If not present, it will use your table class name inherit from `table.Table` in lowcase form.
