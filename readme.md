@@ -31,7 +31,8 @@ Now define a PersonTable class without any options in table file.<br>
 
     # example/app/tables.py
     from models import Person
-    from table import Table, Column
+    from table import Table
+    from table.columns import Column
     
     class PersonTable(Table):
         id = Column(field='id')

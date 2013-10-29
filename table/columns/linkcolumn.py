@@ -11,6 +11,7 @@ class LinkColumn(Column):
         self.links = links
         self.delimiter = delimiter
         self.searchable = False
+        self.safe = False
 
     def render(self, obj):
         return self.delimiter.join([link.as_html(obj) for link in self.links])
