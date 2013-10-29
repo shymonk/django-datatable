@@ -123,7 +123,7 @@ In order to define the model datasource, customize attributes of the table, tabl
 
 * #### attrs
 
-  Allows custom HTML attributes to be specified which will be added to the <table> tag.
+  Allows custom HTML attributes to be specified which will be added to the `<table>` tag.
   Note: *attrs* should not contains *id* key.
 
   **type**: dict
@@ -138,6 +138,23 @@ In order to define the model datasource, customize attributes of the table, tabl
             class Meta:
                 attrs = {'class': 'custom_class'}
 * #### sort
+
+  Allows changing default behavior about sorting. By this varible, you can define which column(s) the sort is performed upon, and the sorting direction.
+
+  The *sort* list should contain an tuple for each column to be sorted initially containing the column's index and a direction string ('asc' or 'desc').
+  
+  **type**: list
+
+  **default**: []
+
+        # tables.py
+        from table import Table, Column
+        class PersonTable(Table):
+            id = Column(field='id')
+            name = Column(field='name')
+            class Meta:
+                sort = [(0, 'asc'), ('1', 'desc')]
+
 
 * #### search_placeholder
 
