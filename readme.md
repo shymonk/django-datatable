@@ -98,9 +98,9 @@ Provides a way to define global settings for table, as opposed to defining them 
 * model
   
   > The model class that binded to the table, the queryset contains all objects for the model will be used to render table by default. It is the basic form to offer the data source.
-  > >
+  >
   > **type**: classobj
-  > > 
+  > 
   > **default**: None
   >
   >     # models.py
