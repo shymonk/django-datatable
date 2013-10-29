@@ -48,6 +48,9 @@
                 {% if not column.sortable %}
                 "bSortable": false,
                 {% endif %}
+                {% if not column.visible %}
+                "bVisible": false,
+                {% endif %}            
             },
             {% endfor %}
         ],
