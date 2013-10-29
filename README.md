@@ -76,54 +76,107 @@ And pass a table instance to the view.
     </html>
 
 <br>
+***
 ## Reference
-
-## Table
 <br>
 
 ### DataSource
+<br>
 
 * Model
-  
-  
 
-* Dict-List
+* QuerySet
 
-* Json
-
-  Developing
-
-### Options
-
-  To define the model that bound to the table or customize attributes of the table, 
-Provides a way to define global settings for table, as opposed to defining them for each instance.
-
-* model
-  
-  > The model class that binded to the table, the queryset contains all objects for the model will be used to render table by default. It is the basic form to offer the data source.
-
-  > **type**: classobj
-  
-  > **default**: None
-  >
-  >     # models.py
-  >     class Person(models.Model):
-  >         name = models.CharField(max_length=40)
-  > 
-  >     # tables.py
-  >     from table import Table, Column
-  >
-  >     class PersonTable(Table):
-  >         id = Column(field='id')
-  >         name = Column(field='name')
-  >         class Meta:
-  >             model = Person
-
-* attrs
-* sort
-
-## Column
 <br>
+### Table Options
+
+<br>
+In order to define the model datasource, customize attributes of the table, table options provides a way to define global settings for table.
+
+* #### model
+
+  The model class that binded to the table, the queryset contains all objects for this model will be used to render table by default. It is the basic form to offer the data source.
+
+  **type**: classobj
+ 
+  **default**: None
+  
+        # models.py
+        class Person(models.Model):
+            name = models.CharField(max_length=40)
+        
+        # tables.py
+        from table import Table, Column
+        class PersonTable(Table):
+            id = Column(field='id')
+            name = Column(field='name')
+            class Meta:
+                model = Person
+
+
+* #### id
+
+  The id attribute for `<table>` tag, it will rendered as `<table id="id">`. If not present, it will use your table class name inherit from `table.Table` in lowcase form.
+
+  **type**: string
+
+  **default**: None
+
+* #### attrs
+
+  Allows custom HTML attributes to be specified which will be added to the `<table>` tag.
+  Note: *attrs* should not contains *id* key.
+
+  **type**: dict
+
+  **default**: {}
+
+        # tables.py
+        from table import Table, Column
+        class PersonTable(Table):
+            id = Column(field='id')
+            name = Column(field='name')
+            class Meta:
+                attrs = {'class': 'custom_class'}
+* #### sort
+
+  Allows changing default behavior about sorting. By this varible, you can define which column(s) the sort is performed upon, and the sorting direction.
+
+  The *sort* list should contain an tuple for each column to be sorted initially containing the column's index and a direction string ('asc' or 'desc').
+  
+  **type**: list
+
+  **default**: []
+
+        # tables.py
+        from table import Table, Column
+        class PersonTable(Table):
+            id = Column(field='id')
+            name = Column(field='name')
+            class Meta:
+                sort = [(0, 'asc'), ('1', 'desc')]
+
+
+* #### search_placeholder
+
+* #### info
+
+* #### zero_records
+
+* #### page_first
+
+* #### page_last
+
+* #### page_prev
+
+* #### page_next
+
+* #### ext_button_text
+
+* #### ext_button_link
+
+
+### Column
 
 ### Build-in Column
   * **Column**
