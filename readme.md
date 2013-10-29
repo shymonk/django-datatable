@@ -76,24 +76,20 @@ And pass a table instance to the view.
     </html>
 
 <br>
+***
 ## Reference
+<br>
 
 ## Table
 <br>
 
-### DataSource
+### DataSource  
 
-* Model
+* Modelx
   
-  
+* QuerySet
 
-* Dict-List
-
-* Json
-
-  Developing
-
-### Options
+### Options  
 
   To define the model that bound to the table or customize attributes of the table, 
 Provides a way to define global settings for table, as opposed to defining them for each instance.
@@ -101,9 +97,9 @@ Provides a way to define global settings for table, as opposed to defining them 
 * model
   
   > The model class that binded to the table, the queryset contains all objects for the model will be used to render table by default. It is the basic form to offer the data source.
-
+  >  
   > **type**: classobj
-  
+  >  
   > **default**: None
   >
   >     # models.py
