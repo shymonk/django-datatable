@@ -104,6 +104,7 @@ In order to define the model datasource, customize attributes of the table, tabl
         # models.py
         class Person(models.Model):
             name = models.CharField(max_length=40)
+            
         # tables.py
         from table import Table, Column
         class PersonTable(Table):
