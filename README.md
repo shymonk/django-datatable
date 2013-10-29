@@ -34,7 +34,7 @@ Now define a PersonTable class without any options in table file.
         # example/app/tables.py
         from models import Person
         from table import Table, Column
-        
+
         class PersonTable(Table):
             id = Column(field='id')
             name = Column(field='name')
@@ -57,11 +57,11 @@ Now define a PersonTable class without any options in table file.
         {# example/templates/index.html}
         {% load static %}
         {% load table %}
-        
+
         <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
         <script src="{% static 'js/jquery.min.js' %}"></script>
         <script src="{% static 'js/bootstrap.min.js' %}"></script>
-        
+
         <!DOCTYPE html>
         <html>
             <head>
@@ -92,13 +92,13 @@ In order to define the model datasource, customize attributes of the table, tabl
   The model class that binded to the table, the queryset contains all objects for this model will be used to render table by default. It is the basic form to offer the data source.
 
   **type**: classobj
- 
+
   **default**: None
-  
+
         # models.py
         class Person(models.Model):
             name = models.CharField(max_length=40)
-        
+
         # tables.py
         from table import Table, Column
         class PersonTable(Table):
@@ -134,7 +134,7 @@ In order to define the model datasource, customize attributes of the table, tabl
   Allows changing default behavior about sorting. By this varible, you can define which column(s) the sort is performed upon, and the sorting direction.
 
   The *sort* list should contain an tuple for each column to be sorted initially containing the column's index and a direction string ('asc' or 'desc').
-  
+
   **type**: list
 
   **default**: []
@@ -215,10 +215,10 @@ In order to define the model datasource, customize attributes of the table, tabl
 
   **default**: u"Add record"
 
-### Column
 
 ### Build-in Column
-  * **Column**
+
+* #### Column
 
     class *table.columns*.***Column***(*field=None*, *attrs=None*, *header=None*, *header_attrs=None*)
 
@@ -232,7 +232,7 @@ In order to define the model datasource, customize attributes of the table, tabl
       **type**: string
 
       **default**: None
-    
+
     * **attrs**:
 
       Html attributes for <td> elements.
@@ -258,7 +258,7 @@ In order to define the model datasource, customize attributes of the table, tabl
       **default**: None
 
     Example:
-    
+
         # tables.py
         from table import Table
         from table.columns import Column
@@ -266,59 +266,59 @@ In order to define the model datasource, customize attributes of the table, tabl
             name = Column(field='name', attrs={'class': 'custom'}, header=u'姓名', header_attrs={'width': '50%'})
             addr = Column(field='age', header=u'年龄', header_attrs={'width': '50%'})
 
-  * **LinkColumn**
+* #### LinkColumn
 
-      class *table.columns*.***LinkColumn***(*links*, *delimiter=' '*, **args*, ***kwrags*)
+    class *table.columns*.***LinkColumn***(*links*, *delimiter=' '*, **args*, ***kwrags*)
 
-      Column with hyperlinks that link to another page, such as update, delete.
+    Column with hyperlinks that link to another page, such as update, delete.
 
-      **Parameters:**
+    **Parameters:**
 
-      * **links**:
+    * **links**:
 
-      List of *Link* instance. See *class table.columns.Link* for more details.
+    List of *Link* instance. See *class table.columns.Link* for more details.
 
-      **type**: *Link*
+    **type**: *Link*
 
-      **default**: *[]*
-      
-      * **delimiter**:
+    **default**: *[]*
 
-      Separate links in single column, use SPACE as default.
-      
-      **type**: string
+    * **delimiter**:
 
-      **default**: " "
-      
+    Separate links in single column, use SPACE as default.
+
+    **type**: string
+
+    **default**: " "
+
     Example:
-      
-          # models.py
-          from django.db import models
-          class Person(models.Model):
-              name = models.CharField(max_length=100)
-      
-          # urls.py
-          urlpatterns = patterns('',
-              url(r'^edit/(\d+)/$', 'app.views.edit', name='edit'),
-          )
-      
-          # tables.py
-          from table import Table
-          from table.columns import LinkColumn, Link
-          class PersonTable(Table):
-              action = LinkColumn(header=u'操作', links=[Link(text=u'编辑', viewname='app.views.edit', args=('id',)),]
+        # models.py
+        from django.db import models
+        class Person(models.Model):
+            name = models.CharField(max_length=100)
 
-      class *table.columns*.***Link***(*text*, *viewname*, *args=[]*, *kwargs={}*, *urlconf=None*, *current_app=None*)
+        # urls.py
+        urlpatterns = patterns('',
+            url(r'^edit/(\d+)/$', 'app.views.edit', name='edit'),
+        )
 
-      Represents a label `<a>` that defined hyperlink, it will render as `<a  href="http://example.com">text</a>`
+        # tables.py
+        from table import Table
+        from table.columns import LinkColumn, Link
+        class PersonTable(Table):
+            action = LinkColumn(header=u'操作', links=[Link(text=u'编辑', viewname='app.views.edit', args=('id',)),]
 
-      **Parameters:**
-      * **text**: content of tag `<a>`
-      * **viewname**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
-      * **args**: field names of model corresponded to the value that passed to the url pattern, see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
-      * **kwargs**: key-value form for args
-      * **urlconf**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
-      * **current_app**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+    class *table.columns*.***Link***(*text*, *viewname*, *args=[]*, *kwargs={}*, *urlconf=None*, *current_app=None*)
+
+    Represents a label `<a>` that defined hyperlink, it will render as `<a  href="http://example.com">text</a>`
+
+    **Parameters:**
+    * **text**: content of tag `<a>`
+    * **viewname**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+    * **args**: field names of model corresponded to the value that passed to the url pattern, see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+    * **kwargs**: key-value form for args
+    * **urlconf**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+    * **current_app**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+
 
 ### Custom Column
 
