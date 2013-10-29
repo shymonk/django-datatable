@@ -21,10 +21,12 @@
         <tr>
             {% for column, td in row.items %}
             {% if column.attrs %}
-            <td {{ column.render_attrs }}>{{ td|safe }}</td>
+            <td {{ column.render_attrs }}>
             {% else %}
-            <td>{{ td|safe }}</td>
+            <td>
             {% endif %}
+            {% if column.safe %}{{ td }}{% else %}{{ td|safe }}{% endif %}
+            </td>
             {% endfor %}
         </tr>
         {% endfor %}
