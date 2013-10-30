@@ -88,6 +88,7 @@ Now define a PersonTable class without any options in table file.
 ***
 ## DataSource
 <br>
+
 * Model
 
   Use a django MTV model as table data source, and queries all data in database by default.
@@ -120,7 +121,8 @@ Now define a PersonTable class without any options in table file.
             return render(request, "index.html", {'people': people})
 
 ***
-### Columns
+## Columns
+
 * Column
 * Link Column
 
