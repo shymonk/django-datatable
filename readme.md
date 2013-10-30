@@ -11,12 +11,14 @@ It is based on [datatable](http://datatables.net).
 ***
 ## Requirement
 <br>
+
 * jQuery 1.6+
 * Bootstrap 3.0
 * Django 1.4+
 
 ***
 ## Quick start
+<br>
 - Setup Django-table application in Python environment:
 
         $ python setup.py install
