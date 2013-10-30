@@ -11,12 +11,17 @@ It is based on [datatable](http://datatables.net).
 ***
 ## Requirement
 <br>
+
 * jQuery 1.6+
+
 * Bootstrap 3.0
+
 * Django 1.4+
 
 ***
 ## Quick start
+<br>
+
 - Setup Django-table application in Python environment:
 
         $ python setup.py install
@@ -40,11 +45,10 @@ Now define a PersonTable class without any options in table file.
         # example/app/tables.py
         from models import Person
         from table import Table, Column
-
+        
         class PersonTable(Table):
             id = Column(field='id')
             name = Column(field='name')
-
             class Meta:
                 model = Person
 
@@ -87,6 +91,7 @@ Now define a PersonTable class without any options in table file.
 ***
 ## DataSource
 <br>
+
 * Model
 
   Use a django MTV model as table data source, and queries all data in database by default.
@@ -119,12 +124,30 @@ Now define a PersonTable class without any options in table file.
             return render(request, "index.html", {'people': people})
 
 ***
-### Columns
+## Columns
+<br>
+
 * Column
+
 * Link Column
 
 ***
+## Table Add-on
+<br>
+
+* search-box
+
+* info-label
+
+* pagination
+
+* length-menu
+
+* extense-button
+
+***
 ## API Reference
+<br>
 ### Table Options
 In order to define the model datasource, customize attributes of the table, table options provides a way to define global settings for table.
 
