@@ -13,7 +13,9 @@ It is based on [datatable](http://datatables.net).
 <br>
 
 * jQuery 1.6+
+
 * Bootstrap 3.0
+
 * Django 1.4+
 
 ***
