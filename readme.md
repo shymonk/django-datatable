@@ -128,6 +128,7 @@ Now define a PersonTable class without any options in table file.
 <br>
 
 * Column
+
 * Link Column
 
 ***
