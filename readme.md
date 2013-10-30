@@ -135,14 +135,15 @@ Now define a PersonTable class without any options in table file.
 ## Table Add-on
 <br>
 
-* #### search-box
-* #### info-label
+* search-box
 
-* ### pagination
+* info-label
 
-* ### length-menu
+* pagination
 
-* ### extense-button
+* length-menu
+
+* extense-button
 
 ***
 ## API Reference
