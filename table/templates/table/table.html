@@ -36,14 +36,7 @@
 
 <script type="text/javascript" charset="utf-8">
     $('#{{ table.opts.id }}').dataTable({
-        "sDom": "<'row'" +
-                "<'#{{ table.opts.ext_button_id }}'<'col-md-9 ext-btn'>>" +
-                "<'#{{ table.opts.search_id }}'<'col-md-3'f>>>" + "t" +
-                "<'row'" +
-                "<'col-md-3'i>" +
-                "<'#{{ table.opts.page_id }}'<'col-md-6 col-md-offset-2'p>>" +
-                "<'#{{ table.opts.length_menu_id }}'<'col-md-1'l>>" +
-                ">",
+        "sDom": "<'row'<'col-md-9 ext-btn'><'col-md-3'f>r>t<'row'<'col-md-3'i><'col-md-6 col-md-offset-2'p><'col-md-1'l>>",
         "bAutoWidth": false,
 		"sPaginationType": "bootstrap",
         "aaSorting": [

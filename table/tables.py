@@ -61,18 +61,14 @@ class TableOptions(object):
         # options for table add-on
 
         self.search_placeholder = getattr(options, 'search_placeholder', u'搜索')
-        self.search_id = getattr(options, 'search_id', None)
         self.info = getattr(options, 'info', u'总条目 _TOTAL_')
         self.zero_records = getattr(options, 'zero_records', u'无记录')
-        self.length_menu_id = getattr(options, 'length_menu_id', None)
 
-        self.page_id = getattr(options, 'page_id', None)
         self.page_first = getattr(options, 'page_first', '首页')
         self.page_last = getattr(options, 'page_last', '末页')
         self.page_prev = getattr(options, 'page_prev', '上一页')
         self.page_next = getattr(options, 'page_next', '下一页')
 
-        self.ext_button_id = getattr(options, 'ext_button_id', None)
         self.ext_button_text = getattr(options, 'ext_button_text', u'添加记录 +')
         self.ext_button_link = getattr(options, 'ext_button_link', None)
 
