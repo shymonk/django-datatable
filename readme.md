@@ -19,6 +19,7 @@ It is based on [datatable](http://datatables.net).
 ***
 ## Quick start
 <br>
+
 - Setup Django-table application in Python environment:
 
         $ python setup.py install
