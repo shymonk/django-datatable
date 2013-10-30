@@ -135,7 +135,7 @@ Now define a PersonTable class without any options in table file.
 ## Table Add-on
 <br>
 
-* #### search-box
+* ### search-box
 
 * info-label
 
