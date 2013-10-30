@@ -125,8 +125,6 @@ Now define a PersonTable class without any options in table file.
 
 ***
 ## API Reference
-
-
 ### Table Options
 In order to define the model datasource, customize attributes of the table, table options provides a way to define global settings for table.
 
