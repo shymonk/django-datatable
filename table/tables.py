@@ -37,7 +37,7 @@ class BaseTable(object):
         html = ''
         if self.opts.ext_button_link:
             html = '<a href="%s" target="_blank" class="btn btn-default">%s</a>' % \
-                (self.opts.ext_button_link, self.opts.ext_button)
+                (self.opts.ext_button_link, self.opts.ext_button_text)
         return mark_safe(html)
 
 class TableOptions(object):
@@ -61,15 +61,19 @@ class TableOptions(object):
         # options for table add-on
 
         self.search_placeholder = getattr(options, 'search_placeholder', u'搜索')
+        self.search_id = getattr(options, 'search_id', None)
         self.info = getattr(options, 'info', u'总条目 _TOTAL_')
         self.zero_records = getattr(options, 'zero_records', u'无记录')
+        self.length_menu_id = getattr(options, 'length_menu_id', None)
 
+        self.page_id = getattr(options, 'page_id', None)
         self.page_first = getattr(options, 'page_first', '首页')
         self.page_last = getattr(options, 'page_last', '末页')
         self.page_prev = getattr(options, 'page_prev', '上一页')
         self.page_next = getattr(options, 'page_next', '下一页')
 
-        self.ext_button = getattr(options, 'ext_button', u'添加记录 +')
+        self.ext_button_id = getattr(options, 'ext_button_id', None)
+        self.ext_button_text = getattr(options, 'ext_button_text', u'添加记录 +')
         self.ext_button_link = getattr(options, 'ext_button_link', None)
 
 
@@ -81,6 +85,7 @@ class TableMetaClass(type):
         columns, meta = [], None
 
         # extract declared columns and meta
+
         for attr_name, attr in attrs.items():
             if isinstance(attr, Column):
                 columns.append(attr)
@@ -90,6 +95,9 @@ class TableMetaClass(type):
         columns.sort(key=lambda x: x.instance_order)
         attrs['columns'] = columns
         attrs['opts'] = TableOptions(meta)
+
+        # take class name in lowcase as table's default id
+
         if not attrs['opts'].id:
             attrs['opts'].id = name.lower()
 
