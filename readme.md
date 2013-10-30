@@ -133,9 +133,13 @@ Now define a PersonTable class without any options in table file.
 <br>
 
 * search-box
+
 * info-label
+
 * pagination
+
 * length-menu
+
 * extense-button
 
 ***
