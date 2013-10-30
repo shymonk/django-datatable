@@ -351,7 +351,7 @@ In order to define the model datasource, customize attributes of the table, tabl
 
     class *table.columns*.***Link***(*text*, *viewname*, *args=[]*, *kwargs={}*, *urlconf=None*, *current_app=None*)
 
-    Represents a label `<a>` that defined hyperlink, it will render as `<a  href="http://example.com">text</a>`
+    Represents a label `<a>` with hyperlink, it will render as `<a  href="http://example.com">text</a>`
 
     **Parameters:**
     * **text**: content of tag `<a>`
