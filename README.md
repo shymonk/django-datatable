@@ -332,16 +332,17 @@ In order to define the model datasource, customize attributes of the table, tabl
       **default**: " "
 
     Example:
+
         # models.py
         from django.db import models
         class Person(models.Model):
             name = models.CharField(max_length=100)
-
+        
         # urls.py
         urlpatterns = patterns('',
             url(r'^edit/(\d+)/$', 'app.views.edit', name='edit'),
         )
-
+        
         # tables.py
         from table import Table
         from table.columns import LinkColumn, Link
