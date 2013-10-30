@@ -40,7 +40,7 @@ Now define a PersonTable class without any options in table file.
         # example/app/tables.py
         from models import Person
         from table import Table, Column
-
+        
         class PersonTable(Table):
             id = Column(field='id')
             name = Column(field='name')
