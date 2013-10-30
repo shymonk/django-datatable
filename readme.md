@@ -1,13 +1,19 @@
 # Django-table
 ***
 
-![preview](http://redmine.funshion.com/redmine/attachments/download/54280/django-table.png)
-
+![preview](http://redmine.funshion.com/redmine/attachments/download/55453/django-table-010.png)
 ***
 ## Overview
 <br>
 Django-table is a simple Django app to origanize data in tabular form.
 It is based on [datatable](http://datatables.net).
+
+***
+## Requirement
+<br>
+* jQuery 1.6+
+* Bootstrap 3.0
+* Django 1.4+
 
 ***
 ## Quick start
@@ -79,12 +85,46 @@ Now define a PersonTable class without any options in table file.
 
 <br>
 ***
-## Reference
-
-### DataSource
+## DataSource
+<br>
 * Model
+
+  Use a django MTV model as table data source, and queries all data in database by default.
+  see **model** in table options for details.
+
 * QuerySet
 
+  Similiar to **Model**, but pass queryset when you initialize table instance instead of defining model option.
+  Basically, it used to filtering or sorting data your want to display in table.
+
+        # models.py
+        class Person(models.Model):
+            name = models.CharField(max_length=100)
+            
+        # tables.py
+        from models import Person
+        from table import Table, Column
+
+        class PersonTable(Table):
+            id = Column(field='id')
+            name = Column(field='name')
+            
+        # views.py
+        from django.shortcuts import render
+        from models import Person
+        from app.tables import PersonTable
+
+        def people(request):
+            people = PersonTable(Person.objects.all())
+            return render(request, "index.html", {'people': people})
+
+***
+### Columns
+* Column
+* Link Column
+
+***
+## API Reference
 ### Table Options
 In order to define the model datasource, customize attributes of the table, table options provides a way to define global settings for table.
 
@@ -292,16 +332,17 @@ In order to define the model datasource, customize attributes of the table, tabl
       **default**: " "
 
     Example:
+
         # models.py
         from django.db import models
         class Person(models.Model):
             name = models.CharField(max_length=100)
-
+        
         # urls.py
         urlpatterns = patterns('',
             url(r'^edit/(\d+)/$', 'app.views.edit', name='edit'),
         )
-
+        
         # tables.py
         from table import Table
         from table.columns import LinkColumn, Link
@@ -310,7 +351,7 @@ In order to define the model datasource, customize attributes of the table, tabl
 
     class *table.columns*.***Link***(*text*, *viewname*, *args=[]*, *kwargs={}*, *urlconf=None*, *current_app=None*)
 
-    Represents a label `<a>` that defined hyperlink, it will render as `<a  href="http://example.com">text</a>`
+    Represents a label `<a>` with hyperlink, it will render as `<a  href="http://example.com">text</a>`
 
     **Parameters:**
     * **text**: content of tag `<a>`
