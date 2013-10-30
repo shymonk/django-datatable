@@ -5,7 +5,7 @@
 from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
 from django.utils.datastructures import SortedDict
-from columns import Column
+from columns import Column, BoundColumns
 
 
 class BaseTable(object):
@@ -21,6 +21,18 @@ class BaseTable(object):
                 self.list = data
             else:
                 raise ValueError("Model class or QuerySet-like object is required.")
+        
+        self.columns = BoundColumns(self)
+    
+    @property
+    def data(self):
+        return self.queryset or self.list or []
+            
+            
+    @property
+    def columns(self):
+        print "aaaaaaaaa"
+        return self.columns
 
     @property
     def rows(self):
@@ -81,6 +93,7 @@ class TableMetaClass(type):
         columns, meta = [], None
 
         # extract declared columns and meta
+
         for attr_name, attr in attrs.items():
             if isinstance(attr, Column):
                 columns.append(attr)
@@ -88,8 +101,11 @@ class TableMetaClass(type):
                 meta = attr
 
         columns.sort(key=lambda x: x.instance_order)
-        attrs['columns'] = columns
+        attrs['base_columns'] = columns
         attrs['opts'] = TableOptions(meta)
+
+        # take class name in lowcase as table's default id
+
         if not attrs['opts'].id:
             attrs['opts'].id = name.lower()
 
