@@ -123,9 +123,20 @@ Now define a PersonTable class without any options in table file.
 
 ***
 ## Columns
+<br>
 
 * Column
 * Link Column
+
+***
+## Table Add-on
+<br>
+
+* search-box
+* info-label
+* pagination
+* length-menu
+* extense-button
 
 ***
 ## API Reference
