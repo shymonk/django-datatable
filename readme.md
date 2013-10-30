@@ -11,100 +11,94 @@ It is based on [datatable](http://datatables.net).
 
 ***
 ## Quick start
-<br>
-1. Setup Django-table application in Python environment:<br>
+- Setup Django-table application in Python environment:
 
-    $ python setup.py install
-2. Add "table" to your INSTALLED_APPS setting like this:<br>
+        $ python setup.py install
 
-    INSTALLED_APPS = (
-        ...,
-        'table',
-    )
-3. Define a simple model named Person:<br>
+- Add "table" to your INSTALLED_APPS setting like this:
 
-    # example/app/models.py
-    class Person(models.Model):
-        name = models.CharField(max_length=100)
-4. Add some data so you have something to display in the table.
-Now define a PersonTable class without any options in table file.<br>
+        INSTALLED_APPS = (
+            ...,
+            'table',
+        )
 
-    # example/app/tables.py
-    from models import Person
-    from table import Table
-    from table.columns import Column
-    
-    class PersonTable(Table):
-        id = Column(field='id')
-        name = Column(field='name')
+- Define a simple model named Person:
 
-        class Meta:
-            model = Person
+        # example/app/models.py
+        class Person(models.Model):
+            name = models.CharField(max_length=100)
 
-And pass a table instance to the view.
+- Add some data so you have something to display in the table.
+Now define a PersonTable class without any options in table file.
 
-    # example/app/views.py
-    from django.shortcuts import render
-    from app.tables import PersonTable
+        # example/app/tables.py
+        from models import Person
+        from table import Table, Column
 
-    def people(request):
-        people = PersonTable()
-        return render(request, "index.html", {'people': people})
-5. Finally, implement the template:<br>
+        class PersonTable(Table):
+            id = Column(field='id')
+            name = Column(field='name')
 
-    {# example/templates/index.html}
-    {% load static %}
-    {% load table %}
+            class Meta:
+                model = Person
 
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
-    <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+   And pass a table instance to the view.
 
-    <!DOCTYPE html>
-    <html>
-        <head>
-            <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-            <title>person</title>
-        </head>
-        <body>
-            <div class="container" style="margin-top: 10px">
-                <h1>people</h1>
-                <br />
-                {% render_table people %}
-            </div>
-        </body>
-    </html>
+        # example/app/views.py
+        from django.shortcuts import render
+        from app.tables import PersonTable
+
+        def people(request):
+            people = PersonTable()
+            return render(request, "index.html", {'people': people})
+
+- Finally, implement the template:
+
+        {# example/templates/index.html}
+        {% load static %}
+        {% load table %}
+
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+                <title>person</title>
+            </head>
+            <body>
+                <div class="container" style="margin-top: 10px">
+                    <h1>people</h1>
+                    <br />
+                    {% render_table people %}
+                </div>
+            </body>
+        </html>
 
 <br>
 ***
 ## Reference
-<br>
 
 ### DataSource
-<br>
-
 * Model
-
 * QuerySet
 
-<br>
 ### Table Options
-
-<br>
 In order to define the model datasource, customize attributes of the table, table options provides a way to define global settings for table.
 
 * #### model
-
   The model class that binded to the table, the queryset contains all objects for this model will be used to render table by default. It is the basic form to offer the data source.
 
   **type**: classobj
- 
+
   **default**: None
-  
+
         # models.py
         class Person(models.Model):
             name = models.CharField(max_length=40)
-        
+
         # tables.py
         from table import Table, Column
         class PersonTable(Table):
@@ -115,7 +109,6 @@ In order to define the model datasource, customize attributes of the table, tabl
 
 
 * #### id
-
   The id attribute for `<table>` tag, it will rendered as `<table id="id">`. If not present, it will use your table class name inherit from `table.Table` in lowcase form.
 
   **type**: string
@@ -123,7 +116,6 @@ In order to define the model datasource, customize attributes of the table, tabl
   **default**: None
 
 * #### attrs
-
   Allows custom HTML attributes to be specified which will be added to the `<table>` tag.
   Note: *attrs* should not contains *id* key.
 
@@ -139,11 +131,10 @@ In order to define the model datasource, customize attributes of the table, tabl
             class Meta:
                 attrs = {'class': 'custom_class'}
 * #### sort
-
   Allows changing default behavior about sorting. By this varible, you can define which column(s) the sort is performed upon, and the sorting direction.
 
   The *sort* list should contain an tuple for each column to be sorted initially containing the column's index and a direction string ('asc' or 'desc').
-  
+
   **type**: list
 
   **default**: []
@@ -158,123 +149,177 @@ In order to define the model datasource, customize attributes of the table, tabl
 
 
 * #### search_placeholder
+  Placeholder attribute for search box.
+
+  **type**: unicode
+
+  **default**: u"Search"
 
 * #### info
+  This string gives information to the end user about the information that is current on display on the page.
+  The `_START_`, `_END_`, `_TOTAL_` variables are all dynamically replaced as the table display updates, and can be freely moved or removed.
+
+  **type**: unicode
+
+  **default**: u"Total `_TOTAL_`"
 
 * #### zero_records
+  Text shown inside the table records when the is no information to be
+  displayed after filtering. sEmptyTable is shown when there is simply no
+  information in the table at all (regardless of filtering)
+
+  **type**: unicode
+
+  **default**: u"No records"
 
 * #### page_first
+  The text to use for pagination 'next' button.
+
+  **type**: unicode
+
+  **default**: u"First"
 
 * #### page_last
+  The text to use for pagination 'last' button.
+
+  **type**: unicode
+
+  **default**: u"Last"
 
 * #### page_prev
+  The text to use for pagination 'previous' button.
+
+  **type**: unicode
+
+  **default**: u"Prev"
 
 * #### page_next
+  The text to use for pagination 'previous' button.
 
-* #### ext_button_text
+  **type**: unicode
+
+  **default**: u"Next"
 
 * #### ext_button_link
+  The link for extense button(top-left corner). If provided, it will rendered as `<button href="ext_button_link">`,
+  else, the extense button will be hided.
 
+  **type**: string
 
-### Column
+  **default**: None
+
+* #### ext_button_text
+  The text to use for extense button(top-left corner).
+
+  **type**: unicode
+
+  **default**: u"Add record"
+
 
 ### Build-in Column
-  * **Column**
-  
-      > class table.columns.***Column***(*field=None*, *attrs=None*, *header=None*, *header_attrs=None*)
 
-      > > A single column of table. 
+* #### Column
 
-      > > **Parameters:** 
-      > > * **field**: 
-        
-      > >   For model data source, it is field name that corresponded to the current column. For dict-list data source, use the key instead.
-      
-      > >   **type**: string
-      
-      > >   **default**: None
-      > > 
-      > > * **attrs**: 
-           
-      > >   Html attributes for <td> elements.
+    class *table.columns*.***Column***(*field=None*, *attrs=None*, *header=None*, *header_attrs=None*)
 
-      > >   **type**: dict
-      
-      > >   **default**: None
-      
-      > > * **header**:
-      
-      > >   Title text of current column, will rendered as <th>text</th>
-      
-      > >   **type**: string
-      
-      > >   **default**: field value
-      
-      > > * **header_attrs**:
-      
-      > >   Html attributes for <td> elements.
-      
-      > >   **type**: dict
-      
-      > >   **default**: None
-      
-      > > Example:
-      > >
-      >     # models.py
-      >     from django.db import models
-      >     class Person(models.Model):
-      >         name = models.CharField(max_length=100)
-      >         age = models.IntegerField()
-      > > 
-      >     # tables.py
-      >     from table import Table
-      >     from table.columns import Column
-      >     class PersonTable(Table):
-      >         name = Column(field='name', attrs={'class': 'custom'}, header=u'姓名', header_attrs={'width': '50%'})
-      >         addr = Column(field='age', header=u'年龄', header_attrs={'width': '50%'})
+    A single column of table.
+
+    **Parameters:**
+
+    * **field**:
     
-  * **LinkColumn**
+      For model data source, it is field name that corresponded to the current column. For dict-list data source, use the key instead.
 
-      > class table.columns.***LinkColumn***(*links*, *delimiter=' '*, **args*, ***kwrags*)
+      **type**: string
 
-      > > Column with hyperlinks that link to another page, such as update, delete. 
+      **default**: None
 
-      > > **Parameters:** 
-      > > * **links**: List of *Link* instance. See *class table.columns.Link* for more details.
-      > > * **delimiter**: Separate links in single column, use SPACE as default.
-      > >
-      > > Example:
-      > >
-      >     # models.py
-      >     from django.db import models
-      >     class Person(models.Model):
-      >         name = models.CharField(max_length=100)
-      > >        
-      >     # urls.py
-      >     urlpatterns = patterns('',
-      >         url(r'^edit/(\d+)/$', 'app.views.edit', name='edit'),
-      >     )
-      > >
-      >     # tables.py
-      >     from table import Table
-      >     from table.columns import LinkColumn, Link
-      >     class PersonTable(Table):
-      >         action = LinkColumn(header=u'操作', links=[Link(text=u'编辑', viewname='app.views.edit', args=('id',)),]
+    * **attrs**:
     
-      > class table.columns.***Link***(*text*, *viewname*, *args=[]*, *kwargs={}*, *urlconf=None*, *current_app=None*)
-      
-      > > Represents a label `<a>` that defined hyperlink, it will render as `<a  href="http://example.com">text</a>` 
-      
-      > > **Parameters:**
-      > > * **text**: content of tag `<a>`
-      > > * **viewname**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
-      > > * **args**: field names of model corresponded to the value that passed to the url pattern, see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
-      > > * **kwargs**: key-value form for args
-      > > * **urlconf**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
-      > > * **current_app**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+      Html attributes for `<td>` tag.
+    
+      **type**: dict
+    
+      **default**: None
+
+    * **header**:
+    
+      Title text of current column, will rendered as `<th>text</th>`
+    
+      **type**: string
+    
+      **default**: field value
+
+    * **header_attrs**:
+    
+      Html attributes for `<th>` elements.
+    
+      **type**: dict
+    
+      **default**: None
+
+    Example:
+
+        # tables.py
+        from table import Table
+        from table.columns import Column
+        class PersonTable(Table):
+            name = Column(field='name', attrs={'class': 'custom'}, header=u'姓名', header_attrs={'width': '50%'})
+            addr = Column(field='age', header=u'年龄', header_attrs={'width': '50%'})
+
+* #### LinkColumn
+
+    class *table.columns*.***LinkColumn***(*links*, *delimiter=' '*, **args*, ***kwrags*)
+
+    Column with hyperlinks that link to another page, such as update, delete.
+
+    **Parameters:**
+
+    * **links**:
+
+      List of *Link* instance. See *class table.columns.Link* for more details.
+
+      **type**: *Link*
+
+      **default**: *[]*
+
+    * **delimiter**:
+
+      Separate links in single column, use SPACE as default.
+
+      **type**: string
+
+      **default**: " "
+
+    Example:
+        # models.py
+        from django.db import models
+        class Person(models.Model):
+            name = models.CharField(max_length=100)
+
+        # urls.py
+        urlpatterns = patterns('',
+            url(r'^edit/(\d+)/$', 'app.views.edit', name='edit'),
+        )
+
+        # tables.py
+        from table import Table
+        from table.columns import LinkColumn, Link
+        class PersonTable(Table):
+            action = LinkColumn(header=u'操作', links=[Link(text=u'编辑', viewname='app.views.edit', args=('id',)),]
+
+    class *table.columns*.***Link***(*text*, *viewname*, *args=[]*, *kwargs={}*, *urlconf=None*, *current_app=None*)
+
+    Represents a label `<a>` that defined hyperlink, it will render as `<a  href="http://example.com">text</a>`
+
+    **Parameters:**
+    * **text**: content of tag `<a>`
+    * **viewname**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+    * **args**: field names of model corresponded to the value that passed to the url pattern, see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+    * **kwargs**: key-value form for args
+    * **urlconf**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+    * **current_app**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
 
 
 ### Custom Column
-
-  > If you want full control over the way the table is rendered, ignore the built-in Columns,
-and instead pass an instance of your Table subclass into your own template.
+If you want full control over the way the column is rendered, ignore the built-in Columns, and instead place an instance of Column subclass into your Table.
