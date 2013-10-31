@@ -5,7 +5,8 @@
 from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
 from django.utils.datastructures import SortedDict
-from columns import Column
+from columns import Column, BoundColumn
+import copy
 
 
 class BaseTable(object):
@@ -13,23 +14,23 @@ class BaseTable(object):
     def __init__(self, data=None):
         model = getattr(self.opts, 'model', None)
         if model:
-            self.queryset = model.objects.all()
+            self.data = model.objects.all()
+        elif isinstance(data, QuerySet) or isinstance(data, list):
+            self.data = data
         else:
-            if isinstance(data, QuerySet):
-                self.queryset = data
-            elif isinstance(data, list):
-                self.list = data
-            else:
-                raise ValueError("Model class or QuerySet-like object is required.")
+            raise ValueError("Model class or QuerySet-like object is required.")
+        
+        # Make a copy so that modifying this will not touch the class definition.
+        self.columns = copy.deepcopy(self.base_columns)
 
     @property
     def rows(self):
         rows = []
-        objects = self.queryset if hasattr(self, 'queryset') else self.list
-        for obj in objects:
+        for obj in self.data:
             row = SortedDict()
-            for col in self.columns:
-                row[col] = col.render(obj)
+            columns = [BoundColumn(obj, col) for col in self.columns]            
+            for col in columns:
+                row[col] = col.html
             rows.append(row)
         return rows
 
@@ -47,7 +48,6 @@ class TableOptions(object):
         self.attrs = getattr(options, 'attrs', {})
 
         # inspect sorting option
-
         self.sort = []
         for column, order in getattr(options, 'sort', []):
             if not isinstance(column, int):
@@ -59,7 +59,6 @@ class TableOptions(object):
             self.sort.append((column, order))
             
         # options for table add-on
-
         self.search_placeholder = getattr(options, 'search_placeholder', u'搜索')
         self.info = getattr(options, 'info', u'总条目 _TOTAL_')
         self.zero_records = getattr(options, 'zero_records', u'无记录')
@@ -81,19 +80,16 @@ class TableMetaClass(type):
         columns, meta = [], None
 
         # extract declared columns and meta
-
         for attr_name, attr in attrs.items():
             if isinstance(attr, Column):
                 columns.append(attr)
             else:
                 meta = attr
-
         columns.sort(key=lambda x: x.instance_order)
-        attrs['columns'] = columns
+        attrs['base_columns'] = columns
         attrs['opts'] = TableOptions(meta)
 
         # take class name in lowcase as table's default id
-
         if not attrs['opts'].id:
             attrs['opts'].id = name.lower()
 

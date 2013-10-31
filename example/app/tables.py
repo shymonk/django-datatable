@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from table.columns import Column, LinkColumn, Link
+from table.utils import A
 from table import Table
 from models import Person
 
