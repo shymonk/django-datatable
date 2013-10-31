@@ -12,7 +12,7 @@ class Column(object):
     def __init__(self, field=None, sortable=True, searchable=True, safe=True,
                  visible=True, attrs=None, header=None, header_attrs=None):
         self.accessor = Accessor(field)
-        self.attrs = attrs
+        self.attrs = attrs or {}
         self.sortable = sortable
         self.searchable = searchable
         self.safe = safe
@@ -63,9 +63,9 @@ class BoundColumn(object):
 
 class ColumnHeader(object):
 
-    def __init__(self, text=None, attrs={}):
+    def __init__(self, text=None, attrs=None):
         self.text = text
-        self.attrs = attrs
+        self.attrs = attrs or {}
         
     def render_attrs(self):
         """ Render attributes of <th> to html.
