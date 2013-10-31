@@ -5,7 +5,9 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', 'app.views.people', name='people'),
+    url(r'^$', 'app.views.base', name='base'),
+    url(r'^edit/(\d+)/$', 'app.views.edit', name='edit'),
+    url(r'^linkcolumn/$', 'app.views.linkcolumn', name='linkcolumn'),
 
     # Examples:
     # url(r'^table/', include('table.foo.urls')),
