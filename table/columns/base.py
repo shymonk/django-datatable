@@ -22,6 +22,9 @@ class Column(object):
         self.instance_order = Column.instance_order
         Column.instance_order += 1
 
+    def as_html(self, obj):
+        return self.accessor.resolve(obj)
+
 class BoundColumn(object):
     """ A run-time version of Column. The difference between 
         BoundColumn and Column is that BoundColumn objects include the
@@ -32,9 +35,7 @@ class BoundColumn(object):
     def __init__(self, obj, column):
         self.obj = obj
         self.column = column
-
-        self.accessor = self.column.accessor
-        self.base_attrs = self.column.attrs
+        self.base_attrs = column.attrs
         
         # copy non-object-related attributes to self directly
         self.sortable = column.sortable
@@ -47,7 +48,7 @@ class BoundColumn(object):
     def html(self):
         """ Content of <td> tag
         """
-        return self.accessor.resolve(self.obj)
+        return self.column.as_html(self.obj)
 
     @property
     def attrs(self):
