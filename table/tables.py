@@ -48,7 +48,6 @@ class TableOptions(object):
         self.attrs = getattr(options, 'attrs', {})
 
         # inspect sorting option
-
         self.sort = []
         for column, order in getattr(options, 'sort', []):
             if not isinstance(column, int):
@@ -60,7 +59,6 @@ class TableOptions(object):
             self.sort.append((column, order))
             
         # options for table add-on
-
         self.search_placeholder = getattr(options, 'search_placeholder', u'搜索')
         self.info = getattr(options, 'info', u'总条目 _TOTAL_')
         self.zero_records = getattr(options, 'zero_records', u'无记录')
@@ -82,19 +80,16 @@ class TableMetaClass(type):
         columns, meta = [], None
 
         # extract declared columns and meta
-
         for attr_name, attr in attrs.items():
             if isinstance(attr, Column):
                 columns.append(attr)
             else:
                 meta = attr
-
         columns.sort(key=lambda x: x.instance_order)
         attrs['base_columns'] = columns
         attrs['opts'] = TableOptions(meta)
 
         # take class name in lowcase as table's default id
-
         if not attrs['opts'].id:
             attrs['opts'].id = name.lower()
 
