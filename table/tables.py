@@ -5,7 +5,8 @@
 from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
 from django.utils.datastructures import SortedDict
-from columns import Column, BoundColumns
+from columns import Column, BoundColumn
+import copy
 
 
 class BaseTable(object):
@@ -13,35 +14,23 @@ class BaseTable(object):
     def __init__(self, data=None):
         model = getattr(self.opts, 'model', None)
         if model:
-            self.queryset = model.objects.all()
+            self.data = model.objects.all()
+        elif isinstance(data, QuerySet) or isinstance(data, list):
+            self.data = data
         else:
-            if isinstance(data, QuerySet):
-                self.queryset = data
-            elif isinstance(data, list):
-                self.list = data
-            else:
-                raise ValueError("Model class or QuerySet-like object is required.")
+            raise ValueError("Model class or QuerySet-like object is required.")
         
-        self.columns = BoundColumns(self)
-    
-    @property
-    def data(self):
-        return self.queryset or self.list or []
-            
-            
-    @property
-    def columns(self):
-        print "aaaaaaaaa"
-        return self.columns
+        # Make a copy so that modifying this will not touch the class definition.
+        self.columns = copy.deepcopy(self.base_columns)
 
     @property
     def rows(self):
         rows = []
-        objects = self.queryset if hasattr(self, 'queryset') else self.list
-        for obj in objects:
+        for obj in self.data:
             row = SortedDict()
-            for col in self.columns:
-                row[col] = col.render(obj)
+            columns = [BoundColumn(obj, col) for col in self.columns]            
+            for col in columns:
+                row[col] = col.html
             rows.append(row)
         return rows
 
