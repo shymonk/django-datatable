@@ -65,12 +65,8 @@ class ColumnHeader(object):
 
     def __init__(self, text=None, attrs=None):
         self.text = text
-        self.attrs = attrs or {}
+        self.base_attrs = attrs or {}
         
-    def render_attrs(self):
-        """ Render attributes of <th> to html.
-        """
-        html = ''
-        for attr in self.attrs:
-            html = html + '{0}={1}'.format(attr, self.attrs.get(attr))
-        return html
+    @property
+    def attrs(self):
+        return " ".join(['%s=%s' % (attr_name, attr) for attr_name, attr in self.base_attrs.items()])
