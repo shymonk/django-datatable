@@ -45,7 +45,12 @@ class TableOptions(object):
     def __init__(self, options=None):
         self.model = getattr(options, 'model', None)
         self.id = getattr(options, 'id', None)
-        self.attrs = getattr(options, 'attrs', {})
+
+        # build attributes for <table> tag, use bootstrap
+        # css class "table table-boarded" as default style
+        attrs = getattr(options, 'attrs', {})
+        attrs['class'] = 'table table-bordered' + attrs.get('class', '')
+        self.attrs = " ".join(['%s=%s' % (attr_name, attr) for attr_name, attr in attrs.items()])
 
         # inspect sorting option
         self.sort = []

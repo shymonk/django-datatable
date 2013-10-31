@@ -46,23 +46,18 @@ class BoundColumn(object):
 
     @property
     def html(self):
-        """ Content of <td> tag
-        """
         return self.column.as_html(self.obj)
 
     @property
     def attrs(self):
-        """ Attributes of <td> tag
-        """
         attrs = []
         for attr_name, attr in self.base_attrs.items():
             if isinstance(attr, Accessor):
                 attr = attr.resolve(self.obj)
-            attrs.append("%s=%s" % (attr_name, attr))
+            attrs.append('%s=%s' % (attr_name, attr))
         return " ".join(attrs)
 
 class ColumnHeader(object):
-
     def __init__(self, text=None, attrs=None):
         self.text = text
         self.base_attrs = attrs or {}
