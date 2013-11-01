@@ -3,6 +3,7 @@
 
 
 from table.utils import Accessor
+from django.utils.safestring import mark_safe
 
 
 class Column(object):
@@ -50,12 +51,11 @@ class BoundColumn(object):
 
     @property
     def attrs(self):
-        attrs = []
+        context = self.obj
         for attr_name, attr in self.base_attrs.items():
             if isinstance(attr, Accessor):
-                attr = attr.resolve(self.obj)
-            attrs.append('%s=%s' % (attr_name, attr))
-        return " ".join(attrs)
+                self.base_attrs[attr_name] = attr.resolve(context)
+        return mark_safe(' '.join(['%s="%s"' % (attr_name, attr) for attr_name, attr in self.base_attrs.items()]))
 
 class ColumnHeader(object):
     def __init__(self, text=None, attrs=None):
@@ -64,4 +64,4 @@ class ColumnHeader(object):
         
     @property
     def attrs(self):
-        return " ".join(['%s=%s' % (attr_name, attr) for attr_name, attr in self.base_attrs.items()])
+        return mark_safe(' '.join(['%s="%s"' % (attr_name, attr) for attr_name, attr in self.base_attrs.items()]))
