@@ -1,7 +1,7 @@
 # Django-table
 ***
 
-![preview](http://redmine.funshion.com/redmine/attachments/download/55453/django-table-010.png)
+![preview](https://dl.dropboxusercontent.com/u/94696700/example.png)
 ***
 ## Overview
 <br>
