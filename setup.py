@@ -1,5 +1,5 @@
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 
 README = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
 
@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 setup(
     name='django-table',
     version='1.0.0',
-    packages=['table'],
+    packages=find_packages(exclude=['tests.*', 'tests', 'example.*', 'example']),
     include_package_data=True,
     license='BSD License',  # example license
     description='A simple Django app to origanize data in tabular form.',

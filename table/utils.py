@@ -24,6 +24,8 @@ class Accessor(str):
                 if isinstance(obj, dict):
                     obj = obj[level]
                 if isinstance(obj, models.Model):
+                    # for model field that has choice set
+                    # use get_xxx_display to access
                     display = 'get_%s_display' % level
                     obj = getattr(obj, display)() if hasattr(obj, display) else getattr(obj, level)
                 if not obj:
