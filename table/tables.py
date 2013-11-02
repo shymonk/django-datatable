@@ -50,7 +50,7 @@ class TableOptions(object):
         # css class "table table-boarded" as default style
         attrs = getattr(options, 'attrs', {})
         attrs['class'] = 'table table-bordered' + attrs.get('class', '')
-        self.attrs = " ".join(['%s=%s' % (attr_name, attr) for attr_name, attr in attrs.items()])
+        self.attrs = mark_safe(' '.join(['%s="%s"' % (attr_name, attr) for attr_name, attr in attrs.items()]))
 
         # inspect sorting option
         self.sort = []
