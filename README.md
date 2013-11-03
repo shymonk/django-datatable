@@ -1,14 +1,12 @@
 # Django-table
-***
 
 ![preview](https://dl.dropboxusercontent.com/u/94696700/example.png)
-***
+
 ## Overview
 <br>
 Django-table is a simple Django app to origanize data in tabular form.
 It is based on [datatable](http://datatables.net) and [bootstrap](http://getbootstrap.com/).
 
-***
 ## Requirement
 <br>
 
@@ -18,7 +16,6 @@ It is based on [datatable](http://datatables.net) and [bootstrap](http://getboot
 
 * Django 1.4+
 
-***
 ## Quick start
 <br>
 
@@ -88,7 +85,6 @@ Now define a PersonTable class without any options in table file.
         </html>
 
 <br>
-***
 ## DataSource
 <br>
 
@@ -123,7 +119,6 @@ Now define a PersonTable class without any options in table file.
             people = PersonTable(Person.objects.all())
             return render(request, "index.html", {'people': people})
 
-***
 ## Columns
 <br>
 
@@ -131,7 +126,6 @@ Now define a PersonTable class without any options in table file.
 
 * Link Column
 
-***
 ## Table Add-on
 <br>
 
@@ -145,7 +139,6 @@ Now define a PersonTable class without any options in table file.
 
 * extense-button
 
-***
 ## API Reference
 <br>
 ### Table Options
