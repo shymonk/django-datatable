@@ -23,7 +23,7 @@ class Column(object):
         self.instance_order = Column.instance_order
         Column.instance_order += 1
 
-    def as_html(self, obj):
+    def render(self, obj):
         return self.accessor.resolve(obj)
 
 class BoundColumn(object):
@@ -47,7 +47,7 @@ class BoundColumn(object):
 
     @property
     def html(self):
-        return self.column.as_html(self.obj)
+        return self.column.render(self.obj)
 
     @property
     def attrs(self):
