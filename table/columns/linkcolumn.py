@@ -13,7 +13,7 @@ class LinkColumn(Column):
         self.searchable = False
         self.safe = False
 
-    def render(self, obj):
+    def as_html(self, obj):
         return self.delimiter.join([link.as_html(obj) for link in self.links])
 
 class Link(object):

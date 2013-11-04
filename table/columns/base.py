@@ -3,6 +3,7 @@
 
 
 from table.utils import Accessor
+from django.utils.safestring import mark_safe
 
 
 class Column(object):
@@ -12,7 +13,7 @@ class Column(object):
     def __init__(self, field=None, sortable=True, searchable=True, safe=True,
                  visible=True, attrs=None, header=None, header_attrs=None):
         self.accessor = Accessor(field)
-        self.attrs = attrs
+        self.attrs = attrs or {}
         self.sortable = sortable
         self.searchable = searchable
         self.safe = safe
@@ -21,6 +22,9 @@ class Column(object):
 
         self.instance_order = Column.instance_order
         Column.instance_order += 1
+
+    def as_html(self, obj):
+        return self.accessor.resolve(obj)
 
 class BoundColumn(object):
     """ A run-time version of Column. The difference between 
@@ -32,9 +36,7 @@ class BoundColumn(object):
     def __init__(self, obj, column):
         self.obj = obj
         self.column = column
-
-        self.accessor = self.column.accessor
-        self.base_attrs = self.column.attrs
+        self.base_attrs = column.attrs
         
         # copy non-object-related attributes to self directly
         self.sortable = column.sortable
@@ -45,31 +47,24 @@ class BoundColumn(object):
 
     @property
     def html(self):
-        """ Content of <td> tag
-        """
-        return self.accessor.resolve(self.obj)
+        return self.column.as_html(self.obj)
 
     @property
     def attrs(self):
-        """ Attributes of <td> tag
-        """
-        attrs = []
+        attrs = {}
+        context = self.obj
         for attr_name, attr in self.base_attrs.items():
             if isinstance(attr, Accessor):
-                attr = attr.resolve(self.obj)
-            attrs.append("%s=%s" % (attr_name, attr))
-        return " ".join(attrs)
+                attrs[attr_name] = attr.resolve(context)
+            else:
+                attrs[attr_name] = attr
+        return mark_safe(' '.join(['%s="%s"' % (attr_name, attr) for attr_name, attr in attrs.items()]))
 
 class ColumnHeader(object):
-
-    def __init__(self, text=None, attrs={}):
+    def __init__(self, text=None, attrs=None):
         self.text = text
-        self.attrs = attrs
+        self.base_attrs = attrs or {}
         
-    def render_attrs(self):
-        """ Render attributes of <th> to html.
-        """
-        html = ''
-        for attr in self.attrs:
-            html = html + '{0}={1}'.format(attr, self.attrs.get(attr))
-        return html
+    @property
+    def attrs(self):
+        return mark_safe(' '.join(['%s="%s"' % (attr_name, attr) for attr_name, attr in self.base_attrs.items()]))

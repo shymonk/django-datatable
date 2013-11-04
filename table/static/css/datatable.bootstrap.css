@@ -17,7 +17,7 @@ div.dataTables_filter label {
 
 div.dataTables_filter input {
 	width: 16em;
-    border-right: 0px;
+    border-left: 0px;
     background-color: #FFFFFF;
 }
 
@@ -27,7 +27,7 @@ div.dataTables_filter .glyphicon-search:before {
 }
 
 .filter_icon {
-    border-left: 0px;
+    border-right: 0px;
     background-color: #FFFFFF;
 }
 

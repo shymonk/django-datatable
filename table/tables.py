@@ -27,6 +27,9 @@ class BaseTable(object):
     def rows(self):
         rows = []
         for obj in self.data:
+            # Binding object to each column of each row, so that
+            # data structure for each row is organized like this:
+            # { boundcol0: td, boundcol1: td, boundcol2: td }
             row = SortedDict()
             columns = [BoundColumn(obj, col) for col in self.columns]            
             for col in columns:
@@ -45,7 +48,12 @@ class TableOptions(object):
     def __init__(self, options=None):
         self.model = getattr(options, 'model', None)
         self.id = getattr(options, 'id', None)
-        self.attrs = getattr(options, 'attrs', {})
+
+        # build attributes for <table> tag, use bootstrap
+        # css class "table table-boarded" as default style
+        attrs = getattr(options, 'attrs', {})
+        attrs['class'] = 'table table-bordered' + attrs.get('class', '')
+        self.attrs = mark_safe(' '.join(['%s="%s"' % (attr_name, attr) for attr_name, attr in attrs.items()]))
 
         # inspect sorting option
         self.sort = []

@@ -6,7 +6,7 @@
 ## Overview
 <br>
 Django-table is a simple Django app to origanize data in tabular form.
-It is based on [datatable](http://datatables.net).
+It is based on [datatable](http://datatables.net) and [bootstrap](http://getbootstrap.com/).
 
 ***
 ## Requirement
@@ -300,6 +300,8 @@ In order to define the model datasource, customize attributes of the table, tabl
     * **attrs**:
     
       Html attributes for `<td>` tag.
+
+      Note: For object-related attribute, such as `<td title="xxx">`, use *Accessor* instance as attribute value. See example below.
     
       **type**: dict
     
@@ -326,9 +328,10 @@ In order to define the model datasource, customize attributes of the table, tabl
         # tables.py
         from table import Table
         from table.columns import Column
+        from table.utils import A
         class PersonTable(Table):
-            name = Column(field='name', attrs={'class': 'custom'}, header=u'姓名', header_attrs={'width': '50%'})
-            addr = Column(field='age', header=u'年龄', header_attrs={'width': '50%'})
+            name = Column(field='name', header=u'姓名', attrs={'class': 'custom'}, header_attrs={'width': '50%'})
+            addr = Column(field='addr', header=u'年龄', attrs={'title': A('addr')}, header_attrs={'width': '50%'})
 
 * #### LinkColumn
 
