@@ -323,6 +323,39 @@ In order to define the model datasource, customize attributes of the table, tabl
     
       **default**: None
 
+    * **sortable**:
+    
+      If `False`, this column will not be allowed used for sorting.
+    
+      **type**: bool
+    
+      **default**: True
+
+    * **searchable**:
+    
+      If `False`, this column will not be allowed used for searching.
+    
+      **type**: bool
+    
+      **default**: True
+
+    * **safe**:
+    
+      If `True`, add [safe](https://docs.djangoproject.com/en/dev/ref/templates/builtins/#safe)
+      filter to column string. 
+    
+      **type**: bool
+    
+      **default**: True
+
+    * **visible**:
+    
+      If `False`, this column will not be included in HTML output.
+    
+      **type**: bool
+    
+      **default**: True
+
     Example:
 
         # tables.py
