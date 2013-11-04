@@ -52,6 +52,4 @@ class Link(object):
         return url
     
     def as_html(self, obj):
-        url = self.resolve(obj)
-        html = '<a href="%s">%s</a>' % (url, self.text)
-        return mark_safe(html)
+        return mark_safe('<a href="%s">%s</a>' % (self.resolve(obj), self.text))
