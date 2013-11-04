@@ -51,11 +51,14 @@ class BoundColumn(object):
 
     @property
     def attrs(self):
+        attrs = {}
         context = self.obj
         for attr_name, attr in self.base_attrs.items():
             if isinstance(attr, Accessor):
-                self.base_attrs[attr_name] = attr.resolve(context)
-        return mark_safe(' '.join(['%s="%s"' % (attr_name, attr) for attr_name, attr in self.base_attrs.items()]))
+                attrs[attr_name] = attr.resolve(context)
+            else:
+                attrs[attr_name] = attr
+        return mark_safe(' '.join(['%s="%s"' % (attr_name, attr) for attr_name, attr in attrs.items()]))
 
 class ColumnHeader(object):
     def __init__(self, text=None, attrs=None):
