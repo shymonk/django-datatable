@@ -13,8 +13,8 @@ class LinkColumn(Column):
         self.searchable = False
         self.safe = False
 
-    def as_html(self, obj):
-        return self.delimiter.join([link.as_html(obj) for link in self.links])
+    def render(self, obj):
+        return self.delimiter.join([link.render(obj) for link in self.links])
 
 class Link(object):
     """ Represents a link element in html.
@@ -51,7 +51,5 @@ class Link(object):
             url = ''
         return url
     
-    def as_html(self, obj):
-        url = self.resolve(obj)
-        html = '<a href="%s">%s</a>' % (url, self.text)
-        return mark_safe(html)
+    def render(self, obj):
+        return mark_safe('<a href="%s">%s</a>' % (self.resolve(obj), self.text))
