@@ -12,14 +12,14 @@ import copy
 class BaseTable(object):
 
     def __init__(self, data=None):
-        model = getattr(self.opts, 'model', None)
-        if model:
-            self.data = model.objects.all()
-        elif isinstance(data, QuerySet) or isinstance(data, list):
+        if isinstance(data, QuerySet) or isinstance(data, list):
             self.data = data
         else:
-            raise ValueError("Model class or QuerySet-like object is required.")
-        
+            model = getattr(self.opts, 'model', None)
+            if not model:
+                raise ValueError("Model class or QuerySet-like object is required.")
+            self.data = model.objects.all()
+
         # Make a copy so that modifying this will not touch the class definition.
         self.columns = copy.deepcopy(self.base_columns)
 
