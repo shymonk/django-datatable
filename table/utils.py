@@ -24,7 +24,7 @@ class Accessor(str):
                 if isinstance(obj, dict):
                     obj = obj[level]
                 elif isinstance(obj, models.Model):
-                    if callable(level):
+                    if callable(getattr(obj, level)):
                         obj = getattr(obj, level)()
                     else:
                         # for model field that has choice set
