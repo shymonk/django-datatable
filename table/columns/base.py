@@ -7,6 +7,8 @@ from django.utils.safestring import mark_safe
 
 
 class Column(object):
+    """ Represents a single column.
+    """
     
     instance_order = 0
 
