@@ -2,6 +2,7 @@
 
 
 ![preview](https://dl.dropboxusercontent.com/u/94696700/example.png)
+
 ***
 ## Overview
 <br>
@@ -417,3 +418,5 @@ In order to define the model datasource, customize attributes of the table, tabl
 
 ### Custom Column
 If you want full control over the way the column is rendered, ignore the built-in Columns, and instead place an instance of Column subclass into your Table.
+
+
