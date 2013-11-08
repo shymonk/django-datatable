@@ -7,6 +7,8 @@ from django.utils.safestring import mark_safe
 
 
 class Column(object):
+    """ Represents a single column.
+    """
     
     instance_order = 0
 
@@ -23,7 +25,7 @@ class Column(object):
         self.instance_order = Column.instance_order
         Column.instance_order += 1
 
-    def as_html(self, obj):
+    def render(self, obj):
         return self.accessor.resolve(obj)
 
 class BoundColumn(object):
@@ -47,15 +49,18 @@ class BoundColumn(object):
 
     @property
     def html(self):
-        return self.column.as_html(self.obj)
+        return self.column.render(self.obj)
 
     @property
     def attrs(self):
+        attrs = {}
         context = self.obj
         for attr_name, attr in self.base_attrs.items():
             if isinstance(attr, Accessor):
-                self.base_attrs[attr_name] = attr.resolve(context)
-        return mark_safe(' '.join(['%s="%s"' % (attr_name, attr) for attr_name, attr in self.base_attrs.items()]))
+                attrs[attr_name] = attr.resolve(context)
+            else:
+                attrs[attr_name] = attr
+        return mark_safe(' '.join(['%s="%s"' % (attr_name, attr) for attr_name, attr in attrs.items()]))
 
 class ColumnHeader(object):
     def __init__(self, text=None, attrs=None):

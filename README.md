@@ -1,7 +1,8 @@
 # Django-table
 
-![preview](https://dl.dropboxusercontent.com/u/94696700/example.png)
 
+![preview](https://dl.dropboxusercontent.com/u/94696700/example.png)
+***
 ## Overview
 <br>
 Django-table is a simple Django app to origanize data in tabular form.
@@ -256,7 +257,7 @@ In order to define the model datasource, customize attributes of the table, tabl
 
   **default**: u"Next"
 
-* #### ext_button_link
+* <h4 id="ext_button_link">ext_button_link</h4>
   The link for extense button(top-left corner). If provided, it will rendered as `<button href="ext_button_link">`,
   else, the extense button will be hided.
 
@@ -264,7 +265,7 @@ In order to define the model datasource, customize attributes of the table, tabl
 
   **default**: None
 
-* #### ext_button_text
+* <h4 id="ext_button_text">ext_button_text</h4>
   The text to use for extense button(top-left corner).
 
   **type**: unicode
@@ -315,6 +316,39 @@ In order to define the model datasource, customize attributes of the table, tabl
       **type**: dict
     
       **default**: None
+
+    * **sortable**:
+    
+      If `False`, this column will not be allowed used for sorting.
+    
+      **type**: bool
+    
+      **default**: True
+
+    * **searchable**:
+    
+      If `False`, this column will not be allowed used for searching.
+    
+      **type**: bool
+    
+      **default**: True
+
+    * **safe**:
+    
+      If `True`, add [safe](https://docs.djangoproject.com/en/dev/ref/templates/builtins/#safe)
+      filter to column string. 
+    
+      **type**: bool
+    
+      **default**: True
+
+    * **visible**:
+    
+      If `False`, this column will not be included in HTML output.
+    
+      **type**: bool
+    
+      **default**: True
 
     Example:
 
