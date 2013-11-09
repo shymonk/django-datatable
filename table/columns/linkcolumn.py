@@ -19,13 +19,16 @@ class LinkColumn(Column):
 class Link(object):
     """ Represents a link element in html.
     """
-    def __init__(self, text, viewname, args=[], kwargs={}, urlconf=None, current_app=None):
+    def __init__(self, text, viewname, args=None, kwargs=None, urlconf=None,
+                 current_app=None, confirm=False, confirm_text=None):
         self.text = text
         self.viewname = viewname
-        self.args = args
-        self.kwargs = kwargs
+        self.args = args or []
+        self.kwargs = kwargs or {}
         self.urlconf = urlconf
         self.current_app = current_app
+        self.confirm = confirm
+        self.confirm_text = confirm_text
 
     def resolve(self, obj):
         """ Resolving URL paths to the corresponding object. See:
@@ -52,4 +55,9 @@ class Link(object):
         return url
     
     def render(self, obj):
-        return mark_safe('<a href="%s">%s</a>' % (self.resolve(obj), self.text))
+        if self.confirm:
+            return mark_safe('''<a href="%s" onclick="return confirm('%s')">%s</a>''' % 
+                             (self.resolve(obj), self.confirm_text, self.text))
+        else:
+            return mark_safe('<a href="%s">%s</a>' % (self.resolve(obj), self.text))
+

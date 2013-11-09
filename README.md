@@ -414,6 +414,8 @@ In order to define the model datasource, customize attributes of the table, tabl
     * **kwargs**: key-value form for args
     * **urlconf**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
     * **current_app**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+    * **confirm**: If *True*, show confirmation dialog when link is clicked, Default is *False*.
+    * **confirm_text**: Text of confirmation dialog, Default is *None*.
 
 
 ### Custom Column
