@@ -20,7 +20,7 @@ class LinkColumnTable(Table):
     id = Column(field='id', header=u'序号', header_attrs={'width': '33%'})
     name = Column(field='name', header=u'姓名', header_attrs={'width': '33%'})
     action = LinkColumn(header=u'操作', header_attrs={'width': '33%'}, links=[
-        Link(text=u'编辑', viewname='app.views.edit', args=('id',), confirm=True, confirm_text=u"确定吗？")])
+        Link(text=u'编辑', viewname='app.views.edit', args=('id',), confirm=u"确定吗？")])
 
     class Meta:
         model = Person
