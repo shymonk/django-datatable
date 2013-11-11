@@ -408,7 +408,7 @@ In order to define the model datasource, customize attributes of the table, tabl
     Represents a label `<a>` with hyperlink, it will render as `<a  href="http://example.com">text</a>`
 
     **Parameters:**
-    * **text**: content of tag `<a>`
+    * **text**: content of tag `<a>`, a unicode string or a *Accessor* instance.
     * **viewname**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
     * **args**: field names of model corresponded to the value that passed to the url pattern, see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
     * **kwargs**: key-value form for args
