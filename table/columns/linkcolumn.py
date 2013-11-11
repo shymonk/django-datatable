@@ -60,7 +60,7 @@ class Link(object):
         url = self.resolve(obj)
         text = self.text.resolve(obj) if isinstance(self.text, Accessor) else self.text
         if self.onclick:
-            onclick = self.onclick + '(' + url + ')'
+            onclick = self.onclick + "('" + url + "')"
             return mark_safe(u'<a href="javascript:void(0)" onclick="%s">%s</a>' % (onclick, text))
         else:
             return mark_safe(u'<a href="%s">%s</a>' % (url, text))
