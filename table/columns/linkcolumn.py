@@ -3,6 +3,7 @@
 
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.utils.safestring import mark_safe
+from table.utils import Accessor
 from .base import Column
 
 class LinkColumn(Column):
@@ -56,9 +57,10 @@ class Link(object):
     def render(self, obj):
         """ Render link as HTML output tag <a>.
         """
+        text = self.text.resolve(obj) if isinstance(self.text, Accessor) else self.text
         if self.confirm:
             return mark_safe('''<a href="%s" onclick="return confirm('%s')">%s</a>''' % 
-                             (self.resolve(obj), self.confirm, self.text))
+                             (self.resolve(obj), self.confirm, text))
         else:
-            return mark_safe('<a href="%s">%s</a>' % (self.resolve(obj), self.text))
+            return mark_safe('<a href="%s">%s</a>' % (self.resolve(obj), text))
 
