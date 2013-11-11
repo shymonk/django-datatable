@@ -15,7 +15,6 @@ class TableNode(template.Node):
         t = template.loader.get_template("table/table.html")
         return t.render(context)
 
-
 @register.tag
 def render_table(parser, token):
     try:
@@ -24,3 +23,7 @@ def render_table(parser, token):
         msg = '%r tag requires a single arguments' % token.split_contents()[0]
         raise template.TemplateSyntaxError(msg)
     return TableNode(table)
+
+@register.inclusion_tag('table/table_js.html')
+def render_js_for(table):
+    return {'table': table}

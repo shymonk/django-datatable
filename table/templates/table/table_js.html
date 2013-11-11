@@ -1,0 +1,53 @@
+<script type="text/javascript" charset="utf-8">
+    $('#{{ table.opts.id }}').dataTable({
+        "sDom": "<'row'<'col-md-9 ext-btn'><'col-md-3'f>r>t<'row'<'col-md-3'i><'col-md-6 col-md-offset-2'p><'col-md-1'l>>",
+        "bAutoWidth": false,
+		"sPaginationType": "bootstrap",
+        "aaSorting": [
+            {% for index, order in table.opts.sort %}
+            [ {{ index }}, "{{ order }}" ],
+            {% endfor %}
+         ],
+        "aoColumns": [
+            {% for column in table.columns %}
+            {
+                {% if not column.searchable %}
+                "bSearchable": false,
+                {% endif %}
+                {% if not column.sortable %}
+                "bSortable": false,
+                {% endif %}
+                {% if not column.visible %}
+                "bVisible": false,
+                {% endif %}
+            },
+            {% endfor %}
+        ],
+            "oLanguage": {
+            "sLengthMenu": "_MENU_",
+            "sSearch": "",
+            "sInfo": "{{ table.opts.info }}",
+            "sInfoEmpty": "{{ table.opts.info }}",
+            "sZeroRecords": "{{ table.opts.zero_records }}",
+            "sInfoFiltered": "",
+            "oPaginate": {
+                "sFirst": "{{ table.opts.page_first }}",
+                "sLast": "{{ table.opts.page_last }}",
+                "sNext": "{{ table.opts.page_next }}",
+                "sPrevious": "{{ table.opts.page_prev }}"
+            }
+        },
+        "fnPreDrawCallback": function(oSettings, json) {
+            $('.dataTables_filter input').addClass('form-control input');
+            $('.dataTables_filter input').attr("placeholder", "{{ table.opts.search_placeholder }}");
+            $('.dataTables_length select').addClass('form-control input');
+            $('.dataTables_info').addClass('form-control input');
+        },
+        "fnInitComplete": function(oSettings, json) {
+            $('.dataTables_filter input').wrap('<div class="input-group"></div>');
+            $('.dataTables_filter input').before('<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>');
+            $('.dataTables_filter span').addClass('filter_icon');
+            $('.ext-btn').append('{{ table.render_ext_button }}');
+        }
+    });
+</script>
