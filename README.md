@@ -414,9 +414,6 @@ In order to define the model datasource, customize attributes of the table, tabl
     * **kwargs**: key-value form for args
     * **urlconf**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
     * **current_app**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
-    * **confirm**: A string represents information in confirmation dialog.
-        If not *None*, show confirmation dialog when link is clicked, Default is *None*.
-
 
 ### Custom Column
 If you want full control over the way the column is rendered, ignore the built-in Columns, and instead place an instance of Column subclass into your Table.

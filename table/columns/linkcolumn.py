@@ -21,14 +21,13 @@ class Link(object):
     """ Represents a link element in html.
     """
     def __init__(self, text, viewname, args=None, kwargs=None, urlconf=None,
-                 current_app=None, confirm=None):
+                 current_app=None):
         self.text = text
         self.viewname = viewname
         self.args = args or []
         self.kwargs = kwargs or {}
         self.urlconf = urlconf
         self.current_app = current_app
-        self.confirm = confirm
 
     def resolve(self, obj):
         """ Resolving URL paths to the corresponding object. See:
@@ -58,9 +57,5 @@ class Link(object):
         """ Render link as HTML output tag <a>.
         """
         text = self.text.resolve(obj) if isinstance(self.text, Accessor) else self.text
-        if self.confirm:
-            return mark_safe(u'''<a href="%s" onclick="return confirm('%s')">%s</a>''' % 
-                             (self.resolve(obj), self.confirm, text))
-        else:
-            return mark_safe(u'<a href="%s">%s</a>' % (self.resolve(obj), text))
+        return mark_safe(u'<a href="%s">%s</a>' % (self.resolve(obj), text))
 
