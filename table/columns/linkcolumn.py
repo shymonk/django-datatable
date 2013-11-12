@@ -3,6 +3,7 @@
 
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.utils.safestring import mark_safe
+from table.utils import Accessor
 from .base import Column
 
 class LinkColumn(Column):
@@ -20,15 +21,14 @@ class Link(object):
     """ Represents a link element in html.
     """
     def __init__(self, text, viewname, args=None, kwargs=None, urlconf=None,
-                 current_app=None, confirm=False, confirm_text=None):
+                 current_app=None, onclick=None):
         self.text = text
         self.viewname = viewname
         self.args = args or []
         self.kwargs = kwargs or {}
         self.urlconf = urlconf
         self.current_app = current_app
-        self.confirm = confirm
-        self.confirm_text = confirm_text
+        self.onclick = onclick
 
     def resolve(self, obj):
         """ Resolving URL paths to the corresponding object. See:
@@ -55,9 +55,13 @@ class Link(object):
         return url
     
     def render(self, obj):
-        if self.confirm:
-            return mark_safe('''<a href="%s" onclick="return confirm('%s')">%s</a>''' % 
-                             (self.resolve(obj), self.confirm_text, self.text))
+        """ Render link as HTML output tag <a>.
+        """
+        url = self.resolve(obj)
+        text = self.text.resolve(obj) if isinstance(self.text, Accessor) else self.text
+        if self.onclick:
+            onclick = self.onclick + "('" + url + "')"
+            return mark_safe(u'<a href="javascript:void(0)" onclick="%s">%s</a>' % (onclick, text))
         else:
-            return mark_safe('<a href="%s">%s</a>' % (self.resolve(obj), self.text))
+            return mark_safe(u'<a href="%s">%s</a>' % (url, text))
 
