@@ -109,3 +109,4 @@ class TableMetaClass(type):
 
 
 Table = TableMetaClass('Table', (BaseTable,), {})
+
