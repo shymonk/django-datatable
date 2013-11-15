@@ -49,7 +49,7 @@ class BoundColumn(object):
 
     @property
     def html(self):
-        return self.column.render(self.obj)
+        return self.column.render(self.obj) or ''
 
     @property
     def attrs(self):

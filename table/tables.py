@@ -7,7 +7,7 @@ from django.utils.safestring import mark_safe
 from django.utils.datastructures import SortedDict
 from columns import Column, BoundColumn
 import copy
-
+import traceback
 
 class BaseTable(object):
 
@@ -26,15 +26,19 @@ class BaseTable(object):
     @property
     def rows(self):
         rows = []
-        for obj in self.data:
-            # Binding object to each column of each row, so that
-            # data structure for each row is organized like this:
-            # { boundcol0: td, boundcol1: td, boundcol2: td }
-            row = SortedDict()
-            columns = [BoundColumn(obj, col) for col in self.columns]            
-            for col in columns:
-                row[col] = col.html
-            rows.append(row)
+        try:
+            for obj in self.data:
+                # Binding object to each column of each row, so that
+                # data structure for each row is organized like this:
+                # { boundcol0: td, boundcol1: td, boundcol2: td }
+                row = SortedDict()
+                columns = [BoundColumn(obj, col) for col in self.columns]            
+                for col in columns:
+                    row[col] = col.html
+                rows.append(row)
+        except Exception, e:
+            print e
+            print traceback.format_exc()
         return rows
 
     def render_ext_button(self):
@@ -105,3 +109,4 @@ class TableMetaClass(type):
 
 
 Table = TableMetaClass('Table', (BaseTable,), {})
+
