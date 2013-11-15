@@ -12,5 +12,6 @@ class DatetimeColumn(Column):
         self.format = format or DatetimeColumn.DEFAULT_FORMAT
 
     def render(self, obj):
-        return obj.strftime(self.format)
+        datetime = super(DatetimeColumn, self).render(obj)
+        return datetime.strftime(self.format)
             
