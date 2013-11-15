@@ -65,7 +65,7 @@ Now define a PersonTable class without any options in table file.
 
         {# example/templates/index.html}
         {% load static %}
-        {% load table %}
+        {% load table_tags %}
 
         <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
         <script src="{% static 'js/jquery.min.js' %}"></script>
