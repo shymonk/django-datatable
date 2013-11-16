@@ -258,7 +258,7 @@ In order to define the model datasource, customize attributes of the table, tabl
 
   **default**: u"Next"
 
-* <h4 id="ext_button_link">ext_button_link</h4>
+* #### ext\_button\_link
   The link for extense button(top-left corner). If provided, it will rendered as `<button href="ext_button_link">`,
   else, the extense button will be hided.
 
@@ -266,7 +266,7 @@ In order to define the model datasource, customize attributes of the table, tabl
 
   **default**: None
 
-* <h4 id="ext_button_text">ext_button_text</h4>
+* #### ext\_button\_text
   The text to use for extense button(top-left corner).
 
   **type**: unicode
