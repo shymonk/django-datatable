@@ -94,7 +94,8 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
 
     {% render_table table %}
 
-Sometimes, you may want to change attributes of table cell via javascript before pagination, put your own javascript code block between `{% render_table_content %}` and `{% render_table_js %}`.
+Sometimes, you may want to change attributes of table cell via javascript before pagination,
+put your own javascript code block between `{% render_table_content %}` and `{% render_table_js %}`.
 For example:
 
 	{% render_table_content table %}
