@@ -18,45 +18,52 @@ class LinkColumn(Column):
         return self.delimiter.join([link.render(obj) for link in self.links])
 
 class Link(object):
-    """ Represents a link element in html.
+    """
+    Represents a html <a> tag.
     """
     def __init__(self, text, viewname, args=None, kwargs=None, urlconf=None,
                  current_app=None):
-        self.text = text
+        self.basetext = text
         self.viewname = viewname
         self.args = args or []
         self.kwargs = kwargs or {}
         self.urlconf = urlconf
         self.current_app = current_app
 
-    def resolve(self, obj):
-        """ Resolving URL paths to the corresponding object. See:
-            https://docs.djangoproject.com/en/dev/ref/urlresolvers/#reverse
-        """
-        viewname = self.viewname
-        params = {}
+    @property
+    def text(self):
+        if isinstance(self.basetext, Accessor):
+            return self.basetext.resolve(self.obj)
+        return self.basetext
 
+    @property
+    def url(self):
+        # The following params + if statements create optional arguments to
+        # pass to Django's reverse() function.
+        params = {}
         if self.args:
-            params['args'] = [getattr(obj, attr) for attr in self.args]
+            params['args'] = [arg.resolve(self.obj)
+                              if isinstance(arg, Accessor) else arg
+                              for arg in self.args]
         if self.kwargs:
             params['kwargs'] = {}
             for key, value in self.kwargs.itmes:
-                params['kwargs'][key] = getattr(obj, value)
+                params['kwargs'][key] = (value.resolve(self.obj)
+                                         if isinstance(value, Accessor) else value)        
         if self.urlconf:
-            params['urlconf'] = self.urlconf
+            params['urlconf'] = (self.urlconf.resolve(self.obj)
+                                 if isinstance(self.urlconf, Accessor)
+                                 else self.urlconf)
         if self.current_app:
-            params['current_app'] = self.current_app
+            params['current_app'] = (self.current_app.resolve(self.obj)
+                                     if isinstance(self.current_app, Accessor)
+                                     else self.current_app)
 
-        try:
-            url = reverse(viewname, **params)
-        except NoReverseMatch:
-            url = ''
-        return url
+        return reverse(self.viewname, **params)
     
     def render(self, obj):
         """ Render link as HTML output tag <a>.
         """
-        url = self.resolve(obj)
-        text = self.text.resolve(obj) if isinstance(self.text, Accessor) else self.text
-        return mark_safe(u'<a href="%s">%s</a>' % (url, text))
+        self.obj = obj
+        return mark_safe(u'<a href="%s">%s</a>' % (self.url, self.text))
 
