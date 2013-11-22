@@ -87,6 +87,22 @@ Now define a PersonTable class without any options in table file.
         </html>
 
 <br>
+## Tag
+<br>
+
+Render the whole table by simple tag `{% render_table %}`, pass `Table` instance as single argument.
+
+    {% render_table table %}
+
+Sometimes, you may want to change attributes of table cell via javascript before pagination, put your own javascript code block between `{% render_table_content %}` and `{% render_table_js %}`.
+For example:
+
+	{% render_table_content table %}
+	<script>
+	...
+	</script>
+	{% render_table_js table %} 
+
 ## DataSource
 <br>
 
