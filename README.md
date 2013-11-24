@@ -380,7 +380,7 @@ In order to define the model datasource, customize attributes of the table, tabl
 
 * #### LinkColumn
 
-    class *table.columns*.***LinkColumn***(*links*, *delimiter=' '*, **args*, ***kwrags*)
+    ##### class *table.columns*.***LinkColumn***(*links*, *delimiter=' '*, **args*, ***kwrags*)
 
     Column with hyperlinks that link to another page, such as update, delete.
 
@@ -420,14 +420,14 @@ In order to define the model datasource, customize attributes of the table, tabl
         class PersonTable(Table):
             action = LinkColumn(header=u'操作', links=[Link(text=u'编辑', viewname='app.views.edit', args=('id',)),]
 
-    class *table.columns*.***Link***(*text*, *viewname*, *args=[]*, *kwargs={}*, *urlconf=None*, *current_app=None*)
+    ##### class *table.columns*.***Link***(*text*, *viewname*, *args=[]*, *kwargs={}*, *urlconf=None*, *current_app=None*)
 
     Represents a label `<a>` with hyperlink, it will render as `<a  href="http://example.com">text</a>`
 
     **Parameters:**
     * **text**: content of tag `<a>`, a unicode string or a *Accessor* instance.
     * **viewname**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
-    * **args**: field names of model corresponded to the value that passed to the url pattern, see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+    * **args**: *Accessor* instance that represents field name of model corresponded to the value that passed to the url pattern, see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
     * **kwargs**: key-value form for args
     * **urlconf**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
     * **current_app**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
