@@ -11,7 +11,6 @@ class LinkColumn(Column):
         super(LinkColumn, self).__init__(*args, **kwargs)
         self.links = links
         self.delimiter = delimiter
-        self.searchable = False
         self.safe = False
 
     def render(self, obj):
