@@ -1,16 +1,13 @@
 # Django-table
 
-
 ![preview](https://dl.dropboxusercontent.com/u/94696700/example.png)
 
-***
 ## Overview
-<br>
+
 Django-table is a simple Django app to origanize data in tabular form.
 It is based on [datatable](http://datatables.net) and [bootstrap](http://getbootstrap.com/).
 
 ## Requirement
-<br>
 
 * jQuery 1.6+
 
@@ -19,7 +16,6 @@ It is based on [datatable](http://datatables.net) and [bootstrap](http://getboot
 * Django 1.4+
 
 ## Quick start
-<br>
 
 - Setup Django-table application in Python environment:
 
@@ -86,9 +82,7 @@ Now define a PersonTable class without any options in table file.
             </body>
         </html>
 
-<br>
 ## Tag
-<br>
 
 Render the whole table by simple tag `{% render_table %}`, pass `Table` instance as single argument.
 
@@ -96,7 +90,6 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
 
 
 ## DataSource
-<br>
 
 * Model
 
@@ -130,14 +123,12 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
             return render(request, "index.html", {'people': people})
 
 ## Columns
-<br>
 
 * Column
 
 * Link Column
 
 ## Table Add-on
-<br>
 
 * search-box
 
@@ -150,7 +141,7 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
 * extense-button
 
 ## API Reference
-<br>
+
 ### Table Options
 In order to define the model datasource, customize attributes of the table, table options provides a way to define global settings for table.
 
