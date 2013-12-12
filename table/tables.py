@@ -5,8 +5,10 @@ from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
 from django.utils.datastructures import SortedDict
 from columns import Column, BoundColumn
+from addon import *
 import copy
 import traceback
+
 
 class BaseTable(object):
 
@@ -21,6 +23,24 @@ class BaseTable(object):
 
         # Make a copy so that modifying this will not touch the class definition.
         self.columns = copy.deepcopy(self.base_columns)
+
+        # Build table add-ons
+        kwargs = {}
+        if not self.opts.disable_search:
+            kwargs['search_box'] = TableSearchBox(self.opts.search_placeholder)
+        if not self.opts.disable_info:
+            kwargs['info_label'] = TableInfoLabel(self.opts.info_format)
+        if not self.opts.disable_pagination:
+            kwargs['pagination'] = TablePagination(self.opts.pagination_first,
+                                                   self.opts.pagination_last,
+                                                   self.opts.pagination_prev,
+                                                   self.opts.pagination_next)
+        if not self.opts.disable_length_menu:
+            kwargs['length_menu'] = TableLengthMenu()
+        if self.opts.ext_button_link:
+            kwargs['ext_button'] = TableExtButton(self.opts.ext_button_text,
+                                                  self.opts.ext_button_link)
+        self.addons = TableAddons(**kwargs)
 
     @property
     def rows(self):
@@ -40,8 +60,14 @@ class BaseTable(object):
             print traceback.format_exc()
         return rows
 
-    def render_ext_button(self):
-        return ''
+class TableAddons(object):
+    def __init__(self, search_box=None, info_label=None, pagination=None,
+                 length_menu=None, ext_button=None):
+        self.search_box = search_box
+        self.info_label = info_label
+        self.pagination = pagination
+        self.length_menu = length_menu
+        self.ext_button = ext_button
 
 class TableOptions(object):
     def __init__(self, clsname, options=None):
@@ -68,17 +94,25 @@ class TableOptions(object):
             self.sort.append((column, order))
             
         # options for table add-on
-        self.search_placeholder = getattr(options, 'search_placeholder', u'搜索')
-        self.info = getattr(options, 'info', u'总条目 _TOTAL_')
-        self.zero_records = getattr(options, 'zero_records', u'无记录')
+        self.disable_search = getattr(options, 'disable_search', False)
+        self.search_placeholder = getattr(options, 'search_placeholder', None)
+        self.search_dom = getattr(options, 'search_dom', None)
 
-        self.page_first = getattr(options, 'page_first', '首页')
-        self.page_last = getattr(options, 'page_last', '末页')
-        self.page_prev = getattr(options, 'page_prev', '上一页')
-        self.page_next = getattr(options, 'page_next', '下一页')
+        self.disable_info = getattr(options, 'disable_info', False)
+        self.info_format = getattr(options, 'info_format', None)
 
-        self.ext_button_text = getattr(options, 'ext_button_text', u'添加记录 +')
+        self.disable_pagination = getattr(options, 'disable_pagination', False)
+        self.pagination_first = getattr(options, 'pagination_first', None)
+        self.pagination_last = getattr(options, 'pagination_last', None)
+        self.pagination_prev = getattr(options, 'pagination_prev', None)
+        self.pagination_next = getattr(options, 'pagination_next', None)
+
+        self.disable_length_menu = getattr(options, 'disable_length_menu', False)
+
+        self.ext_button_text = getattr(options, 'ext_button_text', None)
         self.ext_button_link = getattr(options, 'ext_button_link', None)
+
+        self.zero_records = getattr(options, 'zero_records', u'No records')
 
 
 class TableMetaClass(type):

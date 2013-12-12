@@ -65,20 +65,20 @@ $( function() {
             "oLanguage": {
             "sLengthMenu": "_MENU_",
             "sSearch": "",
-            "sInfo": "{{ table.opts.info }}",
-            "sInfoEmpty": "{{ table.opts.info }}",
+            "sInfo": "{{ table.addons.info_label.format }}",
+            "sInfoEmpty": "{{ table.addons.info_label.format }}",
             "sZeroRecords": "{{ table.opts.zero_records }}",
             "sInfoFiltered": "",
             "oPaginate": {
-                "sFirst": "{{ table.opts.page_first }}",
-                "sLast": "{{ table.opts.page_last }}",
-                "sNext": "{{ table.opts.page_next }}",
-                "sPrevious": "{{ table.opts.page_prev }}"
+                "sFirst": "{{ table.addons.pagination.first }}",
+                "sLast": "{{ table.addons.pagination.last }}",
+                "sNext": "{{ table.addons.pagination.next }}",
+                "sPrevious": "{{ table.addons.pagination.prev }}"
             }
         },
         "fnPreDrawCallback": function(oSettings, json) {
             $('.dataTables_filter input').addClass('form-control input');
-            $('.dataTables_filter input').attr("placeholder", "{{ table.opts.search_placeholder }}");
+            $('.dataTables_filter input').attr("placeholder", "{{ table.addons.search_box.placeholder }}");
             $('.dataTables_length select').addClass('form-control input');
             $('.dataTables_info').addClass('form-control input');
         },
@@ -86,7 +86,7 @@ $( function() {
             $('.dataTables_filter input').wrap('<div class="input-group"></div>');
             $('.dataTables_filter input').before('<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>');
             $('.dataTables_filter span').addClass('filter_icon');
-            $('.ext-btn').append('{{ table.render_ext_button }}');
+            $('.ext-btn').append('{{ table.addons.ext_button.html }}');
         }
     });
 });

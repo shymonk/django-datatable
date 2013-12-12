@@ -15,3 +15,4 @@ class PersonTable(Table):
     class Meta:
         model = Person
         ext_button_link = "http://www.baidu.com"
+        ext_button_text = "Add +"
