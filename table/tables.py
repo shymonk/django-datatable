@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-
 from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
 from django.utils.datastructures import SortedDict
@@ -42,16 +41,14 @@ class BaseTable(object):
         return rows
 
     def render_ext_button(self):
-        html = ''
-        if self.opts.ext_button_link:
-            html = '<a href="%s" target="_blank" class="btn btn-default">%s</a>' % \
-                (self.opts.ext_button_link, self.opts.ext_button_text)
-        return mark_safe(html)
+        return ''
 
 class TableOptions(object):
-    def __init__(self, options=None):
+    def __init__(self, clsname, options=None):
         self.model = getattr(options, 'model', None)
-        self.id = getattr(options, 'id', None)
+
+        # take class name in lowcase as default id of <table>
+        self.id = getattr(options, 'id', clsname.lower())
 
         # build attributes for <table> tag, use bootstrap
         # css class "table table-boarded" as default style
@@ -99,11 +96,7 @@ class TableMetaClass(type):
                 meta = attr
         columns.sort(key=lambda x: x.instance_order)
         attrs['base_columns'] = columns
-        attrs['opts'] = TableOptions(meta)
-
-        # take class name in lowcase as table's default id
-        if not attrs['opts'].id:
-            attrs['opts'].id = name.lower()
+        attrs['opts'] = TableOptions(name, meta)
 
         return super(TableMetaClass, cls).__new__(cls, name, bases, attrs)
 
