@@ -69,6 +69,18 @@ class TableAddons(object):
         self.length_menu = length_menu
         self.ext_button = ext_button
 
+    def render_dom(self):
+        dom = "<'row'"
+        for addon in [self.ext_button, self.search_box]:
+            if addon:
+                dom += addon.dom
+        dom += "r>t<'row'"
+        for addon in [self.info_label, self.pagination, self.length_menu]:
+            if addon:
+                dom += addon.dom
+        dom += ">"
+        return mark_safe(dom)
+
 class TableOptions(object):
     def __init__(self, clsname, options=None):
         self.model = getattr(options, 'model', None)

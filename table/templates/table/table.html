@@ -34,7 +34,7 @@ $( function() {
     };
 
     $('#{{ table.opts.id }}').dataTable({
-        "sDom": "<'row'<'col-md-9 ext-btn'><'col-md-3'f>r>t<'row'<'col-md-3'i><'col-md-6 col-md-offset-2'p><'col-md-1'l>>",
+        "sDom": "{{ table.addons.render_dom }}",
         "bAutoWidth": false,
 		"sPaginationType": "bootstrap",
         "aaSorting": [

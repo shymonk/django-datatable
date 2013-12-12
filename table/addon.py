@@ -9,8 +9,7 @@ from django.utils.safestring import mark_safe
 class TableSearchBox(object):
     def __init__(self, placeholder=None):
         self.placeholder = placeholder or 'Search'
-        self.dom = ("<'col-sm-3 col-md-3 col-lg-3 col-sm-offset-9 "
-                    "col-md-offset-9 col-lg-offset-9'f>")
+        self.dom = "<'col-sm-3 col-md-3 col-lg-3'f>"
 
 class TableInfoLabel(object):
     def __init__(self, format=None):
