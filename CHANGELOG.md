@@ -1,7 +1,7 @@
 ## v0.1.1
 
 * New column: DatetimeColumn
-* New Options
+* New options to disable add-ons
 
     * disable_search
     * disable_info
