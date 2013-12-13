@@ -23,24 +23,8 @@ class BaseTable(object):
 
         # Make a copy so that modifying this will not touch the class definition.
         self.columns = copy.deepcopy(self.base_columns)
-
         # Build table add-ons
-        kwargs = {}
-        if not self.opts.disable_search:
-            kwargs['search_box'] = TableSearchBox(self.opts.search_placeholder)
-        if not self.opts.disable_info:
-            kwargs['info_label'] = TableInfoLabel(self.opts.info_format)
-        if not self.opts.disable_pagination:
-            kwargs['pagination'] = TablePagination(self.opts.pagination_first,
-                                                   self.opts.pagination_last,
-                                                   self.opts.pagination_prev,
-                                                   self.opts.pagination_next)
-        if not self.opts.disable_length_menu:
-            kwargs['length_menu'] = TableLengthMenu()
-        if self.opts.ext_button_link:
-            kwargs['ext_button'] = TableExtButton(self.opts.ext_button_text,
-                                                  self.opts.ext_button_link)
-        self.addons = TableAddons(**kwargs)
+        self.addons = TableAddons(self)
 
     @property
     def rows(self):
@@ -51,7 +35,7 @@ class BaseTable(object):
                 # data structure for each row is organized like this:
                 # { boundcol0: td, boundcol1: td, boundcol2: td }
                 row = SortedDict()
-                columns = [BoundColumn(obj, col) for col in self.columns]            
+                columns = [BoundColumn(obj, col) for col in self.columns]
                 for col in columns:
                     row[col] = col.html
                 rows.append(row)
@@ -61,23 +45,25 @@ class BaseTable(object):
         return rows
 
 class TableAddons(object):
-    def __init__(self, search_box=None, info_label=None, pagination=None,
-                 length_menu=None, ext_button=None):
-        self.search_box = search_box
-        self.info_label = info_label
-        self.pagination = pagination
-        self.length_menu = length_menu
-        self.ext_button = ext_button
+    def __init__(self, table):
+        self.search_box = TableSearchBox(table.opts.search_placeholder,
+                                         table.opts.disable_search)
+        self.info_label = TableInfoLabel(table.opts.info_format,
+                                         table.opts.disable_info)
+        self.pagination = TablePagination(table.opts.pagination_first,
+                                          table.opts.pagination_last,
+                                          table.opts.pagination_prev,
+                                          table.opts.pagination_next,
+                                          table.opts.disable_pagination)
+        self.length_menu = TableLengthMenu(table.opts.disable_length_menu)
+        self.ext_button = TableExtButton(table.opts.ext_button_text,
+                                         table.opts.ext_button_link)
 
     def render_dom(self):
         dom = "<'row'"
-        for addon in [self.ext_button, self.search_box]:
-            if addon:
-                dom += addon.dom
+        dom += ''.join([self.ext_button.dom, self.search_box.dom])
         dom += "r>t<'row'"
-        for addon in [self.info_label, self.pagination, self.length_menu]:
-            if addon:
-                dom += addon.dom
+        dom += ''.join([self.info_label.dom, self.pagination.dom, self.length_menu.dom])
         dom += ">"
         return mark_safe(dom)
 
@@ -104,26 +90,23 @@ class TableOptions(object):
                 raise ValueError('Order value must be "asc" or "desc", '
                                  '"%s" is unsupported.' % order)
             self.sort.append((column, order))
-            
+
         # options for table add-on
         self.disable_search = getattr(options, 'disable_search', False)
-        self.search_placeholder = getattr(options, 'search_placeholder', None)
-        self.search_dom = getattr(options, 'search_dom', None)
+        self.search_placeholder = getattr(options, 'search_placeholder', 'Search')
 
         self.disable_info = getattr(options, 'disable_info', False)
-        self.info_format = getattr(options, 'info_format', None)
+        self.info_format = getattr(options, 'info_format', 'Total _TOTAL_')
 
         self.disable_pagination = getattr(options, 'disable_pagination', False)
-        self.pagination_first = getattr(options, 'pagination_first', None)
-        self.pagination_last = getattr(options, 'pagination_last', None)
-        self.pagination_prev = getattr(options, 'pagination_prev', None)
-        self.pagination_next = getattr(options, 'pagination_next', None)
+        self.pagination_first = getattr(options, 'pagination_first', 'First')
+        self.pagination_last = getattr(options, 'pagination_last', 'Last')
+        self.pagination_prev = getattr(options, 'pagination_prev', 'Prev')
+        self.pagination_next = getattr(options, 'pagination_next', 'Next')
 
         self.disable_length_menu = getattr(options, 'disable_length_menu', False)
-
         self.ext_button_text = getattr(options, 'ext_button_text', None)
         self.ext_button_link = getattr(options, 'ext_button_link', None)
-
         self.zero_records = getattr(options, 'zero_records', u'No records')
 
 

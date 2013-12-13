@@ -86,7 +86,9 @@ $( function() {
             $('.dataTables_filter input').wrap('<div class="input-group"></div>');
             $('.dataTables_filter input').before('<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>');
             $('.dataTables_filter span').addClass('filter_icon');
+            {% if table.addons.ext_button.text and table.addons.ext_button.link %}
             $('.ext-btn').append('{{ table.addons.ext_button.html }}');
+            {% endif %}
         }
     });
 });
