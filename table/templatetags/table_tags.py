@@ -23,11 +23,3 @@ def render_table(parser, token):
         msg = '%r tag requires a single arguments' % token.split_contents()[0]
         raise template.TemplateSyntaxError(msg)
     return TableNode(table)
-
-@register.inclusion_tag('table/table_js.html')
-def render_table_js(table):
-    return {'table': table}
-
-@register.inclusion_tag('table/table_content.html')
-def render_table_content(table):
-    return {'table': table}
