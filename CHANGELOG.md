@@ -1,12 +1,14 @@
 ## v0.1.1
 
 * New column: DatetimeColumn
-* New tags
+* New Options
 
-    * render\_table\_content
-    * render\_table\_js
+    * disable_search
+    * disable_info
+    * disable_pagination
+    * disable_length_menu
 
-* Ignore HTML when filtering href columns
+* Fix bug about filtering href columns, ignore text of HTML tag.
 
 ## v0.1.0
 

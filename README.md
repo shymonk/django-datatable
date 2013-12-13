@@ -212,7 +212,7 @@ In order to define the model datasource, customize attributes of the table, tabl
 
   **default**: u"Search"
 
-* #### info
+* #### info_format
   This string gives information to the end user about the information that is current on display on the page.
   The `_START_`, `_END_`, `_TOTAL_` variables are all dynamically replaced as the table display updates, and can be freely moved or removed.
 
@@ -229,28 +229,28 @@ In order to define the model datasource, customize attributes of the table, tabl
 
   **default**: u"No records"
 
-* #### page_first
+* #### pagination_first
   The text to use for pagination 'next' button.
 
   **type**: unicode
 
   **default**: u"First"
 
-* #### page_last
+* #### pagination_last
   The text to use for pagination 'last' button.
 
   **type**: unicode
 
   **default**: u"Last"
 
-* #### page_prev
+* #### pagination_prev
   The text to use for pagination 'previous' button.
 
   **type**: unicode
 
   **default**: u"Prev"
 
-* #### page_next
+* #### pagination_next
   The text to use for pagination 'previous' button.
 
   **type**: unicode
