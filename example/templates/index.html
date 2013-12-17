@@ -1,5 +1,4 @@
 {% load table_tags %}
-{% load static %}
 
 <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css">
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
@@ -11,90 +10,13 @@
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	    <title>person</title>
-        <style type="text/css" title="currentStyle">
-            thead th, thead td {
-                text-align: center;
-            };
-		</style>
     </head>
 
     <body>
         <div class="container" style="margin-top: 10px"> 
         <h1>people</h1>
         <br />
-
-        <table id="persontable" class="table table-bordered" cellpadding="0" cellspacing="0" border="0">
-            <thead style="vertical-align: middle;">
-                <tr>
-                    <th width="5%" rowspan="3">#</th>
-                    <th rowspan="3">Name</th>
-                    <th rowspan="3">Action</th>
-                    <th rowspan="1" colspan="2" style="text-align: center">12月</th>
-                </tr>
-                <tr>
-                    <th width="22px" rowspan="1">S</th>
-                    <th width="22px" rowspan="1">M</th>
-                </tr>
-                <tr>
-                    <th width="22px" rowspan="1">01</th>
-                    <th width="22px" rowspan="1">02</th>
-                </tr>
-         
-            </thead>
-            <tbody>
-                <tr>
-                    <td >5</td>
-                    <td >John</td>
-                    <td ><a href="/edit/5/">编辑</a></td>
-                    <td>30</td>
-                    <td>30%</td>
-                </tr>
-            </tbody>
-        </table>
+        {% render_table people %}
         </div>
-
-<link href="{% static 'css/datatable.bootstrap.css' %}" rel="stylesheet" media="screen">
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="{% static 'js/bootstrap.dataTables.js' %}" type="text/javascript"></script>
-
-<script type="text/javascript" charset="utf-8">
-$( function() {
-    var filterFunc = function ( sData ) {
-        return sData.replace(/\n/g," ").replace( /<.*?>/g, "" );
-    };
-
-    $('#persontable').dataTable({
-        "sDom": "<'row'<'col-sm-9 col-md-9 col-lg-9 ext-btn'><'col-sm-3 col-md-3 col-lg-3'f>r>t<'row'<'col-sm-3 col-md-3 col-lg-3'i><'col-sm-6 col-md-6 col-lg-6 col-sm-offset-2 col-md-offset-2 col-lg-offset-2'p><'col-sm-1 col-md-1 col-lg-1'l>>",
-        "bAutoWidth": false,
-		"sPaginationType": "bootstrap",
-        "oLanguage": {
-            "sLengthMenu": "_MENU_",
-            "sSearch": "",
-            "sInfo": "Total _TOTAL_",
-            "sInfoEmpty": "Total _TOTAL_",
-            "sZeroRecords": "No records",
-            "sInfoFiltered": "",
-            "oPaginate": {
-                "sFirst": "First",
-                "sLast": "Last",
-                "sNext": "Next",
-                "sPrevious": "Prev"
-            }
-        },
-        "fnPreDrawCallback": function(oSettings, json) {
-            $('.dataTables_filter input').addClass('form-control input');
-            $('.dataTables_filter input').attr("placeholder", "Search");
-            $('.dataTables_length select').addClass('form-control input');
-            $('.dataTables_info').addClass('form-control input');
-        },
-        "fnInitComplete": function(oSettings, json) {
-            $('.dataTables_filter input').wrap('<div class="input-group"></div>');
-            $('.dataTables_filter input').before('<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>');
-            $('.dataTables_filter span').addClass('filter_icon');
-            
-        }
-    });
-});
-</script>
     </body>    
 </html>
