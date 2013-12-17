@@ -6,13 +6,15 @@
 
 <table id={{ table.opts.id }} {{ table.opts.attrs }} cellpadding="0" cellspacing="0" border="0">
     <thead>
+        {% for row in table.header_rows %}
         <tr>
-            {% for column in table.columns %}
-            <th {% if column.header.attrs %}{{ column.header.attrs }}{% endif %}>
-            {{ column.header.text }}
+            {% for header in row %}
+            <th {% if header.attrs %}{{ header.attrs }}{% endif %}>
+            {{ header.text }}
             </th>
             {% endfor %}
         </tr>
+        {% endfor %}
     </thead>
     <tbody>
         {% for row in table.rows %}
