@@ -35,7 +35,7 @@ class BaseTable(object):
                 # data structure for each row is organized like this:
                 # { boundcol0: td, boundcol1: td, boundcol2: td }
                 row = SortedDict()
-                columns = [BoundColumn(obj, col) for col in self.columns]
+                columns = [BoundColumn(obj, col) for col in self.columns if col.space]
                 for col in columns:
                     row[col] = col.html
                 rows.append(row)
