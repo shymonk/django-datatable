@@ -7,7 +7,7 @@
 <table id={{ table.opts.id }} {{ table.opts.attrs }} cellpadding="0" cellspacing="0" border="0">
     <thead>
         <tr>
-            {% for column in table.columns %}            
+            {% for column in table.columns %}
             <th {% if column.header.attrs %}{{ column.header.attrs }}{% endif %}>
             {{ column.header.text }}
             </th>
