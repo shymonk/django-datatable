@@ -59,10 +59,9 @@ class TableLengthMenu(object):
             return "<'col-sm-1 col-md-1 col-lg-1'l>"
 
 class TableExtButton(object):
-    def __init__(self, text, link, template='table/ext_button.html'):
-        self.text = text
-        self.link = link
+    def __init__(self, template, context=None):
         self.template = template
+        self.context = context
 
     @property
     def dom(self):
@@ -71,5 +70,5 @@ class TableExtButton(object):
     @property
     def html(self):
         template = get_template(self.template)
-        context = Context({'text': self.text, 'link': self.link})
+        context = Context(self.context)
         return mark_safe(template.render(context).strip())
