@@ -13,14 +13,15 @@ class Column(object):
     instance_order = 0
 
     def __init__(self, field=None, sortable=True, searchable=True, safe=True,
-                 visible=True, attrs=None, header=None, header_attrs=None):
+                 visible=True, attrs=None, header=None, header_attrs=None,
+                 header_row_order=0):
         self.accessor = Accessor(field)
         self.attrs = attrs or {}
         self.sortable = sortable
         self.searchable = searchable
         self.safe = safe
         self.visible = visible
-        self.header = ColumnHeader(text=header, attrs=header_attrs)
+        self.header = ColumnHeader(header, header_attrs, header_row_order)
 
         self.instance_order = Column.instance_order
         Column.instance_order += 1
@@ -63,10 +64,11 @@ class BoundColumn(object):
         return mark_safe(' '.join(['%s="%s"' % (attr_name, attr) for attr_name, attr in attrs.items()]))
 
 class ColumnHeader(object):
-    def __init__(self, text=None, attrs=None):
+    def __init__(self, text=None, attrs=None, row_order=0):
         self.text = text
         self.base_attrs = attrs or {}
-        
+        self.row_order = row_order
+
     @property
     def attrs(self):
         return mark_safe(' '.join(['%s="%s"' % (attr_name, attr) for attr_name, attr in self.base_attrs.items()]))
