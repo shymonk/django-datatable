@@ -10,7 +10,7 @@ from models import Person
 class PersonTable(Table):
     id = Column(field='id', header=u'#', header_attrs={'width': '5%'})
     name = Column(field='name', header=u'NAME') 
-    action = LinkColumn(header=u'ACTION', links=[Link(text=u'EDIT', viewname='app.views.edit', args=(A('id'),))])
+    action = LinkColumn(header=u'ACTION', links=[Link(text=u'edit', viewname='app.views.edit', args=(A('id'),))])
 
     class Meta:
         model = Person
@@ -19,3 +19,12 @@ class PersonTable(Table):
         # disable_info = True
         # disable_length_menu = True
         # disable_pagination = True
+
+class ScheduleTable(Table):
+    id = Column(field='id', header=u'#', header_attrs={'width': '5%'})
+    name = Column(field='name', header=u'NAME', header_attrs={'width': '15%'})
+    
+    
+    class Meta:
+        model = Person
+
