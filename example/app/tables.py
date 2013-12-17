@@ -9,10 +9,13 @@ from models import Person
 
 class PersonTable(Table):
     id = Column(field='id', header=u'#', header_attrs={'width': '5%'})
-    name = Column(field='name', header=u'姓名') 
-    action = LinkColumn(header=u'操作', links=[Link(text=u'编辑', viewname='app.views.edit', args=(A('id'),))])
+    name = Column(field='name', header=u'NAME') 
+    action = LinkColumn(header=u'ACTION', links=[Link(text=u'EDIT', viewname='app.views.edit', args=(A('id'),))])
 
     class Meta:
         model = Person
-        ext_button_link = "http://www.baidu.com"
-        ext_button_text = "Add +"
+        ext_button_template = "button.html"
+        # disable_search = True
+        # disable_info = True
+        # disable_length_menu = True
+        # disable_pagination = True

@@ -69,9 +69,8 @@ class TableAddons(object):
                                           table.opts.pagination_next,
                                           table.opts.disable_pagination)
         self.length_menu = TableLengthMenu(table.opts.disable_length_menu)
-        self.ext_button = TableExtButton(table.opts.ext_button_text,
-                                         table.opts.ext_button_link,
-                                         table.opts.ext_button_template)
+        self.ext_button = TableExtButton(table.opts.ext_button_template,
+                                         table.opts.ext_button_context)
 
     def render_dom(self):
         dom = "<'row'"
@@ -119,8 +118,8 @@ class TableOptions(object):
         self.pagination_next = getattr(options, 'pagination_next', 'Next')
 
         self.disable_length_menu = getattr(options, 'disable_length_menu', False)
-        self.ext_button_text = getattr(options, 'ext_button_text', None)
-        self.ext_button_link = getattr(options, 'ext_button_link', None)
+        self.ext_button_template = getattr(options, 'ext_button_template', None)
+        self.ext_button_context = getattr(options, 'ext_button_context', None)
         self.zero_records = getattr(options, 'zero_records', u'No records')
 
 class TableMetaClass(type):
