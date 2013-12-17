@@ -7,6 +7,7 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns('',
     url(r'^$', 'app.views.base', name='base'),
     url(r'^edit/(\d+)/$', 'app.views.edit', name='edit'),
+    url(r'^calendar-column/$', 'app.views.calendar_column', name='calendar_column')
 
     # Examples:
     # url(r'^table/', include('table.foo.urls')),

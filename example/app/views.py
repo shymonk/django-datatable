@@ -2,7 +2,7 @@
 # coding: utf-8
 
 from django.shortcuts import render
-from tables import PersonTable
+from tables import PersonTable, ScheduleTable
 
 
 def base(request):
@@ -11,3 +11,7 @@ def base(request):
 
 def edit(request, id):
     pass
+
+def calendar_column(request):
+    table = ScheduleTable()
+    return render(request, "index.html", {'people': table})
