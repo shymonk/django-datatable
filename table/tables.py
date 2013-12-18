@@ -5,6 +5,7 @@ from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
 from django.utils.datastructures import SortedDict
 from columns import Column, BoundColumn
+from columns.base import ComplexColumn
 from addon import *
 import copy
 import traceback
@@ -131,7 +132,9 @@ class TableMetaClass(type):
 
         # extract declared columns and meta
         for attr_name, attr in attrs.items():
-            if isinstance(attr, Column):
+            if isinstance(attr, ComplexColumn):
+                columns.extend(attr.extract())
+            elif isinstance(attr, Column):
                 columns.append(attr)
             else:
                 meta = attr
@@ -143,4 +146,3 @@ class TableMetaClass(type):
 
 
 Table = TableMetaClass('Table', (BaseTable,), {})
-

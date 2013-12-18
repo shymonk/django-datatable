@@ -23,7 +23,9 @@ class Accessor(str):
             for level in self.levels:
                 if isinstance(obj, dict):
                     obj = obj[level]
-                elif isinstance(obj, models.Model):
+                elif isinstance(obj, list) or isinstance(obj, tuple):
+                    obj = obj[int(level)]
+                else:
                     if callable(getattr(obj, level)):
                         obj = getattr(obj, level)()
                     else:
