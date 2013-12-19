@@ -12,8 +12,8 @@ class Column(object):
     
     instance_order = 0
 
-    def __init__(self, field=None, sortable=True, searchable=True, safe=True,
-                 visible=True, attrs=None, space=True, header=None,
+    def __init__(self, field, header=None, sortable=True, searchable=True,
+                 safe=True, visible=True, attrs=None, space=True,
                  header_attrs=None, header_row_order=0):
         self.accessor = Accessor(field)
         self.attrs = attrs or {}

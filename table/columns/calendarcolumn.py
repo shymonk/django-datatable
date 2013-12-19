@@ -2,18 +2,18 @@
 # coding: utf-8
 
 import calendar
+from datetime import timedelta
 from .base import Column, ComplexColumn
 
 class MonthsColumn(ComplexColumn):
-    def __init__(self, start_date, end_date, month_name=None, *args, **kwargs):
-        super(MonthsColumn, self).__init__(*args, **kwargs)
+    def __init__(self, field, start_date, end_date, month_name=None, **kwargs):
+        self.field = field
         self.start_date = start_date
         self.end_date = end_date
         self.month_name = month_name or calendar.month_name[1:]
-        self.field = kwargs.pop('field')
         self.header_attrs = kwargs.pop('header_attrs', {})
-        self.args = args
         self.kwargs = kwargs
+        super(MonthsColumn, self).__init__(**kwargs)
 
     @property
     def cols_count(self):
@@ -54,14 +54,13 @@ class MonthsColumn(ComplexColumn):
         return self.columns
 
 class DaysColumn(ComplexColumn):
-    def __init__(self, start_date, end_date, *args, **kwargs):
-        super(MonthsColumn, self).__init__(*args, **kwargs)
+    def __init__(self, field, start_date, end_date, **kwargs):
+        self.field = field
         self.start_date = start_date
         self.end_date = end_date
-        self.field = kwargs.pop('field')
         self.header_attrs = kwargs.pop('header_attrs', {})
-        self.args = args
         self.kwargs = kwargs
+        super(DaysColumn, self).__init__(field, **kwargs)
 
     @property
     def cols_count(self):
@@ -69,24 +68,42 @@ class DaysColumn(ComplexColumn):
 
     @property
     def cols_names(self):
-        names = []
-        start_month = self.start_date.month
-        for i in range(self.cols_count):
-            names.append(self.month_name[(i + start_month - 1) % 12])
-        return names
+        date_range = [self.start_date + timedelta(i) for i in range(self.cols_count)]
+        return [date.strftime('%d') for date in date_range]
 
     @property
     def columns(self):
         return [self.get_col_obj(i) for i in range(self.cols_count)]
 
-    def get_col_attr(self):
-        pass
+    def get_col_header(self, index):
+        return self.cols_names[index]
+
+    def get_col_header_attrs(self, index):
+        attrs = {}
+        self.header_attrs.update(attrs)
+        return self.header_attrs
+
+    def get_col_field(self, index):
+        return '.'.join([self.field, str(index)])
+
+    def get_col_obj(self, index):
+        return Column(field=self.get_col_field(index),
+                      header=self.get_col_header(index),
+                      header_attrs=self.get_col_header_attrs(index),
+                      **self.kwargs)
 
     def extract(self):
-        pass
+        return self.columns
 
-class WeeksColumn(ComplexColumn):
-    pass
+class WeeksColumn(DaysColumn):
+    def __init__(self, field, start_date, end_date, week_name=None, **kwargs):
+        super(WeeksColumn, self).__init__(field, start_date, end_date, **kwargs)
+        self.week_name = week_name or calendar.day_abbr
+
+    @property
+    def cols_names(self):
+        date_range = [self.start_date + timedelta(i) for i in range(self.cols_count)]
+        return [self.week_name[date.weekday()] for date in date_range]
 
 class CalendarColumn(ComplexColumn):
     def __init__(self, start_date, end_date, *args, **kwargs):

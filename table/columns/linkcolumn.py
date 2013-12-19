@@ -7,11 +7,11 @@ from table.utils import Accessor
 from .base import Column
 
 class LinkColumn(Column):
-    def __init__(self, links, delimiter=u' ', *args, **kwargs):
-        super(LinkColumn, self).__init__(*args, **kwargs)
-        self.links = links
-        self.delimiter = delimiter
-        self.safe = False
+    def __init__(self, field=None, header=None, links=None,
+                 delimiter=u' ', **kwargs):
+        self.links, self.delimiter = links, delimiter
+        kwargs['safe'] = False
+        super(LinkColumn, self).__init__(field, header, **kwargs)
 
     def render(self, obj):
         return self.delimiter.join([link.render(obj) for link in self.links])
