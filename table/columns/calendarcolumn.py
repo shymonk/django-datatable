@@ -13,7 +13,7 @@ class MonthsColumn(ComplexColumn):
         self.month_name = month_name or calendar.month_name[1:]
         self.header_attrs = kwargs.pop('header_attrs', {})
         self.kwargs = kwargs
-        super(MonthsColumn, self).__init__(**kwargs)
+        super(MonthsColumn, self).__init__(field, **kwargs)
 
     @property
     def cols_count(self):
@@ -105,7 +105,7 @@ class WeeksColumn(DaysColumn):
         date_range = [self.start_date + timedelta(i) for i in range(self.cols_count)]
         return [self.week_name[date.weekday()] for date in date_range]
 
-class CalendarColumn(ComplexColumn):
+class CalendarColumn(MonthsColumn):
     def __init__(self, start_date, end_date, *args, **kwargs):
         super(ComplexColumn, self).__init(*args, **kwargs)
         self.month_column = None
