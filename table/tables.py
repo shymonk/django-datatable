@@ -50,6 +50,7 @@ class BaseTable(object):
         """
         [ [header1], [header3, header4] ]
         """
+        # TO BE FIX: refactore
         header_rows = []
         headers = [col.header for col in self.columns]
         for header in headers:
@@ -91,7 +92,7 @@ class TableOptions(object):
         # build attributes for <table> tag, use bootstrap
         # css class "table table-boarded" as default style
         attrs = getattr(options, 'attrs', {})
-        attrs['class'] = 'table table-bordered' + attrs.get('class', '')
+        attrs['class'] = 'table table-bordered ' + attrs.get('class', '')
         self.attrs = mark_safe(' '.join(['%s="%s"' % (attr_name, attr) for attr_name, attr in attrs.items()]))
 
         # inspect sorting option

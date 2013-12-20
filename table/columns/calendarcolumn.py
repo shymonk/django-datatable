@@ -42,7 +42,10 @@ class MonthsColumn(ComplexColumn):
         return self.header_attrs
 
     def get_col_field(self, index):
-        return '.'.join([self.field, str(index)])
+        if self.field:
+            return '.'.join([self.field, str(index)])
+        else:
+            return self.field
 
     def get_col_obj(self, index):
         return Column(field=self.get_col_field(index),
@@ -82,9 +85,12 @@ class DaysColumn(ComplexColumn):
         attrs = {}
         self.header_attrs.update(attrs)
         return self.header_attrs
-
+ 
     def get_col_field(self, index):
-        return '.'.join([self.field, str(index)])
+        if self.field:
+            return '.'.join([self.field, str(index)])
+        else:
+            return self.field
 
     def get_col_obj(self, index):
         return Column(field=self.get_col_field(index),
@@ -104,25 +110,3 @@ class WeeksColumn(DaysColumn):
     def cols_names(self):
         date_range = [self.start_date + timedelta(i) for i in range(self.cols_count)]
         return [self.week_name[date.weekday()] for date in date_range]
-
-class CalendarColumn(MonthsColumn):
-    def __init__(self, start_date, end_date, *args, **kwargs):
-        super(ComplexColumn, self).__init(*args, **kwargs)
-        self.month_column = None
-        self.week_column = None
-        self.days_column = None
-
-    def get_month_col_attr(self):
-        pass
-
-    def get_week_col_attr(self):
-        pass
-
-    def get_day_col_attr(self):
-        pass
-
-    def extract(self):
-        cols = []
-        for col in [self.month_column, self.week_column, self.days_column]:
-            cols.extend(col.extract())
-        return cols

@@ -38,7 +38,7 @@ $( function() {
     $('#{{ table.opts.id }}').dataTable({
         "sDom": "{{ table.addons.render_dom }}",
         "bAutoWidth": false,
-		"sPaginationType": "bootstrap",
+        "sPaginationType": "bootstrap",
         "aaSorting": [
             {% for index, order in table.opts.sort %}
             [ {{ index }}, "{{ order }}" ],
@@ -46,25 +46,27 @@ $( function() {
          ],
         "aoColumns": [
             {% for column in table.columns %}
-            {
-                {% if not column.searchable %}
-                "bSearchable": false,
+                {% if column.space %}
+                {
+                    {% if not column.searchable %}
+                    "bSearchable": false,
+                    {% endif %}
+                    {% if not column.sortable %}
+                    "bSortable": false,
+                    {% endif %}
+                    {% if not column.visible %}
+                    "bVisible": false,
+                    {% endif %}
+                    {% if column.links %}
+                    "mRender": function(data, type, full) {
+                        return type == 'filter' ? $(data).text() : data;
+                    }
+                    {% endif %}
+                },
                 {% endif %}
-                {% if not column.sortable %}
-                "bSortable": false,
-                {% endif %}
-                {% if not column.visible %}
-                "bVisible": false,
-                {% endif %}
-                {% if column.links %}
-                "mRender": function(data, type, full) {
-                    return type == 'filter' ? $(data).text() : data;
-                }
-                {% endif %}
-            },
-            {% endfor %}
+                {% endfor %}
         ],
-            "oLanguage": {
+        "oLanguage": {
             "sLengthMenu": "_MENU_",
             "sSearch": "",
             "sInfo": "{{ table.addons.info_label.format }}",
