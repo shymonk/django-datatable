@@ -4,8 +4,7 @@
 from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
 from django.utils.datastructures import SortedDict
-from columns import Column, BoundColumn
-from columns.base import ComplexColumn
+from columns import Column, BoundColumn, SequenceColumn
 from addon import *
 import copy
 import traceback
@@ -50,7 +49,7 @@ class BaseTable(object):
         """
         [ [header1], [header3, header4] ]
         """
-        # TO BE FIX: refactore
+        # TO BE FIX: refactor
         header_rows = []
         headers = [col.header for col in self.columns]
         for header in headers:

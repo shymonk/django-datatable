@@ -33,13 +33,6 @@ class Column(object):
     def render(self, obj):
         return self.accessor.resolve(obj)
 
-class ComplexColumn(Column):
-    def __init__(self, *args, **kwargs):
-        super(ComplexColumn, self).__init__(*args, **kwargs)
-
-    def extract(self):
-        pass
-
 class BoundColumn(object):
     """ A run-time version of Column. The difference between 
         BoundColumn and Column is that BoundColumn objects include the

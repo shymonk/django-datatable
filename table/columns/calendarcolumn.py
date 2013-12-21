@@ -3,9 +3,10 @@
 
 import calendar
 from datetime import timedelta
-from .base import Column, ComplexColumn
+from .base import Column
+from .sequencecolumn import SequenceColumn
 
-class MonthsColumn(ComplexColumn):
+class MonthsColumn(SequenceColumn):
     def __init__(self, field, start_date, end_date, month_name=None, **kwargs):
         self.field = field
         self.start_date = start_date
@@ -56,7 +57,7 @@ class MonthsColumn(ComplexColumn):
     def extract(self):
         return self.columns
 
-class DaysColumn(ComplexColumn):
+class DaysColumn(SequenceColumn):
     def __init__(self, field, start_date, end_date, **kwargs):
         self.field = field
         self.start_date = start_date
