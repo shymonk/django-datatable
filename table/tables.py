@@ -132,7 +132,7 @@ class TableMetaClass(type):
 
         # extract declared columns and meta
         for attr_name, attr in attrs.items():
-            if isinstance(attr, ComplexColumn):
+            if isinstance(attr, SequenceColumn):
                 columns.extend(attr.extract())
             elif isinstance(attr, Column):
                 columns.append(attr)
