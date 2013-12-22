@@ -38,6 +38,9 @@ $( function() {
     $('#{{ table.opts.id }}').dataTable({
         "sDom": "{{ table.addons.render_dom }}",
         "bAutoWidth": false,
+        {% if table.opts.disable_pagination %}
+        "bPaginate": false, 
+        {% endif %}
         "sPaginationType": "bootstrap",
         "aaSorting": [
             {% for index, order in table.opts.sort %}

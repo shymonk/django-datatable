@@ -206,12 +206,26 @@ In order to define the model datasource, customize attributes of the table, tabl
                 sort = [(0, 'asc'), ('1', 'desc')]
 
 
+* #### disable_search
+  Hide search box if True.
+
+  **type**: boolean
+
+  **default**: False
+
 * #### search_placeholder
   Placeholder attribute for search box.
 
   **type**: unicode
 
   **default**: u"Search"
+
+* #### disable_info
+  Hide info label if True.
+
+  **type**: boolean
+
+  **default**: False
 
 * #### info_format
   This string gives information to the end user about the information that is current on display on the page.
@@ -229,6 +243,13 @@ In order to define the model datasource, customize attributes of the table, tabl
   **type**: unicode
 
   **default**: u"No records"
+
+* #### disable_pagination
+  Disable paginate if True.
+
+  **type**: boolean
+
+  **default**: False
 
 * #### pagination_first
   The text to use for pagination 'next' button.
@@ -258,20 +279,19 @@ In order to define the model datasource, customize attributes of the table, tabl
 
   **default**: u"Next"
 
-* #### ext\_button\_link
-  The link for extense button(top-left corner). If provided, it will rendered as `<button href="ext_button_link">`,
-  else, the extense button will be hided.
+* #### ext\_button\_template
+  Template for rending extense button(top-left corner). If not provided, the extense button will be hided.
 
   **type**: string
 
   **default**: None
 
-* #### ext\_button\_text
-  The text to use for extense button(top-left corner).
+* #### ext\_button\_context
+  Template context for rendering extense button.
 
-  **type**: unicode
+  **type**: dict
 
-  **default**: u"Add record"
+  **default**: None
 
 
 ### Build-in Column
