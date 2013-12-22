@@ -1,18 +1,3 @@
-## v0.1.2
-* New columns:
-
-    * SequenceColumn
-    * DaysColumn
-    * WeeksColumn
-    * MonthColumn
-    * CalendarColumn
-  
-* New column options:
-
-    * space
-
-* Refactoring table module
-
 ## v0.1.1
 
 * New column:
