@@ -1,6 +1,9 @@
 ## v0.1.1
 
-* New column: DatetimeColumn
+* New column:
+
+    * DatetimeColumn
+
 * New options to disable add-ons
 
     * disable_search
