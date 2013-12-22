@@ -6,7 +6,6 @@
     * disable_search
     * disable_info
     * disable_pagination
-    * disable_length_menu
 
 * Fix bug about filtering href columns, ignore text of HTML tag.
 
