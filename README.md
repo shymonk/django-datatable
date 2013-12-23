@@ -108,7 +108,8 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
             
         # tables.py
         from models import Person
-        from table import Table, Column
+        from table import Table
+	    from table.columns import Column
 
         class PersonTable(Table):
             id = Column(field='id')
@@ -123,11 +124,36 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
             people = PersonTable(Person.objects.all())
             return render(request, "index.html", {'people': people})
 
+* Dict-List
+
+  Use a list of directories as table data source. Fields which declared in columns correspond to the keys of directory.
+
+		# tables.py
+		from table import Table
+	    from table.columns import Column
+
+		class PersonTable(Table):
+            id = Column(field='id')
+            name = Column(field='name')
+
+		# views.py
+        from django.shortcuts import render
+        from app.tables import PersonTable
+
+        def people(request):
+			data = [{'id': 1, 'name': 'John'}, {'id': 2, 'name': 'Tom'}]
+            people = PersonTable(data)
+            return render(request, "index.html", {'people': people})
+					
+
+
 ## Columns
 
 * Column
 
 * Link Column
+
+* Datetime Column
 
 ## Table Add-on
 
@@ -158,7 +184,8 @@ In order to define the model datasource, customize attributes of the table, tabl
             name = models.CharField(max_length=40)
 
         # tables.py
-        from table import Table, Column
+        from table import Table
+        from table.columns import Column
         class PersonTable(Table):
             id = Column(field='id')
             name = Column(field='name')
@@ -182,8 +209,9 @@ In order to define the model datasource, customize attributes of the table, tabl
   **default**: {}
 
         # tables.py
-        from table import Table, Column
-        class PersonTable(Table):
+        from table import Table
+        from table.columns import Column
+		class PersonTable(Table):
             id = Column(field='id')
             name = Column(field='name')
             class Meta:
@@ -198,7 +226,8 @@ In order to define the model datasource, customize attributes of the table, tabl
   **default**: []
 
         # tables.py
-        from table import Table, Column
+        from table import Table
+        from table.columns import Column
         class PersonTable(Table):
             id = Column(field='id')
             name = Column(field='name')
@@ -298,7 +327,7 @@ In order to define the model datasource, customize attributes of the table, tabl
 
 * #### Column
 
-    class *table.columns*.***Column***(*field=None*, *attrs=None*, *header=None*, *header_attrs=None*)
+    ##### class *table.columns*.***Column***(*field=None*, *attrs=None*, *header=None*, *header_attrs=None*)
 
     A single column of table.
 
@@ -383,7 +412,7 @@ In order to define the model datasource, customize attributes of the table, tabl
 
 * #### LinkColumn
 
-    ##### class *table.columns*.***LinkColumn***(*links*, *delimiter=' '*, **args*, ***kwrags*)
+    ##### class *table.columns*.***LinkColumn***(*field=None*, *header=None*, *links=None*, *delimiter=' '*, **args*, ***kwrags*)
 
     Column with hyperlinks that link to another page, such as update, delete.
 
@@ -434,6 +463,23 @@ In order to define the model datasource, customize attributes of the table, tabl
     * **kwargs**: key-value form for args
     * **urlconf**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
     * **current_app**: see [reverse](http://docs.djangoproject.com/en/dev/ref/urlresolvers/#django.core.urlresolvers.reverse)
+
+* #### DatetimeColumn
+
+    ##### class *table.columns*.***DatetimeColumn***(*field=None*, *header=None*, *format=None*,  **args*, ***kwrags*)
+
+    Accept [datetime](http://docs.python.org/2/library/datetime.html#datetime.datetime) object as column field and format to specific string.
+
+    **Parameters:**
+
+    * **format**:
+
+      See [strftime](http://docs.python.org/2/library/datetime.html#datetime.date.strftime).      
+
+      **type**: *string*
+
+      **default**: *"%Y-%m-%d %H:%I:%S"*
+	
 
 ### Custom Column
 If you want full control over the way the column is rendered, ignore the built-in Columns, and instead place an instance of Column subclass into your Table.
