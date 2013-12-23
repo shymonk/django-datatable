@@ -60,6 +60,7 @@ class TableLengthMenu(object):
 
 class TableExtButton(object):
     def __init__(self, template, context=None):
+        self.disable = template is None
         self.template = template
         self.context = context
 

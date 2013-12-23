@@ -74,11 +74,12 @@ class TableAddons(object):
                                          table.opts.ext_button_context)
 
     def render_dom(self):
-        dom = "<'row'"
-        dom += ''.join([self.ext_button.dom, self.search_box.dom])
-        dom += "r>t<'row'"
-        dom += ''.join([self.info_label.dom, self.pagination.dom, self.length_menu.dom])
-        dom += ">"
+        dom = ''
+        if not (self.search_box.disable and self.ext_button.disable):
+            dom += "<'row'" + ''.join([self.ext_button.dom, self.search_box.dom]) + ">"
+        dom += "rt"
+        if not (self.info_label.disable and self.pagination.disable and self.length_menu.disable):
+            dom += "<'row'" + ''.join([self.info_label.dom, self.pagination.dom, self.length_menu.dom]) + ">"
         return mark_safe(dom)
 
 class TableOptions(object):
