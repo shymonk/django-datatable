@@ -45,8 +45,8 @@ class DaysColumn(SequenceColumn):
 
     def get_column_header_attrs(self, index):
         attrs = {}
-        self.header_attrs.update(attrs)
-        return self.header_attrs
+        attrs.update(self.header_attrs)
+        return attrs
 
     def extract(self):
         return self.columns
