@@ -2,8 +2,9 @@
 
 <link href="{% static 'css/datatable.bootstrap.css' %}" rel="stylesheet" media="screen">
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="{% static 'js/jquery.browser.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/FixedColumns.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/bootstrap.dataTables.js' %}" type="text/javascript"></script>
-
 <table id={{ table.opts.id }} {{ table.opts.attrs }} cellpadding="0" cellspacing="0" border="0">
     <thead>
         {% for row in table.header_rows %}
@@ -35,7 +36,11 @@ $( function() {
         return sData.replace(/\n/g," ").replace( /<.*?>/g, "" );
     };
 
-    $('#{{ table.opts.id }}').dataTable({
+    var table = $('#{{ table.opts.id }}').dataTable({
+        // "sScrollX": "100%",
+        // sScrollXInner = days * celwidth / displaywidth 
+ 		// "sScrollXInner": "200%",
+ 
         "sDom": "{{ table.addons.render_dom }}",
         "bAutoWidth": false,
         {% if table.opts.disable_pagination %}
@@ -98,5 +103,9 @@ $( function() {
             {% endif %}
         }
     });
+    new FixedColumns(table, {
+ 		"iLeftColumns": 2,
+		"iLeftWidth": 300
+ 	});
 });
 </script>
