@@ -6,7 +6,7 @@
 <script src="{% static 'js/bootstrap.dataTables.js' %}" type="text/javascript"></script>
 
 <table id={{ table.opts.id }} {{ table.opts.attrs }} cellpadding="0" cellspacing="0" border="0">
-    <thead>
+    <thead {% if table.opts.thead_attrs %}{{ table.opts.thead_attrs }}{% endif %}>
         {% for row in table.header_rows %}
         <tr>
             {% for header in row %}
@@ -17,7 +17,7 @@
         </tr>
         {% endfor %}
     </thead>
-    <tbody>
+    <tbody {% if table.opts.tbody_attrs %}{{ table.opts.tbody_attrs }}{% endif %}>
         {% for row in table.rows %}
         <tr>
             {% for column, td in row.items %}
@@ -85,15 +85,21 @@ $( function() {
             }
         },
         "fnPreDrawCallback": function(oSettings, json) {
+            {% if not table.opts.disable_search %}
             $('.dataTables_filter input').addClass('form-control input');
             $('.dataTables_filter input').attr("placeholder", "{{ table.addons.search_box.placeholder }}");
+            {% endif %}
             $('.dataTables_length select').addClass('form-control input');
+            {% if not table.opts.disable_info %}
             $('.dataTables_info').addClass('form-control input');
+            {% endif %}
         },
         "fnInitComplete": function(oSettings, json) {
+            {% if not table.opts.disable_search %}            
             $('.dataTables_filter input').wrap('<div class="input-group"></div>');
             $('.dataTables_filter input').before('<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>');
             $('.dataTables_filter span').addClass('filter_icon');
+            {% endif %}
             {% if table.addons.ext_button.template %}
             $('.ext-btn').append('{{ table.addons.ext_button.html }}');
             {% endif %}

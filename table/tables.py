@@ -95,7 +95,14 @@ class TableOptions(object):
         attrs['class'] = 'table table-bordered ' + attrs.get('class', '')
         self.attrs = mark_safe(' '.join(['%s="%s"' % (attr_name, attr)
                                          for attr_name, attr in attrs.items()]))
-
+        # build attributes for <thead> and <tbody>
+        thead_attrs = getattr(options, 'thead_attrs', {})
+        self.thead_attrs = mark_safe(' '.join(['%s="%s"' % (attr_name, attr)
+                                         for attr_name, attr in thead_attrs.items()]))
+        tbody_attrs = getattr(options, 'tbody_attrs', {})
+        self.tbody_attrs = mark_safe(' '.join(['%s="%s"' % (attr_name, attr)
+                                         for attr_name, attr in tbody_attrs.items()]))
+        
         # inspect sorting option
         self.sort = []
         for column, order in getattr(options, 'sort', []):
