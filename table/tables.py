@@ -146,19 +146,27 @@ class TableMetaClass(type):
     def __new__(cls, name, bases, attrs):
         opts = TableOptions(attrs.get('Meta', None))
         if not opts.id:
-            # take class name in lowcase as default id of <table>
             opts.id = name.lower()
         attrs['opts'] = opts
 
-        columns = []
         # extract declared columns
+        columns = []
         for attr_name, attr in attrs.items():
             if isinstance(attr, SequenceColumn):
                 columns.extend(attr.extract())
             elif isinstance(attr, Column):
                 columns.append(attr)
         columns.sort(key=lambda x: x.instance_order)
-        attrs['base_columns'] = columns
+
+        # If this class is subclassing other tables, add their fields as
+        # well. Note that we loop over the bases in reverse - this is
+        # necessary to preserve the correct order of columns.
+        parent_columns = []
+        for base in bases[::-1]:
+            if hasattr(base, "base_columns"):
+                parent_columns = base.base_columns + parent_columns
+
+        attrs['base_columns'] = parent_columns + columns
 
         return super(TableMetaClass, cls).__new__(cls, name, bases, attrs)
 
