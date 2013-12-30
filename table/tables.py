@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import copy
+import traceback
 from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
 from django.utils.datastructures import SortedDict
 from columns import Column, BoundColumn, SequenceColumn
-from addon import *
-import copy
-import traceback
+from addon import (TableSearchBox, TableInfoLabel, TablePagination,
+                   TableLengthMenu, TableExtButton)
 
 
 class BaseTable(object):
