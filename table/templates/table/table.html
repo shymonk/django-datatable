@@ -39,9 +39,11 @@ $( function() {
     };
 
     var table = $('#{{ table.opts.id }}').dataTable({
-        // "sScrollX": "100%",
-        // sScrollXInner = days * celwidth / displaywidth 
- 		// "sScrollXInner": "200%",
+        {% if table.opts.scrollable %}
+        "sScrollX": "100%",
+        "bScrollCollapse": true,
+        "sScrollXInner": "{{ table.opts.scrollinner }}",
+        {% endif %}
  
         "sDom": "{{ table.addons.render_dom }}",
         "bAutoWidth": false,
@@ -111,10 +113,12 @@ $( function() {
             {% endif %}
         }
     });
+    {% if table.opts.scrollable %}
     new FixedColumns(table, {
- 		"iLeftColumns": 2,
-		"iLeftWidth": 300
+ 		{% if table.opts.fixed_columns %}"iLeftColumns": {{ table.opts.fixed_columns }},{% endif %}
+		{% if table.opts.fixed_columns_width %}"iLeftWidth": {{ table.opts.fixed_columns_width }}{% endif %}
  	});
+    {% endif %}
 });
 </script>
 {% endspaceless %}

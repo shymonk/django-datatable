@@ -102,6 +102,12 @@ class TableOptions(object):
         tbody_attrs = getattr(options, 'tbody_attrs', {})
         self.tbody_attrs = mark_safe(' '.join(['%s="%s"' % (attr_name, attr)
                                          for attr_name, attr in tbody_attrs.items()]))
+
+        # scrolling option
+        self.scrollable = getattr(options, 'scrollable', False)
+        self.scrollinner = getattr(options, 'scrollinner', "150%")
+        self.fixed_columns = getattr(options, 'fixed_columns', None)
+        self.fixed_columns_width = getattr(options, 'fixed_columns_width', None)
         
         # inspect sorting option
         self.sort = []
