@@ -12,6 +12,7 @@
     * space
 
 * Refactoring table module
+* Inherite columns from parent table class
 
 ## v0.1.1
 
