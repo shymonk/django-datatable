@@ -12,7 +12,7 @@ class Accessor(str):
     """
     SEPARATOR = '.'
     
-    def resolve(self, context, quiet=False):
+    def resolve(self, context, quiet=True):
         """
         Return an object described by the accessor by traversing the attributes
         of context.
@@ -36,9 +36,9 @@ class Accessor(str):
                 if not obj:
                     break
             return obj
-        except:
+        except Exception, e:
             if not quiet:
-                raise
+                raise e
 
     @property
     def levels(self):

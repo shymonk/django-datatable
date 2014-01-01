@@ -10,7 +10,7 @@ from models import Person
 
 
 class PersonTable(Table):
-    id = Column(field='id', header=u'#', header_attrs={'width': '5%'})
+    id = Column(field='ida', header=u'#', header_attrs={'width': '5%'})
     name = Column(field='name', header=u'NAME') 
     action = LinkColumn(header=u'ACTION', links=[Link(text=u'edit', viewname='app.views.edit', args=(A('id'),))])
 

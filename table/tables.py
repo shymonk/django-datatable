@@ -30,19 +30,15 @@ class BaseTable(object):
     @property
     def rows(self):
         rows = []
-        try:
-            for obj in self.data:
-                # Binding object to each column of each row, so that
-                # data structure for each row is organized like this:
-                # { boundcol0: td, boundcol1: td, boundcol2: td }
-                row = SortedDict()
-                columns = [BoundColumn(obj, col) for col in self.columns if col.space]
-                for col in columns:
-                    row[col] = col.html
-                rows.append(row)
-        except Exception, e:
-            print e
-            print traceback.format_exc()
+        for obj in self.data:
+            # Binding object to each column of each row, so that
+            # data structure for each row is organized like this:
+            # { boundcol0: td, boundcol1: td, boundcol2: td }
+            row = SortedDict()
+            columns = [BoundColumn(obj, col) for col in self.columns if col.space]
+            for col in columns:
+                row[col] = col.html
+            rows.append(row)
         return rows
 
     @property
