@@ -33,24 +33,21 @@
 </table>
 
 <script type="text/javascript" charset="utf-8">
-$( function() {
-    var filterFunc = function ( sData ) {
+$(function() {
+    var filterFunc = function (sData) {
         return sData.replace(/\n/g," ").replace( /<.*?>/g, "" );
     };
 
     var table = $('#{{ table.opts.id }}').dataTable({
+        "sDom": "{{ table.addons.render_dom }}",
+        {% if table.opts.disable_pagination %}
+        "bPaginate": false, 
+        {% endif %}
         {% if table.opts.scrollable %}
         "sScrollX": "100%",
         "bScrollCollapse": true,
         "sScrollXInner": "{{ table.opts.scrollinner }}",
-        {% endif %}
- 
-        "sDom": "{{ table.addons.render_dom }}",
-        "bAutoWidth": false,
-        {% if table.opts.disable_pagination %}
-        "bPaginate": false, 
-        {% endif %}
-        "sPaginationType": "bootstrap",
+        {% endif %} 
         "aaSorting": [
             {% for index, order in table.opts.sort %}
             [ {{ index }}, "{{ order }}" ],
@@ -58,33 +55,24 @@ $( function() {
          ],
         "aoColumns": [
             {% for column in table.columns %}
-                {% if column.space %}
-                {
-                    {% if not column.searchable %}
-                    "bSearchable": false,
-                    {% endif %}
-                    {% if not column.sortable %}
-                    "bSortable": false,
-                    {% endif %}
-                    {% if not column.visible %}
-                    "bVisible": false,
-                    {% endif %}
-                    {% if column.links %}
-                    "mRender": function(data, type, full) {
-                        return type == 'filter' ? $(data).text() : data;
-                    }
-                    {% endif %}
-                },
+            {% if column.space %}
+            {
+                {% if not column.searchable %}"bSearchable": false,{% endif %}
+                {% if not column.sortable %}"bSortable": false,{% endif %}
+                {% if not column.visible %}"bVisible": false,{% endif %}
+                {% if column.links %}
+                "mRender": function(data, type, full) {
+                    return type == 'filter' ? $(data).text() : data
+                }
                 {% endif %}
-                {% endfor %}
+            },
+            {% endif %}
+            {% endfor %}
         ],
         "oLanguage": {
-            "sLengthMenu": "_MENU_",
-            "sSearch": "",
             "sInfo": "{{ table.addons.info_label.format }}",
             "sInfoEmpty": "{{ table.addons.info_label.format }}",
             "sZeroRecords": "{{ table.opts.zero_records }}",
-            "sInfoFiltered": "",
             "oPaginate": {
                 "sFirst": "{{ table.addons.pagination.first }}",
                 "sLast": "{{ table.addons.pagination.last }}",
@@ -92,21 +80,11 @@ $( function() {
                 "sPrevious": "{{ table.addons.pagination.prev }}"
             }
         },
-        "fnPreDrawCallback": function(oSettings, json) {
-            {% if not table.opts.disable_search %}
-            $('.dataTables_filter input').addClass('form-control input');
-            $('.dataTables_filter input').attr("placeholder", "{{ table.addons.search_box.placeholder }}");
-            {% endif %}
-            $('.dataTables_length select').addClass('form-control input');
-            {% if not table.opts.disable_info %}
-            $('.dataTables_info').addClass('form-control input');
-            {% endif %}
-        },
         "fnInitComplete": function(oSettings, json) {
             {% if not table.opts.disable_search %}            
             $('.dataTables_filter input').wrap('<div class="input-group"></div>');
-            $('.dataTables_filter input').before('<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>');
-            $('.dataTables_filter span').addClass('filter_icon');
+            $('.dataTables_filter input').before('<span class="input-group-addon filter_icon"><i class="glyphicon glyphicon-search"></i></span>');
+            $('.dataTables_filter input').attr("placeholder", "{{ table.addons.search_box.placeholder }}");
             {% endif %}
             {% if table.addons.ext_button.template %}
             $('.ext-btn').append('{{ table.addons.ext_button.html }}');
