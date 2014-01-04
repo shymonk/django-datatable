@@ -41,13 +41,13 @@ $(function() {
     var table = $('#{{ table.opts.id }}').dataTable({
         "sDom": "{{ table.addons.render_dom }}",
         {% if table.opts.disable_pagination %}
-        "bPaginate": false, 
+        "bPaginate": false,
         {% endif %}
         {% if table.opts.scrollable %}
         "sScrollX": "100%",
         "bScrollCollapse": true,
         "sScrollXInner": "{{ table.opts.scrollinner }}",
-        {% endif %} 
+        {% endif %}
         "aaSorting": [
             {% for index, order in table.opts.sort %}
             [ {{ index }}, "{{ order }}" ],
@@ -81,13 +81,13 @@ $(function() {
             }
         },
         "fnInitComplete": function(oSettings, json) {
-            {% if not table.opts.disable_search %}            
-            $('.dataTables_filter input').wrap('<div class="input-group"></div>');
-            $('.dataTables_filter input').before('<span class="input-group-addon filter_icon"><i class="glyphicon glyphicon-search"></i></span>');
-            $('.dataTables_filter input').attr("placeholder", "{{ table.addons.search_box.placeholder }}");
-            {% endif %}
             {% if table.addons.ext_button.template %}
-            $('.ext-btn').append('{{ table.addons.ext_button.html }}');
+            $("#{{ table.opts.id }}_wrapper .ext-btn").append('{{ table.addons.ext_button.html }}');
+            {% endif %}
+            {% if not table.opts.disable_search %}
+            $("#{{ table.opts.id }}_wrapper input").wrap('<div class="input-group"></div>');
+            $("#{{ table.opts.id }}_wrapper input").before('<span class="input-group-addon filter_icon"><i class="glyphicon glyphicon-search"></i></span>');
+            $("#{{ table.opts.id }}_wrapper input").attr("placeholder", "{{ table.addons.search_box.placeholder }}");
             {% endif %}
         }
     });
