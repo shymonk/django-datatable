@@ -12,7 +12,7 @@ class Accessor(str):
     """
     SEPARATOR = '.'
     
-    def resolve(self, context, quiet=False):
+    def resolve(self, context, quiet=True):
         """
         Return an object described by the accessor by traversing the attributes
         of context.
@@ -23,7 +23,9 @@ class Accessor(str):
             for level in self.levels:
                 if isinstance(obj, dict):
                     obj = obj[level]
-                elif isinstance(obj, models.Model):
+                elif isinstance(obj, list) or isinstance(obj, tuple):
+                    obj = obj[int(level)]
+                else:
                     if callable(getattr(obj, level)):
                         obj = getattr(obj, level)()
                     else:
@@ -34,9 +36,9 @@ class Accessor(str):
                 if not obj:
                     break
             return obj
-        except:
+        except Exception, e:
             if not quiet:
-                raise
+                raise e
 
     @property
     def levels(self):

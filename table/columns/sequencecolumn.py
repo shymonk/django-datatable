@@ -3,10 +3,9 @@
 
 from .base import Column
 
-class ComplexColumn(Column):
+class SequenceColumn(Column):
     def __init__(self, *args, **kwargs):
-        super(ComplexColumn, *args, **kwargs)
-    
+        super(SequenceColumn, self).__init__(*args, **kwargs)
+
     def extract(self):
         pass
-

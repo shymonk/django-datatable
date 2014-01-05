@@ -1,12 +1,32 @@
+## v0.1.2
+* New columns:
+
+    * SequenceColumn
+    * DaysColumn
+    * WeeksColumn
+    * MonthColumn
+    * CalendarColumn
+  
+* New column options:
+
+    * space
+
+* Refactoring table module
+* Inherite columns from parent table class
+
 ## v0.1.1
 
-* New column: DatetimeColumn
+* New column:
+
+    * DatetimeColumn
+
 * New options to disable add-ons
 
-    * disable_search
-    * disable_info
-    * disable_pagination
-    * disable_length_menu
+    * search
+    * info
+    * pagination
+    * length_menu
+    * ext_button
 
 * Fix bug about filtering href columns, ignore text of HTML tag.
 

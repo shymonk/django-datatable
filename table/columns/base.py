@@ -12,9 +12,9 @@ class Column(object):
     
     instance_order = 0
 
-    def __init__(self, field=None, sortable=True, searchable=True, safe=True,
-                 visible=True, attrs=None, space=True, header=None,
-                 header_attrs=None, header_row_order=0):
+    def __init__(self, field=None, header=None, attrs=None, header_attrs=None,
+                 header_row_order=0, sortable=True, searchable=True, safe=True,
+                 visible=True, space=True):
         self.accessor = Accessor(field)
         self.attrs = attrs or {}
         self.sortable = sortable
@@ -26,6 +26,9 @@ class Column(object):
 
         self.instance_order = Column.instance_order
         Column.instance_order += 1
+
+    def __str__(self):
+        return self.header.text
 
     def render(self, obj):
         return self.accessor.resolve(obj)
