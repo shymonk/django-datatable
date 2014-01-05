@@ -22,9 +22,11 @@
 
 * New options to disable add-ons
 
-    * disable_search
-    * disable_info
-    * disable_pagination
+    * search
+    * info
+    * pagination
+    * length_menu
+    * ext_button
 
 * Fix bug about filtering href columns, ignore text of HTML tag.
 

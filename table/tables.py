@@ -57,25 +57,27 @@ class BaseTable(object):
 
 class TableAddons(object):
     def __init__(self, table):
-        self.search_box = TableSearchBox(table.opts.search_placeholder,
-                                         table.opts.disable_search)
-        self.info_label = TableInfoLabel(table.opts.info_format,
-                                         table.opts.disable_info)
-        self.pagination = TablePagination(table.opts.pagination_first,
-                                          table.opts.pagination_last,
-                                          table.opts.pagination_prev,
-                                          table.opts.pagination_next,
-                                          table.opts.disable_pagination)
-        self.length_menu = TableLengthMenu(table.opts.disable_length_menu)
-        self.ext_button = TableExtButton(table.opts.ext_button_template,
-                                         table.opts.ext_button_context)
+        options = table.opts
+        self.length_menu = TableLengthMenu(visible=options.length_menu)
+        self.info_label = TableInfoLabel(format=options.info_format,
+                                         visible=options.info)
+        self.search_box = TableSearchBox(placeholder=options.search_placeholder,
+                                         visible=options.search)
+        self.ext_button = TableExtButton(template=options.ext_button_template,
+                                         context=options.ext_button_context,
+                                         visible=options.ext_button)
+        self.pagination = TablePagination(first=options.pagination_first,
+                                          last=options.pagination_last,
+                                          prev=options.pagination_prev,
+                                          next=options.pagination_next,
+                                          visible=options.pagination)
 
     def render_dom(self):
         dom = ''
-        if not (self.search_box.disable and self.ext_button.disable):
+        if self.search_box.visible or self.ext_button.visible:
             dom += "<'row'" + ''.join([self.ext_button.dom, self.search_box.dom]) + ">"
         dom += "rt"
-        if not (self.info_label.disable and self.pagination.disable and self.length_menu.disable):
+        if self.info_label.visible or self.pagination.visible or self.length_menu.visible:
             dom += "<'row'" + ''.join([self.info_label.dom, self.pagination.dom, self.length_menu.dom]) + ">"
         return mark_safe(dom)
 
@@ -118,21 +120,24 @@ class TableOptions(object):
             self.sort.append((column, order))
 
         # options for table add-on
-        self.disable_search = getattr(options, 'disable_search', False)
+        self.search = getattr(options, 'search', True)
         self.search_placeholder = getattr(options, 'search_placeholder', 'Search')
 
-        self.disable_info = getattr(options, 'disable_info', False)
+        self.info = getattr(options, 'info', True)
         self.info_format = getattr(options, 'info_format', 'Total _TOTAL_')
 
-        self.disable_pagination = getattr(options, 'disable_pagination', False)
+        self.pagination = getattr(options, 'pagination', True)
         self.pagination_first = getattr(options, 'pagination_first', 'First')
         self.pagination_last = getattr(options, 'pagination_last', 'Last')
         self.pagination_prev = getattr(options, 'pagination_prev', 'Prev')
         self.pagination_next = getattr(options, 'pagination_next', 'Next')
 
-        self.disable_length_menu = getattr(options, 'disable_length_menu', False)
+        self.length_menu = getattr(options, 'length_menu', True)
+
+        self.ext_button = getattr(options, 'ext_button', False)
         self.ext_button_template = getattr(options, 'ext_button_template', None)
         self.ext_button_context = getattr(options, 'ext_button_context', None)
+
         self.zero_records = getattr(options, 'zero_records', u'No records')
 
 class TableMetaClass(type):
