@@ -235,8 +235,8 @@ In order to define the model datasource, customize attributes of the table, tabl
                 sort = [(0, 'asc'), ('1', 'desc')]
 
 
-* #### disable_search
-  Hide search box if True.
+* #### search
+  Hide search box if False.
 
   **type**: boolean
 
@@ -249,8 +249,8 @@ In order to define the model datasource, customize attributes of the table, tabl
 
   **default**: u"Search"
 
-* #### disable_info
-  Hide info label if True.
+* #### info
+  Hide info label if False.
 
   **type**: boolean
 
@@ -273,8 +273,8 @@ In order to define the model datasource, customize attributes of the table, tabl
 
   **default**: u"No records"
 
-* #### disable_pagination
-  Disable paginate if True.
+* #### pagination
+  Disable paginate if False.
 
   **type**: boolean
 
@@ -308,8 +308,15 @@ In order to define the model datasource, customize attributes of the table, tabl
 
   **default**: u"Next"
 
+* #### ext\_button
+  Hide extense button if False.
+
+  **type**: boolean
+
+  **default**: False
+
 * #### ext\_button\_template
-  Template for rending extense button(top-left corner). If not provided, the extense button will be hided.
+  Template for rending extense button(top-left corner).
 
   **type**: string
 
