@@ -43,7 +43,7 @@ class BoundColumn(object):
     def __init__(self, obj, column):
         self.obj = obj
         self.column = column
-        self.base_attrs = column.attrs
+        self.base_attrs = column.attrs.copy()
         
         # copy non-object-related attributes to self directly
         self.sortable = column.sortable

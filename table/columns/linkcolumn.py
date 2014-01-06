@@ -8,7 +8,7 @@ from .base import Column
 
 class LinkColumn(Column):
     def __init__(self, field=None, header=None, links=None,
-                 delimiter=u' ', **kwargs):
+                 delimiter='&nbsp', **kwargs):
         self.links, self.delimiter = links, delimiter
         kwargs['safe'] = False
         super(LinkColumn, self).__init__(field, header, **kwargs)
@@ -64,5 +64,7 @@ class Link(object):
         """ Render link as HTML output tag <a>.
         """
         self.obj = obj
+        if not self.url or not self.text:
+            return ""
         return mark_safe(u'<a href="%s">%s</a>' % (self.url, self.text))
 
