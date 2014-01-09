@@ -4,8 +4,11 @@
 
 ## Overview
 
-Django-table is a simple Django app to origanize data in tabular form.
-It is based on [datatable](http://datatables.net) and [bootstrap](http://getbootstrap.com/).
+Django-table is a simple Django app to origanize data in tabular form and 
+based on [datatable](http://datatables.net) and [bootstrap](http://getbootstrap.com/).
+It is worth mentioning that development of this project is mainly for the purpose of learning,
+the code is not stable enough. I really appreciate that anyone make pull-request to improve it.
+
 
 ## Requirement
 
