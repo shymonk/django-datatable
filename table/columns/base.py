@@ -9,7 +9,7 @@ from django.utils.safestring import mark_safe
 class Column(object):
     """ Represents a single column.
     """
-    
+
     instance_order = 0
 
     def __init__(self, field=None, header=None, attrs=None, header_attrs=None,
@@ -34,7 +34,7 @@ class Column(object):
         return self.accessor.resolve(obj)
 
 class BoundColumn(object):
-    """ A run-time version of Column. The difference between 
+    """ A run-time version of Column. The difference between
         BoundColumn and Column is that BoundColumn objects include the
         relationship between a Column and a object. In practice, this
         means that a BoundColumn knows the "field value" given to the
@@ -43,8 +43,8 @@ class BoundColumn(object):
     def __init__(self, obj, column):
         self.obj = obj
         self.column = column
-        self.base_attrs = column.attrs
-        
+        self.base_attrs = column.attrs.copy()
+
         # copy non-object-related attributes to self directly
         self.sortable = column.sortable
         self.searchable = column.searchable
@@ -59,10 +59,11 @@ class BoundColumn(object):
     @property
     def attrs(self):
         attrs = {}
-        context = self.obj
         for attr_name, attr in self.base_attrs.items():
-            if isinstance(attr, Accessor):
-                attrs[attr_name] = attr.resolve(context)
+            if callable(attr):
+                attrs[attr_name] = attr(self.obj, self.column.accessor)
+            elif isinstance(attr, Accessor):
+                attrs[attr_name] = attr.resolve(self.obj)
             else:
                 attrs[attr_name] = attr
         return mark_safe(' '.join(['%s="%s"' % (attr_name, attr) for attr_name, attr in attrs.items()]))
