@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# coding: utf-8
+
 from django import http
 from django.utils import simplejson as json
 from django.views.generic import BaseListView

@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# coding: utf-8
+
 from django import forms
 
 """
@@ -22,10 +25,10 @@ class QueryDataForm(forms.Form):
     Noninteractive form, used to organize query parameters
     of DataTables.
     """
-    sEcho = forms.CharField()
-    iDisplayStart = forms.IntegerField()
-    iDisplayLength = forms.IntegerField()
-    iColumns = forms.IntegerField()
-    sSearch = forms.CharField()
-    bRegex = forms.BooleanField()
-    iSortingCols = forms.IntegerField()
+    echo = forms.CharField()
+    displaystart = forms.IntegerField()
+    displaylength = forms.IntegerField()
+    columns = forms.IntegerField()
+    search = forms.CharField()
+    regex = forms.BooleanField()
+    sortingcols = forms.IntegerField()
