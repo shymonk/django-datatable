@@ -85,9 +85,9 @@ $(function() {
             $("#{{ table.opts.id }}_wrapper .ext-btn").append('{{ table.addons.ext_button.html }}');
             {% endif %}
             {% if not table.opts.disable_search %}
-            $("#{{ table.opts.id }}_wrapper input").wrap('<div class="input-group"></div>');
-            $("#{{ table.opts.id }}_wrapper input").before('<span class="input-group-addon filter_icon"><i class="glyphicon glyphicon-search"></i></span>');
-            $("#{{ table.opts.id }}_wrapper input").attr("placeholder", "{{ table.addons.search_box.placeholder }}");
+            $("#{{ table.opts.id }}_wrapper .dataTables_filter input").wrap('<div class="input-group"></div>');
+            $("#{{ table.opts.id }}_wrapper .dataTables_filter input").before('<span class="input-group-addon filter_icon"><i class="glyphicon glyphicon-search"></i></span>');
+            $("#{{ table.opts.id }}_wrapper .dataTables_filter input").attr("placeholder", "{{ table.addons.search_box.placeholder }}");
             {% endif %}
         }
     });
