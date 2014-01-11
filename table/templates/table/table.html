@@ -23,9 +23,7 @@
         {% for row in table.rows %}
         <tr>
             {% for column, td in row.items %}
-            <td {% if column.attrs %}{{ column.attrs }}{% endif %}>
-            {% if column.safe %}{{ td }}{% else %}{{ td|safe }}{% endif %}
-            </td>
+            <td {% if column.attrs %}{{ column.attrs }}{% endif %}>{% if column.safe %}{{ td }}{% else %}{{ td|safe }}{% endif %}</td>
             {% endfor %}
         </tr>
         {% endfor %}
