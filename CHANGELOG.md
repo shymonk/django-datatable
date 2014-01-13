@@ -6,6 +6,7 @@
     * WeeksColumn
     * MonthColumn
     * CalendarColumn
+    * CheckboxColumn
   
 * New column options:
 
