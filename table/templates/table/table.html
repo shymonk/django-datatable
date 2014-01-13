@@ -38,6 +38,11 @@ $(function() {
 
     var table = $('#{{ table.opts.id }}').dataTable({
         "sDom": "{{ table.addons.render_dom }}",
+        {% if table.opts.ajax %}
+        "bProcessing": true,
+        "bServerSide": true,
+        "sAjaxSource": "{{ table.opts.ajax_source }}",
+        {% endif %}
         {% if table.opts.disable_pagination %}
         "bPaginate": false,
         {% endif %}
