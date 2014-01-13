@@ -7,14 +7,8 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns('',
     url(r'^$', 'app.views.base', name='base'),
     url(r'^edit/(\d+)/$', 'app.views.edit', name='edit'),
-    url(r'^calendar-column/$', 'app.views.calendar_column', name='calendar_column')
+    url(r'^calendar-column/$', 'app.views.calendar_column', name='calendar_column'),
+    url(r'^data/ajax/$', 'app.views.ajax_data', name='ajax_data'),
 
-    # Examples:
-    # url(r'^table/', include('table.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+    url(r'^table/', include('table.urls')),
 )
