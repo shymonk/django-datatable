@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from django import forms.Form
+from django import forms
 
 """
 int	iDisplayStart	Display start point in the current data set.
@@ -26,9 +26,9 @@ class QueryDataForm(forms.Form):
     of DataTables.
     """
     sEcho = forms.CharField()
-    iDisplaystart = forms.IntegerField()
-    iDisplaylength = forms.IntegerField()
+    iDisplayStart = forms.IntegerField()
+    iDisplayLength = forms.IntegerField()
     iColumns = forms.IntegerField()
     sSearch = forms.CharField()
     bRegex = forms.BooleanField()
-    iSortingcols = forms.IntegerField()
+    iSortingCols = forms.IntegerField()

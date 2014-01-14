@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from django.contrib.auth.models import User
 from django.db.models.query import EmptyQuerySet
 from django.db import models
 from django.test import TestCase
