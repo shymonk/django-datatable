@@ -10,17 +10,10 @@ from columns import Column, BoundColumn, SequenceColumn
 from addon import (TableSearchBox, TableInfoLabel, TablePagination,
                    TableLengthMenu, TableExtButton)
 
-
 class BaseTable(object):
 
     def __init__(self, data=None):
-        model = getattr(self.opts, 'model', None)
-        if model:
-            self.data = model.objects.all()
-        elif hasattr(data, "__iter__"):
-            self.data = data
-        else:
-            raise ValueError("Model class or QuerySet-like object is required.")
+        self.data = TableData(data, self)
 
         # Make a copy so that modifying this will not touch the class definition.
         self.columns = copy.deepcopy(self.base_columns)
@@ -54,6 +47,35 @@ class BaseTable(object):
                 header_rows.append([])
             header_rows[header.row_order].append(header)
         return header_rows
+
+class TableData(object):
+    def __init__(self, data, table):
+        model = getattr(table.opts, 'model', None)
+        if model:
+            self.queryset = model.objects.all()
+        elif isinstance(data, QuerySet):
+            self.queryset = data
+        else:
+            if hasattr(data, "__iter__"):
+                self.list = list(data)
+            else:
+                raise ValueError("Model class or QuerySet-like object"
+                                 "is required.")
+
+    def __len__(self):
+        return (self.queryset.count() if hasattr(self, 'queryset')
+                                      else len(self.list))
+
+    @property
+    def data(self):
+        return self.queryset if hasattr(self, "queryset") else self.list
+
+    def __iter__(self):
+        return iter(self.data)
+
+    def __getitem__(self, key):
+        return self.data[key]
+    
 
 class TableAddons(object):
     def __init__(self, table):
