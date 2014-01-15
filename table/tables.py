@@ -14,13 +14,13 @@ from addon import (TableSearchBox, TableInfoLabel, TablePagination,
 class BaseTable(object):
 
     def __init__(self, data=None):
-        if isinstance(data, QuerySet) or isinstance(data, list):
+        model = getattr(self.opts, 'model', None)
+        if model:
+            self.data = model.objects.all()
+        elif hasattr(data, "__iter__"):
             self.data = data
         else:
-            model = getattr(self.opts, 'model', None)
-            if not model:
-                raise ValueError("Model class or QuerySet-like object is required.")
-            self.data = model.objects.all()
+            raise ValueError("Model class or QuerySet-like object is required.")
 
         # Make a copy so that modifying this will not touch the class definition.
         self.columns = copy.deepcopy(self.base_columns)
