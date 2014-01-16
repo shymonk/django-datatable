@@ -62,13 +62,13 @@ class TableData(object):
                 raise ValueError("Model class or QuerySet-like object"
                                  "is required.")
 
-    def __len__(self):
-        return (self.queryset.count() if hasattr(self, 'queryset')
-                                      else len(self.list))
-
     @property
     def data(self):
         return self.queryset if hasattr(self, "queryset") else self.list
+
+    def __len__(self):
+        return (self.queryset.count() if hasattr(self, 'queryset')
+                                      else len(self.list))
 
     def __iter__(self):
         return iter(self.data)
