@@ -50,17 +50,17 @@ class BaseTable(object):
 
 class TableData(object):
     def __init__(self, data, table):
-        model = getattr(table.opts, 'model', None)
-        if model:
+        model = getattr(table.opts, "model", None)
+        if (data is not None and not hasattr(data, "__iter__") or
+            data is None and model is None):
+            raise ValueError("Model option or QuerySet-like object data"
+                             "is required.")
+        if data is None:
             self.queryset = model.objects.all()
         elif isinstance(data, QuerySet):
             self.queryset = data
         else:
-            if hasattr(data, "__iter__"):
-                self.list = list(data)
-            else:
-                raise ValueError("Model class or QuerySet-like object"
-                                 "is required.")
+            self.list = list(data)
 
     @property
     def data(self):
