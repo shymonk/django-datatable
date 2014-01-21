@@ -494,4 +494,3 @@ In order to define the model datasource, customize attributes of the table, tabl
 
 ### Custom Column
 If you want full control over the way the column is rendered, ignore the built-in Columns, and instead place an instance of Column subclass into your Table.
->>>>>>> 095134c... Update readme
