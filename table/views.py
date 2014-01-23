@@ -20,12 +20,16 @@ class JSONResponseMixin(object):
         # objects -- such as Django model instances or querysets
         # -- can be serialized as JSON.
         return json.dumps(context)
-    
+
 class FeedDataView(JSONResponseMixin, BaseListView):
+    def get(self, request, *args, **kwargs):
+        pass
+
+    def get_queryset(context):
+        pass
+
     def render_to_response(self, context, **response_kwargs):
-        context["aaData"] = [1, 2, 3]
         return self.render_to_json_response(context, **response_kwargs)
 
-    def get_queryset(self):
-        return []
+
 
