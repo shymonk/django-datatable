@@ -7,6 +7,7 @@ $.extend( true, $.fn.dataTable.defaults, {
         "sSearch": "",
         "sInfoFiltered": "",
     },
+    "bAutoWidth": false,
     "fnPreDrawCallback": function(oSettings, json) {
         $('.dataTables_filter input').addClass('form-control input');
         $('.dataTables_length select').addClass('form-control input');
