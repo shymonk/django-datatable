@@ -176,7 +176,7 @@ class TableMetaClass(type):
         columns = []
         for attr_name, attr in attrs.items():
             if isinstance(attr, SequenceColumn):
-                columns.extend(attr.extract())
+                columns.extend(attr)
             elif isinstance(attr, Column):
                 columns.append(attr)
         columns.sort(key=lambda x: x.instance_order)

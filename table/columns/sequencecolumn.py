@@ -6,11 +6,12 @@ from .base import Column
 class SequenceColumn(Column):
     def __init__(self, field, headers, **kwargs):
         self.headers = headers
+        self.kwargs = kwargs
         super(SequenceColumn, self).__init__(field, **kwargs)
 
     @property
     def columns(self):
-        return [self.get_column(key) for key in self.__len__()]
+        return [self.get_column(key) for key in range(self.__len__())]
 
     def __len__(self):
         return len(self.headers)
@@ -24,7 +25,7 @@ class SequenceColumn(Column):
     def get_column(self, key):
         return Column(field=self.get_field(key),
                       header=self.get_header(key),
-                      **kwargs)
+                      **self.kwargs)
 
     def get_field(self, key):
         return ".".join([self.field, str(key)])

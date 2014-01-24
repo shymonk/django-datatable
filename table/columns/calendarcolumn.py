@@ -3,68 +3,37 @@
 
 import calendar
 from datetime import timedelta
-from .base import Column
-from .sequencecolumn import SequenceColumn
+from table.columns.base import Column
+from table.columns.sequencecolumn import SequenceColumn
+
 
 class DaysColumn(SequenceColumn):
     def __init__(self, field, start_date, end_date, **kwargs):
-        self.field = field
-        self.start_date = start_date
-        self.end_date = end_date
-        self.header_attrs = kwargs.pop('header_attrs', {})
-        self.kwargs = kwargs
-        super(DaysColumn, self).__init__(field, **kwargs)
+        days = (end_date - start_date).days + 1
+        dates = [start_date + timedelta(day) for day in range(days)]
+        format_dates = [date.strftime("%d") for date in dates]
+        super(DaysColumn, self).__init__(field, format_dates, **kwargs)
 
-    @property
-    def columns_count(self):
-        return (self.end_date - self.start_date).days + 1
 
-    @property
-    def columns_names(self):
-        date_range = [self.start_date + timedelta(i) for i in range(self.columns_count)]
-        return [date.strftime('%d') for date in date_range]
-
-    @property
-    def columns(self):
-        return [self.get_column(i) for i in range(self.columns_count)]
-
-    def get_column(self, index):
-        return Column(field=self.get_column_field(index),
-                      header=self.get_column_header(index),
-                      header_attrs=self.get_column_header_attrs(index),
-                      **self.kwargs)
- 
-    def get_column_field(self, index):
-        if self.field:
-            return '.'.join([self.field, str(index)])
-        else:
-            return self.field
-
-    def get_column_header(self, index):
-        return self.columns_names[index]
-
-    def get_column_header_attrs(self, index):
-        attrs = {}
-        attrs.update(self.header_attrs)
-        return attrs
-
-    def extract(self):
-        return self.columns
-
-class WeeksColumn(DaysColumn):
+class WeeksColumn(SequenceColumn):
     def __init__(self, field, start_date, end_date, week_name=None, **kwargs):
-        super(WeeksColumn, self).__init__(field, start_date, end_date, **kwargs)
-        self.week_name = week_name or calendar.day_abbr
+        week_name = week_name or calendar.day_abbr
 
-    @property
-    def columns_names(self):
-        date_range = [self.start_date + timedelta(i) for i in range(self.columns_count)]
-        return [self.week_name[date.weekday()] for date in date_range]
+        days = (end_date - start_date).days + 1
+        dates = [start_date + timedelta(day) for day in range(days)]
+        format_dates = [week_name[date.weekday()] for date in dates]
+        super(WeeksColumn, self).__init__(field, format_dates, **kwargs)
 
-class MonthsColumn(DaysColumn):
+
+class MonthsColumn(SequenceColumn):
     def __init__(self, field, start_date, end_date, month_name=None, **kwargs):
-        super(MonthsColumn, self).__init__(field, start_date, end_date, **kwargs)
-        self.month_name = month_name or calendar.month_name[1:]
+        month_name = month_name or calendar.month_name[1:]
+
+        delta_year = end_date.year - start_date.year
+        delta_month = end_date.month - start_date.month
+        months = delta_year * 12 + delta_month + 1
+
+        super(MonthsColumn, self).__init__(field, format_dates, **kwargs)
 
     @property
     def columns_count(self):
