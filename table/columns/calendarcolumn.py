@@ -32,19 +32,6 @@ class MonthsColumn(SequenceColumn):
         delta_year = end_date.year - start_date.year
         delta_month = end_date.month - start_date.month
         months = delta_year * 12 + delta_month + 1
-
+        format_dates = [month_name[(start_date.month + month - 1) % 12]
+                        for month in range(months)]
         super(MonthsColumn, self).__init__(field, format_dates, **kwargs)
-
-    @property
-    def columns_count(self):
-        delta_year = self.end_date.year - self.start_date.year
-        delta_month = self.end_date.month - self.start_date.month
-        return delta_year * 12 + delta_month + 1
-
-    @property
-    def columns_names(self):
-        names = []
-        start_month = self.start_date.month
-        for i in range(self.columns_count):
-            names.append(self.month_name[(i + start_month - 1) % 12])
-        return names

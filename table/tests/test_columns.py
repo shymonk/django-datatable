@@ -98,24 +98,24 @@ class WeeksColumnTestCase(TestCase):
         self.assertEqual(len(self.column1), 2)
         self.assertEqual(len(self.column2), 3)
 
-    def test_columns_names(self):
+    def test_headers(self):
         self.assertEqual(self.column1.headers, ['Wed', 'Thu'])
         self.assertEqual(self.column2.headers, ['Mon', 'Tue', 'Wed'])
 
 
 class MonthsColumnTestCase(TestCase):
-    def test_columns_count(self):
-        col = MonthsColumn(None, date(2012, 12, 18), date(2013, 07, 01))
-        self.assertEqual(col.columns_count, 8)
-        col = MonthsColumn(None, date(2012, 12, 18), date(2012, 12, 19))
-        self.assertEqual(col.columns_count, 1)
-        col = MonthsColumn(None, date(2012, 1, 18), date(2012, 12, 19))
-        self.assertEqual(col.columns_count, 12)
+    def test_length(self):
+        column1 = MonthsColumn(None, date(2012, 12, 18), date(2013, 07, 01))
+        self.assertEqual(len(column1), 8)
+        column2 = MonthsColumn(None, date(2012, 12, 18), date(2012, 12, 19))
+        self.assertEqual(len(column2), 1)
+        column3 = MonthsColumn(None, date(2012, 1, 18), date(2012, 12, 19))
+        self.assertEqual(len(column3), 12)
 
-    def test_columns_names(self):
-        col = MonthsColumn(None, date(2012, 12, 18), date(2012, 12, 19))
-        self.assertEqual(col.columns_names, ['December',])
-        col = MonthsColumn(None, date(2012, 12, 18), date(2013, 2, 1))
-        self.assertEqual(col.columns_names, ['December', 'January', 'February',])
+    def test_headers(self):
+        column1 = MonthsColumn(None, date(2012, 12, 18), date(2012, 12, 19))
+        self.assertEqual(column1.headers, ['December',])
+        column2 = MonthsColumn(None, date(2012, 12, 18), date(2013, 2, 1))
+        self.assertEqual(column2.headers, ['December', 'January', 'February',])
 
 
