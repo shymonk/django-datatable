@@ -28,7 +28,10 @@ class SequenceColumn(Column):
                       **self.kwargs)
 
     def get_field(self, key):
-        return ".".join([self.field, str(key)])
+        if self.field:
+            return ".".join([self.field, str(key)])
+        else:
+            return None
 
     def get_header(self, key):
         return self.headers[key]
