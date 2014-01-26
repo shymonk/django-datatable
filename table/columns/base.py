@@ -46,6 +46,7 @@ class BoundColumn(object):
         self.base_attrs = column.attrs.copy()
 
         # copy non-object-related attributes to self directly
+        self.field = column.field
         self.sortable = column.sortable
         self.searchable = column.searchable
         self.safe = column.safe
