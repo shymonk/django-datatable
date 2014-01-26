@@ -13,6 +13,9 @@ class SequenceColumn(Column):
     def columns(self):
         return [self.get_column(key) for key in range(self.__len__())]
 
+    def __str__(self):
+        return str(self.columns)
+
     def __len__(self):
         return len(self.headers)
 

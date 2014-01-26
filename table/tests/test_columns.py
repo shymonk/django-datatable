@@ -117,5 +117,3 @@ class MonthsColumnTestCase(TestCase):
         self.assertEqual(column1.headers, ['December',])
         column2 = MonthsColumn(None, date(2012, 12, 18), date(2013, 2, 1))
         self.assertEqual(column2.headers, ['December', 'January', 'February',])
-
-
