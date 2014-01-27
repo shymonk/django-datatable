@@ -10,17 +10,10 @@ from columns import Column, BoundColumn, SequenceColumn
 from addon import (TableSearchBox, TableInfoLabel, TablePagination,
                    TableLengthMenu, TableExtButton)
 
-
 class BaseTable(object):
 
     def __init__(self, data=None):
-        if isinstance(data, QuerySet) or isinstance(data, list):
-            self.data = data
-        else:
-            model = getattr(self.opts, 'model', None)
-            if not model:
-                raise ValueError("Model class or QuerySet-like object is required.")
-            self.data = model.objects.all()
+        self.data = TableData(data, self)
 
         # Make a copy so that modifying this will not touch the class definition.
         self.columns = copy.deepcopy(self.base_columns)
@@ -54,6 +47,35 @@ class BaseTable(object):
                 header_rows.append([])
             header_rows[header.row_order].append(header)
         return header_rows
+
+class TableData(object):
+    def __init__(self, data, table):
+        model = getattr(table.opts, "model", None)
+        if (data is not None and not hasattr(data, "__iter__") or
+            data is None and model is None):
+            raise ValueError("Model option or QuerySet-like object data"
+                             "is required.")
+        if data is None:
+            self.queryset = model.objects.all()
+        elif isinstance(data, QuerySet):
+            self.queryset = data
+        else:
+            self.list = list(data)
+
+    @property
+    def data(self):
+        return self.queryset if hasattr(self, "queryset") else self.list
+
+    def __len__(self):
+        return (self.queryset.count() if hasattr(self, 'queryset')
+                                      else len(self.list))
+
+    def __iter__(self):
+        return iter(self.data)
+
+    def __getitem__(self, key):
+        return self.data[key]
+    
 
 class TableAddons(object):
     def __init__(self, table):
@@ -111,12 +133,9 @@ class TableOptions(object):
         # inspect sorting option
         self.sort = []
         for column, order in getattr(options, 'sort', []):
-            if not isinstance(column, int):
+            if not isinstance(column, int) or order not in ('asc', 'desc'):
                 raise ValueError('Sorting option must be organized by following'
                                  ' forms: [(0, "asc"), (1, "desc")]')
-            if order not in ('asc', 'desc'):
-                raise ValueError('Order value must be "asc" or "desc", '
-                                 '"%s" is unsupported.' % order)
             self.sort.append((column, order))
 
         # options for table add-on
@@ -154,7 +173,7 @@ class TableMetaClass(type):
         columns = []
         for attr_name, attr in attrs.items():
             if isinstance(attr, SequenceColumn):
-                columns.extend(attr.extract())
+                columns.extend(attr)
             elif isinstance(attr, Column):
                 columns.append(attr)
         columns.sort(key=lambda x: x.instance_order)

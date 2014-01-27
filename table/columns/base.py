@@ -15,7 +15,7 @@ class Column(object):
     def __init__(self, field=None, header=None, attrs=None, header_attrs=None,
                  header_row_order=0, sortable=True, searchable=True, safe=True,
                  visible=True, space=True):
-        self.accessor = Accessor(field)
+        self.field = field
         self.attrs = attrs or {}
         self.sortable = sortable
         self.searchable = searchable
@@ -31,7 +31,7 @@ class Column(object):
         return self.header.text
 
     def render(self, obj):
-        return self.accessor.resolve(obj)
+        return Accessor(self.field).resolve(obj)
 
 class BoundColumn(object):
     """ A run-time version of Column. The difference between
@@ -46,6 +46,7 @@ class BoundColumn(object):
         self.base_attrs = column.attrs.copy()
 
         # copy non-object-related attributes to self directly
+        self.field = column.field
         self.sortable = column.sortable
         self.searchable = column.searchable
         self.safe = column.safe
@@ -61,7 +62,7 @@ class BoundColumn(object):
         attrs = {}
         for attr_name, attr in self.base_attrs.items():
             if callable(attr):
-                attrs[attr_name] = attr(self.obj, self.column.accessor)
+                attrs[attr_name] = attr(self.obj, self.field)
             elif isinstance(attr, Accessor):
                 attrs[attr_name] = attr.resolve(self.obj)
             else:

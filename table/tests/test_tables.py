@@ -19,7 +19,7 @@ class BaseTableTestCase(TestCase):
 
     def test_data_source(self):
         data = [{'id': 1, 'name': 'a'}, {'id': 2, 'name': 'b'}]        
-        self.assertEqual(self.table.data, data)
+        self.assertEqual(self.table.data.list, data)
 
     def test_rows(self):
         first_row= self.table.rows[0].values()
