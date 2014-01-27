@@ -133,12 +133,9 @@ class TableOptions(object):
         # inspect sorting option
         self.sort = []
         for column, order in getattr(options, 'sort', []):
-            if not isinstance(column, int):
+            if not isinstance(column, int) or order not in ('asc', 'desc'):
                 raise ValueError('Sorting option must be organized by following'
                                  ' forms: [(0, "asc"), (1, "desc")]')
-            if order not in ('asc', 'desc'):
-                raise ValueError('Order value must be "asc" or "desc", '
-                                 '"%s" is unsupported.' % order)
             self.sort.append((column, order))
 
         # options for table add-on
