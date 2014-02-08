@@ -10,6 +10,7 @@ from columns import Column, BoundColumn, SequenceColumn
 from addon import (TableSearchBox, TableInfoLabel, TablePagination,
                    TableLengthMenu, TableExtButton)
 
+
 class BaseTable(object):
 
     def __init__(self, data=None):
@@ -47,6 +48,7 @@ class BaseTable(object):
                 header_rows.append([])
             header_rows[header.row_order].append(header)
         return header_rows
+
 
 class TableData(object):
     def __init__(self, data, table):
@@ -103,6 +105,7 @@ class TableAddons(object):
             dom += "<'row'" + ''.join([self.info_label.dom, self.pagination.dom, self.length_menu.dom]) + ">"
         return mark_safe(dom)
 
+
 class TableOptions(object):
     def __init__(self, options=None):
         self.model = getattr(options, 'model', None)
@@ -158,6 +161,7 @@ class TableOptions(object):
         self.ext_button_context = getattr(options, 'ext_button_context', None)
 
         self.zero_records = getattr(options, 'zero_records', u'No records')
+
 
 class TableMetaClass(type):
     """ Meta class for create Table class instance.
