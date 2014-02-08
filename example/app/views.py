@@ -2,8 +2,9 @@
 # coding: utf-8
 
 from django.shortcuts import render
-from table.views import FeedDataView
-from tables import PersonTable, ScheduleTable, SequenceColumnTable
+from tables import (PersonTable, ScheduleTable, SequenceColumnTable,
+                    AjaxDataTable)
+
 
 class Foo(object):
     def __init__(self, id, name, calendar):
@@ -11,9 +12,11 @@ class Foo(object):
         self.name = name
         self.calendar = calendar
 
+
 def base(request):
     people = PersonTable()
     return render(request, "index.html", {'people': people})
+
 
 def edit(request, id):
     pass
@@ -30,5 +33,7 @@ def calendar_column(request):
     table = ScheduleTable(data)
     return render(request, "index.html", {'people': table})
 
+
 def ajax_data(request):
-    return None
+    table = AjaxDataTable()
+    return render(request, "index.html", {'people': table})

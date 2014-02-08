@@ -19,6 +19,7 @@
         </tr>
         {% endfor %}
     </thead>
+    {% if not table.opts.ajax %}
     <tbody {% if table.opts.tbody_attrs %}{{ table.opts.tbody_attrs }}{% endif %}>
         {% for row in table.rows %}
         <tr>
@@ -28,6 +29,7 @@
         </tr>
         {% endfor %}
     </tbody>
+    {% endif %}
 </table>
 
 <script type="text/javascript" charset="utf-8">
@@ -39,9 +41,8 @@ $(function() {
     var table = $('#{{ table.opts.id }}').dataTable({
         "sDom": "{{ table.addons.render_dom }}",
         {% if table.opts.ajax %}
-        "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": "{{ table.opts.ajax_source }}",
+        "sAjaxSource": {% if table.opts.ajax_source %}"{{ table.opts.ajax_source }}"{% else %}"{% url feed_data table.token %}"{% endif %},
         {% endif %}
         {% if table.opts.disable_pagination %}
         "bPaginate": false,

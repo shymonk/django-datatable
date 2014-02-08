@@ -3,7 +3,9 @@
 
 import copy
 import traceback
+from uuid import uuid4
 from django.db.models.query import QuerySet
+from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.utils.datastructures import SortedDict
 from columns import Column, BoundColumn, SequenceColumn
@@ -15,7 +17,8 @@ class BaseTable(object):
 
     def __init__(self, data=None):
         self.data = TableData(data, self)
-
+        self.token = uuid4().hex
+        
         # Make a copy so that modifying this will not touch the class definition.
         self.columns = copy.deepcopy(self.base_columns)
         # Build table add-ons
@@ -79,6 +82,22 @@ class TableData(object):
         return self.data[key]
     
 
+class TableDataMap(object):
+    """
+    A data map that represents relationship between Table instance and
+    Model.
+    """
+    map = {}
+    
+    @classmethod
+    def register(cls, token, model):
+        TableDataMap.map[token] = model
+
+    @classmethod
+    def get(cls, token):
+        return TableDataMap.map.get(token)
+
+
 class TableAddons(object):
     def __init__(self, table):
         options = table.opts
@@ -109,6 +128,10 @@ class TableAddons(object):
 class TableOptions(object):
     def __init__(self, options=None):
         self.model = getattr(options, 'model', None)
+
+        # ajax option
+        self.ajax = getattr(options, 'ajax', False)
+        self.ajax_source = getattr(options, 'ajax_source', None)
 
         # id attribute of <table> tag
         self.id = getattr(options, 'id', None)

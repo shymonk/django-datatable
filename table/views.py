@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.utils import simplejson as json
 from django.views.generic.list import BaseListView
 
+
 class JSONResponseMixin(object):
     """
     A mixin that can be used to render a JSON response.
@@ -21,12 +22,16 @@ class JSONResponseMixin(object):
         # -- can be serialized as JSON.
         return json.dumps(context)
 
+
 class FeedDataView(JSONResponseMixin, BaseListView):
     def get(self, request, *args, **kwargs):
-        pass
+        return super()get(request, *args, **kwargs)
 
     def get_queryset(context):
         pass
+
+    def get_context_data(self, **kwargs):
+        return context
 
     def render_to_response(self, context, **response_kwargs):
         return self.render_to_json_response(context, **response_kwargs)
