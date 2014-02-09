@@ -25,7 +25,7 @@ class JSONResponseMixin(object):
 
 class FeedDataView(JSONResponseMixin, BaseListView):
     def get(self, request, *args, **kwargs):
-        return super()get(request, *args, **kwargs)
+        return BaseListView.get(self, request, *args, **kwargs)
 
     def get_queryset(context):
         pass
