@@ -34,7 +34,7 @@ class ScheduleTable(Table):
 
 class AjaxDataTable(Table):
     id = Column(field='id', header=u'#')
-    name = Column(field='name', header=u'NAME') 
+    name = Column(field='name', header=u'NAME')
 
     class Meta:
         model = Person

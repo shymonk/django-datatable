@@ -4,6 +4,7 @@
 from django.http import HttpResponse
 from django.utils import simplejson as json
 from django.views.generic.list import BaseListView
+from table.forms import QueryDataForm
 
 
 class JSONResponseMixin(object):
@@ -25,16 +26,26 @@ class JSONResponseMixin(object):
 
 class FeedDataView(JSONResponseMixin, BaseListView):
     def get(self, request, *args, **kwargs):
+        self.token = kwargs["token"]
+        form = QueryDataForm(request.GET)
+        if form.is_valid():
+            self.query_data = form.cleaned_data
+        else:
+            self.query_data = None
         return BaseListView.get(self, request, *args, **kwargs)
 
     def get_queryset(context):
         pass
 
     def get_context_data(self, **kwargs):
+        context = {
+            "sEcho": self.query_data["sEcho"],
+            "iTotalRecords": 10,
+            "iTotalDisplayRecords": 5,
+            "aaData": [[1, "A"], [2, "B"], [3, "C"]],
+        }
         return context
 
     def render_to_response(self, context, **response_kwargs):
         return self.render_to_json_response(context, **response_kwargs)
-
-
 

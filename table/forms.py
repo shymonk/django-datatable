@@ -29,6 +29,6 @@ class QueryDataForm(forms.Form):
     iDisplayStart = forms.IntegerField()
     iDisplayLength = forms.IntegerField()
     iColumns = forms.IntegerField()
-    sSearch = forms.CharField()
-    bRegex = forms.BooleanField()
+    sSearch = forms.CharField(required=False)
+    bRegex = forms.BooleanField(required=False)
     iSortingCols = forms.IntegerField()

@@ -17,7 +17,6 @@ class BaseTable(object):
 
     def __init__(self, data=None):
         self.data = TableData(data, self)
-        self.token = uuid4().hex
         
         # Make a copy so that modifying this will not touch the class definition.
         self.columns = copy.deepcopy(self.base_columns)
@@ -88,7 +87,7 @@ class TableDataMap(object):
     Model.
     """
     map = {}
-    
+
     @classmethod
     def register(cls, token, model):
         TableDataMap.map[token] = model
@@ -192,8 +191,13 @@ class TableMetaClass(type):
 
     def __new__(cls, name, bases, attrs):
         opts = TableOptions(attrs.get('Meta', None))
-        if not opts.id:
+        if opts.id is None:
             opts.id = name.lower()
+        if opts.ajax:
+            token = uuid4().hex
+            attrs['token'] = token
+            TableDataMap.register(token, opts.model)
+
         attrs['opts'] = opts
 
         # extract declared columns
