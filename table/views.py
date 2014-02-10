@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.utils import simplejson as json
 from django.views.generic.list import BaseListView
 from table.forms import QueryDataForm
+from table.tables import TableDataMap
 
 
 class JSONResponseMixin(object):
@@ -34,16 +35,38 @@ class FeedDataView(JSONResponseMixin, BaseListView):
             self.query_data = None
         return BaseListView.get(self, request, *args, **kwargs)
 
-    def get_queryset(context):
-        pass
+    def get_queryset(self):
+        model = TableDataMap.get(self.token)
+        if model is None:
+            return None
+        return model.objects.all()
 
+    def filter_queryset(self, queryset):
+        queryset = queryset.filter()
+        return queryset
+        
     def get_context_data(self, **kwargs):
-        context = {
-            "sEcho": self.query_data["sEcho"],
-            "iTotalRecords": 10,
-            "iTotalDisplayRecords": 5,
-            "aaData": [[1, "A"], [2, "B"], [3, "C"]],
-        }
+        sEcho = self.query_data["sEcho"]
+        queryset = kwargs.pop("object_list")
+        if queryset:
+            start = self.query_data["iDisplayStart"]
+            length = self.query_data["iDisplayLength"]
+
+            filtered_queryset = self.filter_queryset(queryset)
+            paginated_queryset = filtered_queryset[start:start+length]
+            context = {
+                "sEcho": sEcho,
+                "iTotalRecords": queryset.count(),
+                "iTotalDisplayRecords": filtered_queryset.count(),
+                "aaData": [list(e) for e in paginated_queryset.values_list()],
+            }
+        else:
+            context = {
+                "sEcho": sEcho,
+                "iTotalRecords": 0,
+                "iTotalDisplayRecords": 0,
+                "aaData": [],
+            }
         return context
 
     def render_to_response(self, context, **response_kwargs):
