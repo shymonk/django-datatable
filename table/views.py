@@ -28,11 +28,11 @@ class JSONResponseMixin(object):
 class FeedDataView(JSONResponseMixin, BaseListView):
     def get(self, request, *args, **kwargs):
         self.token = kwargs["token"]
-        form = QueryDataForm(request.GET)
-        if form.is_valid():
-            self.query_data = form.cleaned_data
+        query_form = QueryDataForm(request.GET)
+        if query_form.is_valid():
+            self.query_data = query_form.cleaned_data
         else:
-            self.query_data = None
+            return self.render_to_response({"error": "Query form is invalid."})
         return BaseListView.get(self, request, *args, **kwargs)
 
     def get_queryset(self):
@@ -41,14 +41,24 @@ class FeedDataView(JSONResponseMixin, BaseListView):
             return None
         return model.objects.all()
 
+    def get_search_arguments(self):
+        args = ()
+        return args
+
+    def get_sort_arguments(self):
+        args = () # args = ("-id",)
+        return args
+
     def filter_queryset(self, queryset):
-        queryset = queryset.filter()
+        filter_args = self.get_search_arguments()
+        order_args = self.get_sort_arguments()
+        queryset = queryset.filter(*filter_args).order_by(*order_args)
         return queryset
         
     def get_context_data(self, **kwargs):
         sEcho = self.query_data["sEcho"]
         queryset = kwargs.pop("object_list")
-        if queryset:
+        if queryset is not None:
             start = self.query_data["iDisplayStart"]
             length = self.query_data["iDisplayLength"]
 
