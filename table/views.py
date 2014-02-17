@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+from django.db.models import Q
 from django.http import HttpResponse
 from django.utils import simplejson as json
 from django.views.generic.list import BaseListView
@@ -42,8 +43,11 @@ class FeedDataView(JSONResponseMixin, BaseListView):
         return model.objects.all()
 
     def get_search_arguments(self):
-        args = ()
-        return args
+        search = self.query_data["sSearch"]
+        columns = TableDataMap.get_columns(self.token)
+        fields = [col.field for col in columns if col.searchable]
+        queries = [Q(**{field + "__icontains": search}) for field in fields]
+        return reduce(lambda x, y: x|y, queries)
 
     def get_order_arguments(self):
         arguments = []
@@ -62,7 +66,7 @@ class FeedDataView(JSONResponseMixin, BaseListView):
     def filter_queryset(self, queryset):
         filter_args = self.get_search_arguments()
         order_args = self.get_order_arguments()
-        queryset = queryset.filter(*filter_args).order_by(*order_args)
+        queryset = queryset.filter(filter_args).order_by(*order_args)
         return queryset
         
     def get_context_data(self, **kwargs):
