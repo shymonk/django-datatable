@@ -45,7 +45,7 @@ class FeedDataView(JSONResponseMixin, BaseListView):
         args = ()
         return args
 
-    def get_sort_arguments(self):
+    def get_order_arguments(self):
         arguments = []
         columns = TableDataMap.get_columns(self.token)
         for key, value in self.query_data.items():
@@ -61,8 +61,8 @@ class FeedDataView(JSONResponseMixin, BaseListView):
 
     def filter_queryset(self, queryset):
         filter_args = self.get_search_arguments()
-        sort_args = self.get_sort_arguments()
-        queryset = queryset.filter(*filter_args).order_by(*sort_args)
+        order_args = self.get_order_arguments()
+        queryset = queryset.filter(*filter_args).order_by(*order_args)
         return queryset
         
     def get_context_data(self, **kwargs):
