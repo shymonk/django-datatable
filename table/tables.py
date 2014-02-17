@@ -89,12 +89,16 @@ class TableDataMap(object):
     map = {}
 
     @classmethod
-    def register(cls, token, model):
-        TableDataMap.map[token] = model
+    def register(cls, token, model, columns):
+        TableDataMap.map[token] = (model, columns)
 
     @classmethod
-    def get(cls, token):
-        return TableDataMap.map.get(token)
+    def get_model(cls, token):
+        return TableDataMap.map.get(token)[0]
+
+    @classmethod
+    def get_columns(cls, token):
+        return TableDataMap.map.get(token)[1]
 
 
 class TableAddons(object):
@@ -191,13 +195,9 @@ class TableMetaClass(type):
 
     def __new__(cls, name, bases, attrs):
         opts = TableOptions(attrs.get('Meta', None))
+        # take class name in lower case as table's id
         if opts.id is None:
             opts.id = name.lower()
-        if opts.ajax:
-            token = uuid4().hex
-            attrs['token'] = token
-            TableDataMap.register(token, opts.model)
-
         attrs['opts'] = opts
 
         # extract declared columns
@@ -216,8 +216,11 @@ class TableMetaClass(type):
         for base in bases[::-1]:
             if hasattr(base, "base_columns"):
                 parent_columns = base.base_columns + parent_columns
-
         attrs['base_columns'] = parent_columns + columns
+
+        if opts.ajax:
+            attrs['token'] = uuid4().hex
+            TableDataMap.register(attrs['token'], opts.model, attrs['base_columns'])
 
         return super(TableMetaClass, cls).__new__(cls, name, bases, attrs)
 

@@ -32,9 +32,11 @@ class QueryDataForm(forms.Form):
     sSearch = forms.CharField(required=False)
     bRegex = forms.BooleanField(required=False)
     iSortingCols = forms.IntegerField()
-    # iSortCol_x
-    # sSortDir_x
 
     def __init__(self, data=None, *args, **kwargs):
         super(QueryDataForm, self).__init__(data, *args, **kwargs)
-        
+        for key in data.keys():
+            if key.startswith("iSortCol"):
+                self.fields[key] = forms.IntegerField()
+            if key.startswith("sSortDir"):
+                self.fields[key] = forms.CharField()
