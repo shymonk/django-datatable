@@ -19,14 +19,13 @@ class JSONResponseMixin(object):
                             **response_kwargs)
 
     def convert_context_to_json(self, context):
-        # Note: This is *EXTREMELY* naive; in reality, you'll need
-        # to do much more complex handling to ensure that arbitrary
-        # objects -- such as Django model instances or querysets
-        # -- can be serialized as JSON.
         return json.dumps(context)
 
 
 class FeedDataView(JSONResponseMixin, BaseListView):
+    """
+    The view to feed ajax data of table.
+    """
     def get(self, request, *args, **kwargs):
         self.token = kwargs["token"]
         query_form = QueryDataForm(request.GET)
