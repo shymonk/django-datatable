@@ -42,6 +42,9 @@ class FeedDataView(JSONResponseMixin, BaseListView):
         return model.objects.all()
 
     def get_search_arguments(self):
+        """
+        Get `Q` object passed to `filter` function.
+        """
         search = self.query_data["sSearch"]
         columns = TableDataMap.get_columns(self.token)
         fields = [col.field for col in columns if col.searchable]
@@ -49,6 +52,9 @@ class FeedDataView(JSONResponseMixin, BaseListView):
         return reduce(lambda x, y: x|y, queries)
 
     def get_sort_arguments(self):
+        """
+        Get list of arguments passed to `order_by()` function.
+        """
         arguments = []
         columns = TableDataMap.get_columns(self.token)
         for key, value in self.query_data.items():
