@@ -90,7 +90,8 @@ class TableDataMap(object):
 
     @classmethod
     def register(cls, token, model, columns):
-        TableDataMap.map[token] = (model, columns)
+        if token not in TableDataMap.map:
+            TableDataMap.map[token] = (model, columns)
 
     @classmethod
     def get_model(cls, token):
@@ -162,9 +163,12 @@ class TableOptions(object):
         # inspect sorting option
         self.sort = []
         for column, order in getattr(options, 'sort', []):
-            if not isinstance(column, int) or order not in ('asc', 'desc'):
+            if not isinstance(column, int):
                 raise ValueError('Sorting option must be organized by following'
                                  ' forms: [(0, "asc"), (1, "desc")]')
+            if order not in ('asc', 'desc'):
+                raise ValueError('Order value must be "asc" or "desc", '
+                                 '"%s" is unsupported.' % order)
             self.sort.append((column, order))
 
         # options for table add-on

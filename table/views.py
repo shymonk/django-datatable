@@ -5,21 +5,60 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.utils import simplejson as json
 from django.views.generic.list import BaseListView
-from table.forms import QueryDataForm
-from table.tables import TableDataMap
+from django.core import serializers
+from django.core.exceptions import ImproperlyConfigured
+from django.core.serializers.json import DjangoJSONEncoder
+from django.http import HttpResponse, HttpResponseBadRequest
 
+from table.forms import QueryDataForm
+from table.columns import LinkColumn
+from table.tables import TableDataMap
+from table.utils import A
 
 class JSONResponseMixin(object):
     """
-    A mixin that can be used to render a JSON response.
+    A mixin that allows you to easily serialize simple data such as a dict or
+    Django models.
     """
-    def render_to_json_response(self, context, **response_kwargs):
-        return HttpResponse(self.convert_context_to_json(context),
-                            content_type='application/json',
-                            **response_kwargs)
+    content_type = None
+    json_dumps_kwargs = None
 
-    def convert_context_to_json(self, context):
-        return json.dumps(context)
+    def get_content_type(self):
+        if (self.content_type is not None and
+            not isinstance(self.content_type,
+                           (six.string_types, six.text_type))):
+            raise ImproperlyConfigured(
+                '{0} is missing a content type. Define {0}.content_type, '
+                'or override {0}.get_content_type().'.format(
+                    self.__class__.__name__))
+        return self.content_type or u"application/json"
+
+    def get_json_dumps_kwargs(self):
+        if self.json_dumps_kwargs is None:
+            self.json_dumps_kwargs = {}
+        self.json_dumps_kwargs.setdefault(u'ensure_ascii', False)
+        return self.json_dumps_kwargs
+
+    def render_json_response(self, context_dict, status=200):
+        """
+        Limited serialization for shipping plain data. Do not use for models
+        or other complex or custom objects.
+        """
+        json_context = json.dumps(
+            context_dict,
+            cls=DjangoJSONEncoder,
+            **self.get_json_dumps_kwargs()).encode(u'utf-8')
+        return HttpResponse(json_context,
+                            content_type=self.get_content_type(),
+                            status=status)
+
+    def render_json_object_response(self, objects, **kwargs):
+        """
+        Serializes objects using Django's builtin JSON serializer. Additional
+        kwargs can be used the same way for django.core.serializers.serialize.
+        """
+        json_data = serializers.serialize(u"json", objects, **kwargs)
+        return HttpResponse(json_data, content_type=self.get_content_type())
 
 
 class FeedDataView(JSONResponseMixin, BaseListView):
@@ -46,9 +85,14 @@ class FeedDataView(JSONResponseMixin, BaseListView):
         Get `Q` object passed to `filter` function.
         """
         search = self.query_data["sSearch"]
-        columns = TableDataMap.get_columns(self.token)
-        fields = [col.field for col in columns if col.searchable]
-        queries = [Q(**{field + "__icontains": search}) for field in fields]
+        print search
+        search_columns = TableDataMap.get_columns(self.token)
+        search_fields = [col.field for col in search_columns if col.searchable]
+        queries = []
+        for field in search_fields:
+            key = "__".join(field.split(".") + ["icontains"])
+            value = search
+            queries.append(Q(**{key: value}))
         return reduce(lambda x, y: x|y, queries)
 
     def get_sort_arguments(self):
@@ -73,6 +117,13 @@ class FeedDataView(JSONResponseMixin, BaseListView):
         order_args = self.get_sort_arguments()
         queryset = queryset.filter(filter_args).order_by(*order_args)
         return queryset
+
+    def convert_queryset_to_values_list(self, queryset):
+        values_list = []
+        columns = TableDataMap.get_columns(self.token)
+        for obj in queryset:
+            values_list.append([column.render(obj) for column in columns])
+        return values_list
         
     def get_context_data(self, **kwargs):
         sEcho = self.query_data["sEcho"]
@@ -83,11 +134,12 @@ class FeedDataView(JSONResponseMixin, BaseListView):
 
             filtered_queryset = self.filter_queryset(queryset)
             paginated_queryset = filtered_queryset[start:start+length]
+            values_list = self.convert_queryset_to_values_list(paginated_queryset)
             context = {
                 "sEcho": sEcho,
                 "iTotalRecords": queryset.count(),
                 "iTotalDisplayRecords": filtered_queryset.count(),
-                "aaData": [list(e) for e in paginated_queryset.values_list()],
+                "aaData": [list(e) for e in values_list],
             }
         else:
             context = {
@@ -99,5 +151,5 @@ class FeedDataView(JSONResponseMixin, BaseListView):
         return context
 
     def render_to_response(self, context, **response_kwargs):
-        return self.render_to_json_response(context, **response_kwargs)
+        return self.render_json_response(context)
 
