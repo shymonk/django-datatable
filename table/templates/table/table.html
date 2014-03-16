@@ -42,7 +42,7 @@ $(function() {
         "sDom": "{{ table.addons.render_dom }}",
         {% if table.opts.ajax %}
         "bServerSide": true,
-        "sAjaxSource": {% if table.opts.ajax_source %}"{{ table.opts.ajax_source }}"{% else %}"{% url feed_data table.token %}"{% endif %},
+        "sAjaxSource": {% if table.opts.ajax_source %}"{{ table.opts.ajax_source }}"{% else %}"{% url 'feed_data' table.token %}"{% endif %},
         {% endif %}
         {% if table.opts.disable_pagination %}
         "bPaginate": false,
