@@ -67,6 +67,8 @@ class FeedDataView(JSONResponseMixin, BaseListView):
     """
     def get(self, request, *args, **kwargs):
         self.token = kwargs["token"]
+        self.columns = TableDataMap.get_columns(self.token)
+
         query_form = QueryDataForm(request.GET)
         if query_form.is_valid():
             self.query_data = query_form.cleaned_data
@@ -80,31 +82,31 @@ class FeedDataView(JSONResponseMixin, BaseListView):
             return None
         return model.objects.all()
 
-    def get_search_arguments(self):
+    def get_filter_arguments(self):
         """
         Get `Q` object passed to `filter` function.
         """
-        search = self.query_data["sSearch"]
-        print search
-        search_columns = TableDataMap.get_columns(self.token)
-        search_fields = [col.field for col in search_columns if col.searchable]
+        targets = self.query_data["sSearch"].split()
+        fields = [col.field for col in self.columns if col.searchable]
+        if not targets or not fields:
+            return None
         queries = []
-        for field in search_fields:
-            key = "__".join(field.split(".") + ["icontains"])
-            value = search
-            queries.append(Q(**{key: value}))
-        return reduce(lambda x, y: x|y, queries)
+        for target in targets:
+            for field in fields:
+                key = "__".join(field.split(".") + ["icontains"])
+                value = target
+                queries.append(Q(**{key: value}))
+        return reduce(lambda x, y: x | y, queries)
 
     def get_sort_arguments(self):
         """
         Get list of arguments passed to `order_by()` function.
         """
         arguments = []
-        columns = TableDataMap.get_columns(self.token)
         for key, value in self.query_data.items():
             if not key.startswith("iSortCol"):
                 continue
-            field = columns[value].field
+            field = self.columns[value].field
             dir = self.query_data["sSortDir_" + key.split("_")[1]]
             if dir == "asc":
                 arguments.append(field)
@@ -113,17 +115,16 @@ class FeedDataView(JSONResponseMixin, BaseListView):
         return arguments
 
     def filter_queryset(self, queryset):
-        filter_args = self.get_search_arguments()
+        filter_args = self.get_filter_arguments()
+        if filter_args:
+            queryset = queryset.filter(filter_args)
         order_args = self.get_sort_arguments()
-        queryset = queryset.filter(filter_args).order_by(*order_args)
+        if order_args:
+            queryset = queryset.order_by(*order_args)
         return queryset
 
     def convert_queryset_to_values_list(self, queryset):
-        values_list = []
-        columns = TableDataMap.get_columns(self.token)
-        for obj in queryset:
-            values_list.append([column.render(obj) for column in columns])
-        return values_list
+        return [[col.render(obj) for col in self.columns] for obj in queryset]
         
     def get_context_data(self, **kwargs):
         sEcho = self.query_data["sEcho"]
@@ -139,7 +140,7 @@ class FeedDataView(JSONResponseMixin, BaseListView):
                 "sEcho": sEcho,
                 "iTotalRecords": queryset.count(),
                 "iTotalDisplayRecords": filtered_queryset.count(),
-                "aaData": [list(e) for e in values_list],
+                "aaData": values_list,
             }
         else:
             context = {
