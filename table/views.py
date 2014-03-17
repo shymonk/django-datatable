@@ -82,22 +82,25 @@ class FeedDataView(JSONResponseMixin, BaseListView):
             return None
         return model.objects.all()
 
-    def get_filter_arguments(self):
-        """
-        Get `Q` object passed to `filter` function.
-        """
-        targets = self.query_data["sSearch"].split()
-        fields = [col.field for col in self.columns if col.searchable]
-        if not targets or not fields:
-            return None
-        queries = []
-        for target in targets:
+    def filter_queryset(self, queryset):
+        def get_filter_arguments(filter_target):
+            """
+            Get `Q` object passed to `filter` function.
+            """
+            queries = []
+            fields = [col.field for col in self.columns if col.searchable]
             for field in fields:
                 key = "__".join(field.split(".") + ["icontains"])
-                value = target
+                value = filter_target
                 queries.append(Q(**{key: value}))
-        return reduce(lambda x, y: x | y, queries)
+            return reduce(lambda x, y: x | y, queries)
 
+        filter_text = self.query_data["sSearch"]
+        if filter_text:
+            for target in filter_text.split():
+                queryset = queryset.filter(get_filter_arguments(target))
+        return queryset
+        
     def get_sort_arguments(self):
         """
         Get list of arguments passed to `order_by()` function.
@@ -114,10 +117,7 @@ class FeedDataView(JSONResponseMixin, BaseListView):
                 arguments.append("-" + field)
         return arguments
 
-    def filter_queryset(self, queryset):
-        filter_args = self.get_filter_arguments()
-        if filter_args:
-            queryset = queryset.filter(filter_args)
+    def sort_queryset(self, queryset):
         order_args = self.get_sort_arguments()
         if order_args:
             queryset = queryset.order_by(*order_args)
@@ -134,7 +134,8 @@ class FeedDataView(JSONResponseMixin, BaseListView):
             length = self.query_data["iDisplayLength"]
 
             filtered_queryset = self.filter_queryset(queryset)
-            paginated_queryset = filtered_queryset[start:start+length]
+            sorted_queryset = self.sort_queryset(filtered_queryset)
+            paginated_queryset = sorted_queryset[start : start + length]
             values_list = self.convert_queryset_to_values_list(paginated_queryset)
             context = {
                 "sEcho": sEcho,
