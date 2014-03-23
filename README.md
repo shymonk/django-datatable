@@ -132,7 +132,7 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
 
   Use a list of directories as table data source. Fields which declared in columns correspond to the keys of directory.
 
-		# tables.py
+        # tables.py
 		from table import Table
 	    from table.columns import Column
 
@@ -149,7 +149,52 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
             people = PersonTable(data)
             return render(request, "index.html", {'people': people})
 					
+* Ajax
 
+  For large number of data, load them on front-end entirely is impossible.
+  So, django-table provides a simle option 'ajax' to load data from server-side asynchronous.
+
+  Note that once toggle `ajax`, `model` option is necessary. Django-table will make paging/searching/sorting
+  based on `ModelClass.objects.all()`.
+
+        # tables.py
+		from table import Table
+	    from table.columns import Column
+
+		class PersonTable(Table):
+            id = Column(field='id')
+            name = Column(field='name')
+
+            class Meta:
+                model = Person
+                ajax = True
+
+  If you want to customize base data, use `ajax_source` option and
+  implement your own Class-based View by subclassing `FeedDataView`.
+
+        # tables.py
+		class PersonTable(Table):
+            id = Column(field='id')
+            name = Column(field='name')
+
+            class Meta:
+                model = Person
+                ajax = True
+                ajax_source = reverse('table_data')
+
+        # urls.py
+        urlpatterns = patterns('',
+            url(r'^tabledata$', MyDataView.as_view(), name='table_data'),
+        )
+        
+        # views.py
+        from table.views import FeedDataView
+
+        class MyDataView(FeedDataView):
+            def get_queryset(self):
+                # override parent function
+                queryset = super(MyDataView, self).get_queryset()
+                return queryset.filter(id__gt=5)
 
 ## Columns
 
