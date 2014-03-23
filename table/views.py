@@ -5,60 +5,31 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.utils import simplejson as json
 from django.views.generic.list import BaseListView
-from django.core import serializers
-from django.core.exceptions import ImproperlyConfigured
 from django.core.serializers.json import DjangoJSONEncoder
-from django.http import HttpResponse, HttpResponseBadRequest
 
 from table.forms import QueryDataForm
-from table.columns import LinkColumn
 from table.tables import TableDataMap
-from table.utils import A
+
 
 class JSONResponseMixin(object):
     """
-    A mixin that allows you to easily serialize simple data such as a dict or
-    Django models.
+    A mixin that can be used to render a JSON response.
     """
-    content_type = None
-    json_dumps_kwargs = None
-
-    def get_content_type(self):
-        if (self.content_type is not None and
-            not isinstance(self.content_type,
-                           (six.string_types, six.text_type))):
-            raise ImproperlyConfigured(
-                '{0} is missing a content type. Define {0}.content_type, '
-                'or override {0}.get_content_type().'.format(
-                    self.__class__.__name__))
-        return self.content_type or u"application/json"
-
-    def get_json_dumps_kwargs(self):
-        if self.json_dumps_kwargs is None:
-            self.json_dumps_kwargs = {}
-        self.json_dumps_kwargs.setdefault(u'ensure_ascii', False)
-        return self.json_dumps_kwargs
-
-    def render_json_response(self, context_dict, status=200):
+    def render_to_json_response(self, context, **response_kwargs):
         """
-        Limited serialization for shipping plain data. Do not use for models
-        or other complex or custom objects.
+        Returns a JSON response, transforming 'context' to make the payload.
         """
-        json_context = json.dumps(
-            context_dict,
-            cls=DjangoJSONEncoder,
-            **self.get_json_dumps_kwargs()).encode(u'utf-8')
-        return HttpResponse(json_context,
-                            content_type=self.get_content_type(),
-                            status=status)
+        return HttpResponse(
+            self.convert_context_to_json(context),
+            content_type='application/json',
+            **response_kwargs
+        )
 
-    def render_json_object_response(self, objects, **kwargs):
+    def convert_context_to_json(self, context):
         """
-        Serializes objects using Django's builtin JSON serializer. Additional
-        kwargs can be used the same way for django.core.serializers.serialize.
+        Convert the context dictionary into a JSON object.
         """
-        json_data = serializers.serialize(u"json", objects, **kwargs)
-        return HttpResponse(json_data, content_type=self.get_content_type())
+        return json.dumps(context, cls=DjangoJSONEncoder)
 
 
 class FeedDataView(JSONResponseMixin, BaseListView):
@@ -100,32 +71,31 @@ class FeedDataView(JSONResponseMixin, BaseListView):
             for target in filter_text.split():
                 queryset = queryset.filter(get_filter_arguments(target))
         return queryset
-        
-    def get_sort_arguments(self):
-        """
-        Get list of arguments passed to `order_by()` function.
-        """
-        arguments = []
-        for key, value in self.query_data.items():
-            if not key.startswith("iSortCol"):
-                continue
-            field = self.columns[value].field
-            dir = self.query_data["sSortDir_" + key.split("_")[1]]
-            if dir == "asc":
-                arguments.append(field)
-            else:
-                arguments.append("-" + field)
-        return arguments
 
     def sort_queryset(self, queryset):
-        order_args = self.get_sort_arguments()
+        def get_sort_arguments():
+            """
+            Get list of arguments passed to `order_by()` function.
+            """
+            arguments = []
+            for key, value in self.query_data.items():
+                if not key.startswith("iSortCol_"):
+                    continue
+                field = self.columns[value].field
+                dir = self.query_data["sSortDir_" + key.split("_")[1]]
+                if dir == "asc":
+                    arguments.append(field)
+                else:
+                    arguments.append("-" + field)
+            return arguments
+        order_args = get_sort_arguments()
         if order_args:
             queryset = queryset.order_by(*order_args)
         return queryset
 
     def convert_queryset_to_values_list(self, queryset):
         return [[col.render(obj) for col in self.columns] for obj in queryset]
-        
+
     def get_context_data(self, **kwargs):
         sEcho = self.query_data["sEcho"]
         queryset = kwargs.pop("object_list")
@@ -153,5 +123,4 @@ class FeedDataView(JSONResponseMixin, BaseListView):
         return context
 
     def render_to_response(self, context, **response_kwargs):
-        return self.render_json_response(context)
-
+        return self.render_to_json_response(context)
