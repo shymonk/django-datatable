@@ -6,13 +6,14 @@
     * WeeksColumn
     * MonthColumn
     * CalendarColumn
+    * CheckboxColumn
   
 * New column options:
 
     * space
 
 * Refactoring table module
-* Inherite columns from parent table class
+* Support subclass table
 
 ## v0.1.1
 

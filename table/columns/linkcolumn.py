@@ -3,13 +3,14 @@
 
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.utils.safestring import mark_safe
+from django.template import Template, Context
 from table.utils import Accessor
 from .base import Column
 
 class LinkColumn(Column):
-    def __init__(self, field=None, header=None, links=None,
-                 delimiter=u' ', **kwargs):
-        self.links, self.delimiter = links, delimiter
+    def __init__(self, header=None, links=None, delimiter='&nbsp', field=None, **kwargs):
+        self.links = links
+        self.delimiter = delimiter
         kwargs['safe'] = False
         super(LinkColumn, self).__init__(field, header, **kwargs)
 
@@ -64,5 +65,31 @@ class Link(object):
         """ Render link as HTML output tag <a>.
         """
         self.obj = obj
+        if not self.url or not self.text:
+            return ""
         return mark_safe(u'<a href="%s">%s</a>' % (self.url, self.text))
 
+
+class ImageLink(Link):
+    """
+    Represents a html <a> tag that contains <img>.
+    """
+    def __init__(self, image, image_title, *args, **kwargs):
+        self.image_path = image
+        self.image_title = image_title
+        super(ImageLink, self).__init__(None, *args, **kwargs)
+
+    @property
+    def image(self):
+        path = self.image_path
+        if isinstance(self.image_title, Accessor):
+            title = self.image_title.resolve(self.obj)
+        else:
+            title = self.image_title
+        template = Template('{%% load static %%}<img src="{%% static "%s" %%}"'
+                            ' title="%s">' % (path, title))
+        return template.render(Context())
+
+    def render(self, obj):
+        self.obj = obj
+        return mark_safe(u'<a href="%s">%s</a>' % (self.url, self.image))

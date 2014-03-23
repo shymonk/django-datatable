@@ -3,7 +3,9 @@
 
 import copy
 import traceback
+from uuid import uuid4
 from django.db.models.query import QuerySet
+from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.utils.datastructures import SortedDict
 from columns import Column, BoundColumn, SequenceColumn
@@ -14,14 +16,8 @@ from addon import (TableSearchBox, TableInfoLabel, TablePagination,
 class BaseTable(object):
 
     def __init__(self, data=None):
-        if isinstance(data, QuerySet) or isinstance(data, list):
-            self.data = data
-        else:
-            model = getattr(self.opts, 'model', None)
-            if not model:
-                raise ValueError("Model class or QuerySet-like object is required.")
-            self.data = model.objects.all()
-
+        self.data = TableData(data, self)
+        
         # Make a copy so that modifying this will not touch the class definition.
         self.columns = copy.deepcopy(self.base_columns)
         # Build table add-ons
@@ -55,6 +51,57 @@ class BaseTable(object):
             header_rows[header.row_order].append(header)
         return header_rows
 
+
+class TableData(object):
+    def __init__(self, data, table):
+        model = getattr(table.opts, "model", None)
+        if (data is not None and not hasattr(data, "__iter__") or
+            data is None and model is None):
+            raise ValueError("Model option or QuerySet-like object data"
+                             "is required.")
+        if data is None:
+            self.queryset = model.objects.all()
+        elif isinstance(data, QuerySet):
+            self.queryset = data
+        else:
+            self.list = list(data)
+
+    @property
+    def data(self):
+        return self.queryset if hasattr(self, "queryset") else self.list
+
+    def __len__(self):
+        return (self.queryset.count() if hasattr(self, 'queryset')
+                                      else len(self.list))
+
+    def __iter__(self):
+        return iter(self.data)
+
+    def __getitem__(self, key):
+        return self.data[key]
+    
+
+class TableDataMap(object):
+    """
+    A data map that represents relationship between Table instance and
+    Model.
+    """
+    map = {}
+
+    @classmethod
+    def register(cls, token, model, columns):
+        if token not in TableDataMap.map:
+            TableDataMap.map[token] = (model, columns)
+
+    @classmethod
+    def get_model(cls, token):
+        return TableDataMap.map.get(token)[0]
+
+    @classmethod
+    def get_columns(cls, token):
+        return TableDataMap.map.get(token)[1]
+
+
 class TableAddons(object):
     def __init__(self, table):
         options = table.opts
@@ -81,9 +128,14 @@ class TableAddons(object):
             dom += "<'row'" + ''.join([self.info_label.dom, self.pagination.dom, self.length_menu.dom]) + ">"
         return mark_safe(dom)
 
+
 class TableOptions(object):
     def __init__(self, options=None):
         self.model = getattr(options, 'model', None)
+
+        # ajax option
+        self.ajax = getattr(options, 'ajax', False)
+        self.ajax_source = getattr(options, 'ajax_source', None)
 
         # id attribute of <table> tag
         self.id = getattr(options, 'id', None)
@@ -140,13 +192,15 @@ class TableOptions(object):
 
         self.zero_records = getattr(options, 'zero_records', u'No records')
 
+
 class TableMetaClass(type):
     """ Meta class for create Table class instance.
     """
 
     def __new__(cls, name, bases, attrs):
         opts = TableOptions(attrs.get('Meta', None))
-        if not opts.id:
+        # take class name in lower case as table's id
+        if opts.id is None:
             opts.id = name.lower()
         attrs['opts'] = opts
 
@@ -154,7 +208,7 @@ class TableMetaClass(type):
         columns = []
         for attr_name, attr in attrs.items():
             if isinstance(attr, SequenceColumn):
-                columns.extend(attr.extract())
+                columns.extend(attr)
             elif isinstance(attr, Column):
                 columns.append(attr)
         columns.sort(key=lambda x: x.instance_order)
@@ -166,8 +220,11 @@ class TableMetaClass(type):
         for base in bases[::-1]:
             if hasattr(base, "base_columns"):
                 parent_columns = base.base_columns + parent_columns
-
         attrs['base_columns'] = parent_columns + columns
+
+        if opts.ajax:
+            attrs['token'] = uuid4().hex
+            TableDataMap.register(attrs['token'], opts.model, attrs['base_columns'])
 
         return super(TableMetaClass, cls).__new__(cls, name, bases, attrs)
 

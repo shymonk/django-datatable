@@ -37,7 +37,9 @@ class Accessor(str):
                     break
             return obj
         except Exception, e:
-            if not quiet:
+            if quiet:
+                return None
+            else: 
                 raise e
 
     @property

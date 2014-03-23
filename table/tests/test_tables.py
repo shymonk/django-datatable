@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from django.contrib.auth.models import User
 from django.db.models.query import EmptyQuerySet
 from django.db import models
 from django.test import TestCase
@@ -20,7 +19,7 @@ class BaseTableTestCase(TestCase):
 
     def test_data_source(self):
         data = [{'id': 1, 'name': 'a'}, {'id': 2, 'name': 'b'}]        
-        self.assertEqual(self.table.data, data)
+        self.assertEqual(self.table.data.list, data)
 
     def test_rows(self):
         first_row= self.table.rows[0].values()
@@ -34,6 +33,17 @@ class BaseTableTestCase(TestCase):
         self.assertEqual(first_header_row, ['ID',])
         self.assertEqual(second_header_row, ['NAME',])
 
+class TableDataMapTestCase(TestCase):
+    def test_register(self):
+        pass
+
+    def test_get_data(self):
+        pass
+
+    def test_get_columns(self):
+        pass
+
+
 class TableAddonsTestCase(TestCase):
     def test_basic_init(self):
         pass
@@ -46,6 +56,6 @@ class TableOptionsTestCase(TestCase):
         pass
 
 
-class TableMetaTestCase(TestCase):
+class TableMetaClassTestCase(TestCase):
     def test_create_class_obj(self):
         pass

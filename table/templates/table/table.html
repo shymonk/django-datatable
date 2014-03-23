@@ -19,17 +19,17 @@
         </tr>
         {% endfor %}
     </thead>
+    {% if not table.opts.ajax %}
     <tbody {% if table.opts.tbody_attrs %}{{ table.opts.tbody_attrs }}{% endif %}>
         {% for row in table.rows %}
         <tr>
             {% for column, td in row.items %}
-            <td {% if column.attrs %}{{ column.attrs }}{% endif %}>
-            {% if column.safe %}{{ td }}{% else %}{{ td|safe }}{% endif %}
-            </td>
+            <td {% if column.attrs %}{{ column.attrs }}{% endif %}>{% if column.safe %}{{ td }}{% else %}{{ td|safe }}{% endif %}</td>
             {% endfor %}
         </tr>
         {% endfor %}
     </tbody>
+    {% endif %}
 </table>
 
 <script type="text/javascript" charset="utf-8">
@@ -40,6 +40,10 @@ $(function() {
 
     var table = $('#{{ table.opts.id }}').dataTable({
         "sDom": "{{ table.addons.render_dom }}",
+        {% if table.opts.ajax %}
+        "bServerSide": true,
+        "sAjaxSource": {% if table.opts.ajax_source %}"{{ table.opts.ajax_source }}"{% else %}"{% url 'feed_data' table.token %}"{% endif %},
+        {% endif %}
         {% if table.opts.disable_pagination %}
         "bPaginate": false,
         {% endif %}
@@ -81,13 +85,13 @@ $(function() {
             }
         },
         "fnInitComplete": function(oSettings, json) {
-            {% if table.addons.ext_button.template %}
+            {% if table.opts.ext_button_template %}
             $("#{{ table.opts.id }}_wrapper .ext-btn").append('{{ table.addons.ext_button.html }}');
             {% endif %}
             {% if not table.opts.disable_search %}
-            $("#{{ table.opts.id }}_wrapper input").wrap('<div class="input-group"></div>');
-            $("#{{ table.opts.id }}_wrapper input").before('<span class="input-group-addon filter_icon"><i class="glyphicon glyphicon-search"></i></span>');
-            $("#{{ table.opts.id }}_wrapper input").attr("placeholder", "{{ table.addons.search_box.placeholder }}");
+            $("#{{ table.opts.id }}_wrapper .dataTables_filter input").wrap('<div class="input-group"></div>');
+            $("#{{ table.opts.id }}_wrapper .dataTables_filter input").before('<span class="input-group-addon filter_icon"><i class="glyphicon glyphicon-search"></i></span>');
+            $("#{{ table.opts.id }}_wrapper .dataTables_filter input").attr("placeholder", "{{ table.addons.search_box.placeholder }}");
             {% endif %}
         }
     });
