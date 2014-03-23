@@ -15,6 +15,7 @@ from table import Table
 class TestTable(Table):
     id = Column('id', header='#')
     name = Column('name', header='NAME')
+    email = Column('email', header='EMAIL', searchable=False)
 
     class Meta:
         model = Person
@@ -36,10 +37,10 @@ class FeedDataViewTestCase(TestCase):
             "iSortingCols": 1
         }
 
-        Person.objects.create(id=1, name="Tom")
-        Person.objects.create(id=2, name="Jerry")
+        Person.objects.create(id=1, name="Tom", email="tom@mail.com")
+        Person.objects.create(id=2, name="Jerry", email="jerry@mail.com")
 
-    def test_api_basic(self):
+    def test_basic(self):
         response = self.client.get(self.url, self.payload)
         self.assertEqual(response.status_code, 200)
 
@@ -48,11 +49,11 @@ class FeedDataViewTestCase(TestCase):
             "sEcho": "1",
             "iTotalRecords": 2,
             "iTotalDisplayRecords": 2,
-            "aaData": [[1, "Tom"], [2, "Jerry"]]
+            "aaData": [[1, "Tom", "tom@mail.com"], [2, "Jerry", "jerry@mail.com"]]
             }
         self.assertEqual(data, expect_data)
 
-    def test_api_search(self):
+    def test_search(self):
         url, payload = self.url, self.payload
         payload.update({"sSearch": "T"})
 
@@ -64,11 +65,62 @@ class FeedDataViewTestCase(TestCase):
             "sEcho": "1",
             "iTotalRecords": 2,
             "iTotalDisplayRecords": 1,
-            "aaData": [[1, "Tom"]]
+            "aaData": [[1, "Tom", "tom@mail.com"]]
         }
         self.assertEqual(data, expect_data)
 
-    def test_api_sort(self):
+    def test_search_fuzzy(self):
+        url, payload = self.url, self.payload
+        payload.update({"sSearch": "T 2"})
+
+        response = self.client.get(url, payload)
+        self.assertEqual(response.status_code, 200)
+
+        data = json.loads(response.content)
+        expect_data = {
+            "sEcho": "1",
+            "iTotalRecords": 2,
+            "iTotalDisplayRecords": 0,
+            "aaData": []
+        }
+        self.assertEqual(data, expect_data)
+        
+    def test_unsearchable_column(self):
+        url, payload = self.url, self.payload
+        payload.update({"sSearch": "mail"})
+
+        response = self.client.get(url, payload)
+        self.assertEqual(response.status_code, 200)
+
+        data = json.loads(response.content)
+        expect_data = {
+            "sEcho": "1",
+            "iTotalRecords": 2,
+            "iTotalDisplayRecords": 0,
+            "aaData": []
+        }
+        self.assertEqual(data, expect_data)
+
+    def test_sort_asc(self):
+        url, payload = self.url, self.payload
+        payload.update({
+            "iSortCol_0": 0,
+            "sSortDir_0": "asc",
+        })
+
+        response = self.client.get(url, payload)
+        self.assertEqual(response.status_code, 200)
+
+        data = json.loads(response.content)
+        expect_data = {
+            "sEcho": "1",
+            "iTotalRecords": 2,
+            "iTotalDisplayRecords": 2,
+            "aaData": [[1, "Tom", "tom@mail.com"], [2, "Jerry", "jerry@mail.com"]]
+        }
+        self.assertEqual(data, expect_data)
+
+    def test_sort_desc(self):
         url, payload = self.url, self.payload
         payload.update({
             "iSortCol_0": 0,
@@ -83,6 +135,6 @@ class FeedDataViewTestCase(TestCase):
             "sEcho": "1",
             "iTotalRecords": 2,
             "iTotalDisplayRecords": 2,
-            "aaData": [[2, "Jerry"], [1, "Tom"]]
+            "aaData": [[2, "Jerry", "jerry@mail.com"], [1, "Tom", "tom@mail.com"]]
         }
         self.assertEqual(data, expect_data)
