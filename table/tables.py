@@ -3,18 +3,21 @@
 
 import copy
 import traceback
+from uuid import uuid4
 from django.db.models.query import QuerySet
+from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.utils.datastructures import SortedDict
 from columns import Column, BoundColumn, SequenceColumn
 from addon import (TableSearchBox, TableInfoLabel, TablePagination,
                    TableLengthMenu, TableExtButton)
 
+
 class BaseTable(object):
 
     def __init__(self, data=None):
         self.data = TableData(data, self)
-
+        
         # Make a copy so that modifying this will not touch the class definition.
         self.columns = copy.deepcopy(self.base_columns)
         # Build table add-ons
@@ -48,6 +51,7 @@ class BaseTable(object):
             header_rows[header.row_order].append(header)
         return header_rows
 
+
 class TableData(object):
     def __init__(self, data, table):
         model = getattr(table.opts, "model", None)
@@ -77,6 +81,27 @@ class TableData(object):
         return self.data[key]
     
 
+class TableDataMap(object):
+    """
+    A data map that represents relationship between Table instance and
+    Model.
+    """
+    map = {}
+
+    @classmethod
+    def register(cls, token, model, columns):
+        if token not in TableDataMap.map:
+            TableDataMap.map[token] = (model, columns)
+
+    @classmethod
+    def get_model(cls, token):
+        return TableDataMap.map.get(token)[0]
+
+    @classmethod
+    def get_columns(cls, token):
+        return TableDataMap.map.get(token)[1]
+
+
 class TableAddons(object):
     def __init__(self, table):
         options = table.opts
@@ -103,9 +128,14 @@ class TableAddons(object):
             dom += "<'row'" + ''.join([self.info_label.dom, self.pagination.dom, self.length_menu.dom]) + ">"
         return mark_safe(dom)
 
+
 class TableOptions(object):
     def __init__(self, options=None):
         self.model = getattr(options, 'model', None)
+
+        # ajax option
+        self.ajax = getattr(options, 'ajax', False)
+        self.ajax_source = getattr(options, 'ajax_source', None)
 
         # id attribute of <table> tag
         self.id = getattr(options, 'id', None)
@@ -133,9 +163,12 @@ class TableOptions(object):
         # inspect sorting option
         self.sort = []
         for column, order in getattr(options, 'sort', []):
-            if not isinstance(column, int) or order not in ('asc', 'desc'):
+            if not isinstance(column, int):
                 raise ValueError('Sorting option must be organized by following'
                                  ' forms: [(0, "asc"), (1, "desc")]')
+            if order not in ('asc', 'desc'):
+                raise ValueError('Order value must be "asc" or "desc", '
+                                 '"%s" is unsupported.' % order)
             self.sort.append((column, order))
 
         # options for table add-on
@@ -159,13 +192,15 @@ class TableOptions(object):
 
         self.zero_records = getattr(options, 'zero_records', u'No records')
 
+
 class TableMetaClass(type):
     """ Meta class for create Table class instance.
     """
 
     def __new__(cls, name, bases, attrs):
         opts = TableOptions(attrs.get('Meta', None))
-        if not opts.id:
+        # take class name in lower case as table's id
+        if opts.id is None:
             opts.id = name.lower()
         attrs['opts'] = opts
 
@@ -185,8 +220,11 @@ class TableMetaClass(type):
         for base in bases[::-1]:
             if hasattr(base, "base_columns"):
                 parent_columns = base.base_columns + parent_columns
-
         attrs['base_columns'] = parent_columns + columns
+
+        if opts.ajax:
+            attrs['token'] = uuid4().hex
+            TableDataMap.register(attrs['token'], opts.model, attrs['base_columns'])
 
         return super(TableMetaClass, cls).__new__(cls, name, bases, attrs)
 

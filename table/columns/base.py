@@ -55,7 +55,11 @@ class BoundColumn(object):
 
     @property
     def html(self):
-        return self.column.render(self.obj) or ''
+        text = self.column.render(self.obj)
+        if text is None:
+            return ''
+        else:
+            return text
 
     @property
     def attrs(self):

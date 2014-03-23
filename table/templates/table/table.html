@@ -19,6 +19,7 @@
         </tr>
         {% endfor %}
     </thead>
+    {% if not table.opts.ajax %}
     <tbody {% if table.opts.tbody_attrs %}{{ table.opts.tbody_attrs }}{% endif %}>
         {% for row in table.rows %}
         <tr>
@@ -28,6 +29,7 @@
         </tr>
         {% endfor %}
     </tbody>
+    {% endif %}
 </table>
 
 <script type="text/javascript" charset="utf-8">
@@ -38,6 +40,10 @@ $(function() {
 
     var table = $('#{{ table.opts.id }}').dataTable({
         "sDom": "{{ table.addons.render_dom }}",
+        {% if table.opts.ajax %}
+        "bServerSide": true,
+        "sAjaxSource": {% if table.opts.ajax_source %}"{{ table.opts.ajax_source }}"{% else %}"{% url 'feed_data' table.token %}"{% endif %},
+        {% endif %}
         {% if table.opts.disable_pagination %}
         "bPaginate": false,
         {% endif %}
@@ -79,7 +85,7 @@ $(function() {
             }
         },
         "fnInitComplete": function(oSettings, json) {
-            {% if table.addons.ext_button.template %}
+            {% if table.opts.ext_button_template %}
             $("#{{ table.opts.id }}_wrapper .ext-btn").append('{{ table.addons.ext_button.html }}');
             {% endif %}
             {% if not table.opts.disable_search %}
