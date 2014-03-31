@@ -215,3 +215,7 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
 * length-menu
 
 * extense-button
+
+## API Reference
+
+* [wiki](https://github.com/shymonk/django-table/wiki/API-Reference)
