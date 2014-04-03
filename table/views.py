@@ -9,6 +9,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 
 from table.forms import QueryDataForm
 from table.tables import TableDataMap
+from table.columns import SequenceColumn
 
 
 class JSONResponseMixin(object):
@@ -94,7 +95,17 @@ class FeedDataView(JSONResponseMixin, BaseListView):
         return queryset
 
     def convert_queryset_to_values_list(self, queryset):
-        return [[col.render(obj) for col in self.columns] for obj in queryset]
+        # FIXME: unit test
+        values_list = []
+        for obj in queryset:
+            values = []
+            for col in self.columns:
+                if isinstance(col, SequenceColumn):
+                    values.extend(col.render(obj))
+                else:
+                    values.append(col.render(obj))
+            values_list.append(values)
+        return values_list
 
     def get_context_data(self, **kwargs):
         sEcho = self.query_data["sEcho"]
@@ -109,8 +120,8 @@ class FeedDataView(JSONResponseMixin, BaseListView):
             values_list = self.convert_queryset_to_values_list(paginated_queryset)
             context = {
                 "sEcho": sEcho,
-                "iTotalRecords": queryset.count(),
-                "iTotalDisplayRecords": filtered_queryset.count(),
+                "iTotalRecords": len(queryset),
+                "iTotalDisplayRecords": len(filtered_queryset),
                 "aaData": values_list,
             }
         else:

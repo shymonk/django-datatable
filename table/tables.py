@@ -220,11 +220,17 @@ class TableMetaClass(type):
         for base in bases[::-1]:
             if hasattr(base, "base_columns"):
                 parent_columns = base.base_columns + parent_columns
-        attrs['base_columns'] = parent_columns + columns
+        base_columns = parent_columns + columns
 
+        # For ajax data source, store columns into global hash map with
+        # unique token key. So that, columns can be get to construct data
+        # on views layer.
+        token = uuid4().hex
         if opts.ajax:
-            attrs['token'] = uuid4().hex
-            TableDataMap.register(attrs['token'], opts.model, attrs['base_columns'])
+            TableDataMap.register(token, opts.model, copy.deepcopy(base_columns))
+
+        attrs['token'] = token
+        attrs['base_columns'] = base_columns
 
         return super(TableMetaClass, cls).__new__(cls, name, bases, attrs)
 
