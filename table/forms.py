@@ -6,7 +6,7 @@ from django import forms
 
 class QueryDataForm(forms.Form):
     """
-    Noninteractive form that used to organize query parameters
+    Non-interactive form that used to organize query parameters
     of DataTables.
     """
     sEcho = forms.CharField()
