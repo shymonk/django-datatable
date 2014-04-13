@@ -8,9 +8,8 @@ from django.db.models.query import QuerySet
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.utils.datastructures import SortedDict
-from columns import Column, BoundColumn, SequenceColumn
-from addon import (TableSearchBox, TableInfoLabel, TablePagination,
-                   TableLengthMenu, TableExtButton)
+from .columns import Column, BoundColumn, SequenceColumn
+from .widgets import SearchBox, InfoLabel, Pagination, LengthMenu, ExtButton
 
 
 class BaseTable(object):
@@ -21,7 +20,7 @@ class BaseTable(object):
         # Make a copy so that modifying this will not touch the class definition.
         self.columns = copy.deepcopy(self.base_columns)
         # Build table add-ons
-        self.addons = TableAddons(self)
+        self.addons = TableWidgets(self)
 
     @property
     def rows(self):
@@ -102,22 +101,21 @@ class TableDataMap(object):
         return TableDataMap.map.get(token)[1]
 
 
-class TableAddons(object):
+class TableWidgets(object):
     def __init__(self, table):
-        options = table.opts
-        self.length_menu = TableLengthMenu(visible=options.length_menu)
-        self.info_label = TableInfoLabel(format=options.info_format,
-                                         visible=options.info)
-        self.search_box = TableSearchBox(placeholder=options.search_placeholder,
-                                         visible=options.search)
-        self.ext_button = TableExtButton(template=options.ext_button_template,
-                                         context=options.ext_button_context,
-                                         visible=options.ext_button)
-        self.pagination = TablePagination(first=options.pagination_first,
-                                          last=options.pagination_last,
-                                          prev=options.pagination_prev,
-                                          next=options.pagination_next,
-                                          visible=options.pagination)
+        opts = table.opts
+        self.search_box = SearchBox(opts.search, opts.search_placeholder)
+        self.length_menu = LengthMenu(opts.length_menu)
+        self.info_label = InfoLabel(opts.info, opts.info_format)
+        self.pagination = Pagination(opts.pagination,
+                                     opts.pagination_first,
+                                     opts.pagination_last,
+                                     opts.pagination_prev,
+                                     opts.pagination_next)
+        self.ext_button = ExtButton(opts.ext_button,
+                                    opts.ext_button_template,
+                                    opts.ext_button_template_name,
+                                    opts.ext_button_context)
 
     def render_dom(self):
         dom = ''
@@ -173,21 +171,22 @@ class TableOptions(object):
 
         # options for table add-on
         self.search = getattr(options, 'search', True)
-        self.search_placeholder = getattr(options, 'search_placeholder', 'Search')
+        self.search_placeholder = getattr(options, 'search_placeholder', None)
 
         self.info = getattr(options, 'info', True)
-        self.info_format = getattr(options, 'info_format', 'Total _TOTAL_')
+        self.info_format = getattr(options, 'info_format', None)
 
         self.pagination = getattr(options, 'pagination', True)
-        self.pagination_first = getattr(options, 'pagination_first', 'First')
-        self.pagination_last = getattr(options, 'pagination_last', 'Last')
-        self.pagination_prev = getattr(options, 'pagination_prev', 'Prev')
-        self.pagination_next = getattr(options, 'pagination_next', 'Next')
+        self.pagination_first = getattr(options, 'pagination_first', None)
+        self.pagination_last = getattr(options, 'pagination_last', None)
+        self.pagination_prev = getattr(options, 'pagination_prev', None)
+        self.pagination_next = getattr(options, 'pagination_next', None)
 
         self.length_menu = getattr(options, 'length_menu', True)
 
         self.ext_button = getattr(options, 'ext_button', False)
         self.ext_button_template = getattr(options, 'ext_button_template', None)
+        self.ext_button_template_name = getattr(options, 'ext_button_template_name', None)
         self.ext_button_context = getattr(options, 'ext_button_context', None)
 
         self.zero_records = getattr(options, 'zero_records', u'No records')

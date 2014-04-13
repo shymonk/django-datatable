@@ -2,15 +2,15 @@
 # coding: utf-8
 
 from django.template.loader import get_template
-from django.template import Context
+from django.template import Context, Template
 from django.utils.safestring import mark_safe
 
 
-class TableSearchBox(object):
-    def __init__(self, placeholder=None, visible=True):
-        self.placeholder = placeholder 
+class SearchBox(object):
+    def __init__(self, visible=True, placeholder=None):
         self.visible = visible
-    
+        self.placeholder = placeholder or "Search"
+
     @property
     def dom(self):
         if self.visible:
@@ -18,10 +18,10 @@ class TableSearchBox(object):
         else:
             return "<'col-sm-3 col-md-3 col-lg-3'>"
 
-class TableInfoLabel(object):
-    def __init__(self, format, visible=True):
-        self.format = format
+class InfoLabel(object):
+    def __init__(self, visible=True, format=None):
         self.visible = visible
+        self.format = format or "Total _TOTAL_"
 
     @property
     def dom(self):
@@ -30,24 +30,24 @@ class TableInfoLabel(object):
         else:
             return "<'col-sm-3 col-md-3 col-lg-3'>"
 
-class TablePagination(object):
-    def __init__(self, first, last, prev, next, visible=True):
-        self.first = first
-        self.last = last
-        self.prev = prev
-        self.next = next
+class Pagination(object):
+    def __init__(self, visible=True, first=None, last=None, prev=None, next=None):
         self.visible = visible
+        self.first = first or "First"
+        self.last = last or "Last"
+        self.prev = prev or "Prev"
+        self.next = next or "Next"
 
     @property
     def dom(self):
         if self.visible:
             return ("<'col-sm-6 col-md-6 col-lg-6 col-sm-offset-2 "
-                    "col-md-offset-2 col-lg-offset-2'p>") 
+                    "col-md-offset-2 col-lg-offset-2'p>")
         else:
             return ("<'col-sm-6 col-md-6 col-lg-6 col-sm-offset-2 "
                     "col-md-offset-2 col-lg-offset-2'>")
 
-class TableLengthMenu(object):
+class LengthMenu(object):
     def __init__(self, visible=True):
         self.visible = visible
 
@@ -58,18 +58,23 @@ class TableLengthMenu(object):
         else:
             return "<'col-sm-1 col-md-1 col-lg-1'>"
 
-class TableExtButton(object):
-    def __init__(self, template, context=None, visible=True):
-        self.template = template
-        self.context = context
+class ExtButton(object):
+    def __init__(self, visible=True, template=None, template_name=None, context=None):
         self.visible = visible
+        self.context = Context(context)
+        if visible:
+            self.template = Template(template) if template else get_template(template_name)
 
     @property
     def dom(self):
-        return "<'col-sm-9 col-md-9 col-lg-9 ext-btn'>"
+        if self.visible:
+            return "<'col-sm-9 col-md-9 col-lg-9 ext-btn'>"
+        else:
+            return "<'col-sm-9 col-md-9 col-lg-9'>"
 
     @property
     def html(self):
-        template = get_template(self.template)
-        context = Context(self.context)
-        return mark_safe(template.render(context).strip())
+        if self.visible:
+            return mark_safe(self.template.render(self.context).strip())
+        else:
+            return ''
