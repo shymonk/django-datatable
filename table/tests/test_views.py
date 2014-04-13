@@ -2,13 +2,16 @@
 # coding: utf-8
 
 from uuid import uuid4
+from datetime import datetime
+
 from django.test import Client, TestCase
 from django.core.urlresolvers import reverse
 from django.utils import simplejson as json
+
 from table.views import FeedDataView
 from table.forms import QueryDataForm
 from table.models import Person
-from table.columns import Column
+from table.columns import Column, DaysColumn
 from table import Table
 
 
@@ -40,7 +43,7 @@ class FeedDataViewTestCase(TestCase):
         Person.objects.create(id=1, name="Tom", email="tom@mail.com")
         Person.objects.create(id=2, name="Jerry", email="jerry@mail.com")
 
-    def test_basic(self):
+    def test_model_data_source(self):
         response = self.client.get(self.url, self.payload)
         self.assertEqual(response.status_code, 200)
 
@@ -52,6 +55,9 @@ class FeedDataViewTestCase(TestCase):
             "aaData": [[1, "Tom", "tom@mail.com"], [2, "Jerry", "jerry@mail.com"]]
             }
         self.assertEqual(data, expect_data)
+
+    def test_queryset_data_source(self):
+        pass
 
     def test_search(self):
         url, payload = self.url, self.payload
@@ -138,3 +144,6 @@ class FeedDataViewTestCase(TestCase):
             "aaData": [[2, "Jerry", "jerry@mail.com"], [1, "Tom", "tom@mail.com"]]
         }
         self.assertEqual(data, expect_data)
+
+    def test_convert_queryset_to_values_list(self):
+        pass

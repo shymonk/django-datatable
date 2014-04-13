@@ -204,7 +204,7 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
 
 * Datetime Column
 
-## Table Add-on
+## Widgets
 
 * search-box
 

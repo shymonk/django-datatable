@@ -1,0 +1,26 @@
+{% spaceless %}
+<table id={{ table.opts.id }} {{ table.opts.attrs }} cellpadding="0" cellspacing="0" border="0">
+    <thead {% if table.opts.thead_attrs %}{{ table.opts.thead_attrs }}{% endif %}>
+        {% for row in table.header_rows %}
+        <tr>
+            {% for header in row %}
+            <th {% if header.attrs %}{{ header.attrs }}{% endif %}>
+            {{ header.text }}
+            </th>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </thead>
+    {% if not table.opts.ajax %}
+    <tbody {% if table.opts.tbody_attrs %}{{ table.opts.tbody_attrs }}{% endif %}>
+        {% for row in table.rows %}
+        <tr>
+            {% for column, td in row.items %}
+            <td {% if column.attrs %}{{ column.attrs }}{% endif %}>{% if column.safe %}{{ td }}{% else %}{{ td|safe }}{% endif %}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+    {% endif %}
+</table>
+{% endspaceless %}

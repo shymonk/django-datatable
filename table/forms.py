@@ -6,7 +6,7 @@ from django import forms
 
 class QueryDataForm(forms.Form):
     """
-    Noninteractive form that used to organize query parameters
+    Non-interactive form that used to organize query parameters
     of DataTables.
     """
     sEcho = forms.CharField()
@@ -15,7 +15,7 @@ class QueryDataForm(forms.Form):
     iColumns = forms.IntegerField()
     sSearch = forms.CharField(required=False)
     bRegex = forms.BooleanField(required=False)
-    iSortingCols = forms.IntegerField()
+    iSortingCols = forms.IntegerField(required=False)
 
     def __init__(self, data=None, *args, **kwargs):
         super(QueryDataForm, self).__init__(data, *args, **kwargs)
