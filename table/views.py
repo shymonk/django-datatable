@@ -94,6 +94,14 @@ class FeedDataView(JSONResponseMixin, BaseListView):
             queryset = queryset.order_by(*order_args)
         return queryset
 
+    def paging_queryset(self, queryset):
+        start = self.query_data["iDisplayStart"]
+        length = self.query_data["iDisplayLength"]
+        if length < 0:
+            return queryset
+        else:
+            return queryset[start: start+length]
+
     def convert_queryset_to_values_list(self, queryset):
         # FIXME: unit test
         values_list = []
@@ -108,20 +116,24 @@ class FeedDataView(JSONResponseMixin, BaseListView):
         return values_list
 
     def get_context_data(self, **kwargs):
+        """
+        Get context data for datatable server-side response.
+        See http://www.datatables.net/usage/server-side
+        """
         sEcho = self.query_data["sEcho"]
         queryset = kwargs.pop("object_list")
         if queryset is not None:
-            start = self.query_data["iDisplayStart"]
-            length = self.query_data["iDisplayLength"]
+            total_length = len(queryset)
+            queryset = self.filter_queryset(queryset)
+            display_length = len(queryset)
 
-            filtered_queryset = self.filter_queryset(queryset)
-            sorted_queryset = self.sort_queryset(filtered_queryset)
-            paginated_queryset = sorted_queryset[start : start + length]
-            values_list = self.convert_queryset_to_values_list(paginated_queryset)
+            queryset = self.sort_queryset(queryset)
+            queryset = self.paging_queryset(queryset)
+            values_list = self.convert_queryset_to_values_list(queryset)
             context = {
                 "sEcho": sEcho,
-                "iTotalRecords": len(queryset),
-                "iTotalDisplayRecords": len(filtered_queryset),
+                "iTotalRecords": total_length,
+                "iTotalDisplayRecords": display_length,
                 "aaData": values_list,
             }
         else:
