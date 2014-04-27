@@ -2,7 +2,7 @@
 # coding: utf-8
 
 from django.shortcuts import render
-from tables import (PersonTable, ScheduleTable, SequenceColumnTable,
+from tables import (PersonTable, CalendarColumnTable, SequenceColumnTable,
                     AjaxDataTable)
 
 
@@ -18,10 +18,6 @@ def base(request):
     return render(request, "index.html", {'people': people})
 
 
-def edit(request, id):
-    pass
-
-
 def sequence_column(request):
     data = [Foo(1, 'A', [1,2,3,4,5]), Foo(2, 'B', [1,2,3,4,5]), Foo(3, 'C', [1,2,3,4,5])]
     table = SequenceColumnTable(data)
@@ -29,8 +25,8 @@ def sequence_column(request):
 
 
 def calendar_column(request):
-    data = [Foo(1, 'A', [1,2,3,4,5,6]), Foo(2, 'B', [1,2,3,4,5,6]), Foo(3, 'C', [1,2,3,4,5,6])]
-    table = ScheduleTable(data)
+    data = [Foo(1, 'A', range(1, 14)), Foo(2, 'B', range(1, 14)), Foo(3, 'C', range(1, 14))]
+    table = CalendarColumnTable(data)
     return render(request, "index.html", {'people': table})
 
 

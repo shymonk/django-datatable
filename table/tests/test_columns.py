@@ -5,7 +5,7 @@ from datetime import date
 from django.test import TestCase
 from table.columns.base import Column, BoundColumn, ColumnHeader
 from table.columns.sequencecolumn import SequenceColumn
-from table.columns.calendarcolumn import DaysColumn, WeeksColumn, MonthsColumn
+from table.columns.calendarcolumn import DaysColumn, WeeksColumn, MonthsColumn, CalendarColumn
 
 
 class BaseColumntestCase(TestCase):
@@ -117,3 +117,15 @@ class MonthsColumnTestCase(TestCase):
         self.assertEqual(column1.headers, ['December',])
         column2 = MonthsColumn(None, date(2012, 12, 18), date(2013, 2, 1))
         self.assertEqual(column2.headers, ['December', 'January', 'February',])
+
+
+class CalendarColumnTestCase(TestCase):
+    def test_inline_month_columns(self):
+        column = CalendarColumn(None, date(2012, 12, 18), date(2013, 03, 01))
+        self.assertEqual(len(column), 4 + 74 + 74)
+        self.assertEqual(column.months_column.headers, ['December', 'January', 'February', 'March'])
+        self.assertEqual(column.months_column[0].header.base_attrs['colspan'], '14')
+        self.assertEqual(column.months_column[1].header.base_attrs['colspan'], '31')
+        self.assertEqual(column.months_column[2].header.base_attrs['colspan'], '28')
+        self.assertEqual(column.months_column[3].header.base_attrs['colspan'], '1')
+
