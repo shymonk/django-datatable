@@ -21,7 +21,7 @@
 
     * DatetimeColumn
 
-* New options to disable add-ons
+* New options to disable widgets
 
     * search
     * info
