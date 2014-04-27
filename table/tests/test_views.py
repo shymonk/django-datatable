@@ -90,7 +90,7 @@ class FeedDataViewTestCase(TestCase):
             "aaData": []
         }
         self.assertEqual(data, expect_data)
-        
+
     def test_unsearchable_column(self):
         url, payload = self.url, self.payload
         payload.update({"sSearch": "mail"})
@@ -142,6 +142,55 @@ class FeedDataViewTestCase(TestCase):
             "iTotalRecords": 2,
             "iTotalDisplayRecords": 2,
             "aaData": [[2, "Jerry", "jerry@mail.com"], [1, "Tom", "tom@mail.com"]]
+        }
+        self.assertEqual(data, expect_data)
+
+    def test_paging(self):
+        url, payload = self.url, self.payload
+
+        # query 1st page
+        payload.update({
+            "iDisplayStart": 0,
+            "iDisplayLength": 1,
+        })
+        response = self.client.get(url, payload)
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.content)
+        expect_data = {
+            "sEcho": "1",
+            "iTotalRecords": 2,
+            "iTotalDisplayRecords": 2,
+            "aaData": [[1, "Tom", "tom@mail.com"]]
+        }
+        self.assertEqual(data, expect_data)
+
+        # query 2nd page
+        payload.update({
+            "iDisplayStart": 1,
+            "iDisplayLength": 1,
+        })
+        response = self.client.get(url, payload)
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.content)
+        expect_data.update({
+            "aaData": [[2, "Jerry", "jerry@mail.com"]]
+        })
+        self.assertEqual(data, expect_data)
+
+    def test_paging_disabled(self):
+        url, payload = self.url, self.payload
+        payload.update({
+            "iDisplayStart": 0,
+            "iDisplayLength": -1,
+        })
+        response = self.client.get(url, payload)
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.content)
+        expect_data = {
+            "sEcho": "1",
+            "iTotalRecords": 2,
+            "iTotalDisplayRecords": 2,
+            "aaData": [[1, "Tom", "tom@mail.com"], [2, "Jerry", "jerry@mail.com"]]
         }
         self.assertEqual(data, expect_data)
 
