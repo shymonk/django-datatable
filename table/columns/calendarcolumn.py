@@ -5,16 +5,6 @@ import calendar
 from datetime import timedelta
 from table.columns.base import Column
 from table.columns.sequencecolumn import SequenceColumn
-
-
-def get_month_remaining_days(year, month, day):
-    """
-    Get remaining days of month for date, include
-    the current day.
-    """
-    return calendar.monthrange(year, month)[1] - day + 1
-
-
 class DaysColumn(SequenceColumn):
     def __init__(self, field=None, start_date=None, end_date=None, **kwargs):
         total_days = (end_date - start_date).days + 1
