@@ -63,7 +63,10 @@ class ExtButton(object):
         self.visible = visible
         self.context = Context(context)
         if visible:
-            self.template = Template(template) if template else get_template(template_name)
+            if template:
+                self.template = Template(unicode(template))
+            else:
+                self.template = get_template(template_name)
 
     @property
     def dom(self):

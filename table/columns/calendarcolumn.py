@@ -85,14 +85,17 @@ class InlineMonthsColumn(MonthsColumn):
 
         y = self.start_date.year + (self.start_date.month + month_index) / 13
         m = (self.start_date.month + month_index) % 12 or 12
-        d = self.start_date.day if is_first_month else 1
         total = calendar.monthrange(y, m)[1]
-        left = calendar.monthrange(y, m)[1] - d
 
-        if is_last_month:
-            return self.end_date.day
+        if is_first_month and is_last_month:
+            return (self.end_date - self.start_date).days + 1
         else:
-            return left + 1
+            if is_first_month:
+                return total - self.start_date.day + 1
+            elif is_last_month:
+                return self.end_date.day
+            else:
+                return total
 
 
 class CalendarColumn(SequenceColumn):

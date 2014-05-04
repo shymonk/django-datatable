@@ -129,3 +129,7 @@ class CalendarColumnTestCase(TestCase):
         self.assertEqual(column.months_column[2].header.base_attrs['colspan'], '28')
         self.assertEqual(column.months_column[3].header.base_attrs['colspan'], '1')
 
+        column = CalendarColumn(None, date(2014, 5, 4), date(2014, 5, 9))
+        self.assertEqual(len(column), 1+6+6)
+        self.assertEqual(column.months_column.headers, ['May'])
+        self.assertEqual(column.months_column[0].header.base_attrs['colspan'], '6')
