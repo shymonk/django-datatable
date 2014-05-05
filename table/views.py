@@ -115,6 +115,9 @@ class FeedDataView(JSONResponseMixin, BaseListView):
             values_list.append(values)
         return values_list
 
+    def get_queryset_length(self, queryset):
+        return queryset.count()
+
     def get_context_data(self, **kwargs):
         """
         Get context data for datatable server-side response.
@@ -123,9 +126,9 @@ class FeedDataView(JSONResponseMixin, BaseListView):
         sEcho = self.query_data["sEcho"]
         queryset = kwargs.pop("object_list")
         if queryset is not None:
-            total_length = len(queryset)
+            total_length = self.get_queryset_length(queryset)
             queryset = self.filter_queryset(queryset)
-            display_length = len(queryset)
+            display_length = self.get_queryset_length(queryset)
 
             queryset = self.sort_queryset(queryset)
             queryset = self.paging_queryset(queryset)
