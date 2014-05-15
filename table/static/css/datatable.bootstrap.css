@@ -1,8 +1,8 @@
 div.dataTables_length label {
-	font-weight: normal;
-	text-align: left;
+    margin-top: 4px;
+    font-weight: normal;
+    text-align: left;
     float: right;
-    padding-top: 4px
 }
 
 div.dataTables_length select {
@@ -30,6 +30,7 @@ div.dataTables_filter .glyphicon-search:before {
 .filter_icon {
     border-right: 0px;
     background-color: #FFFFFF;
+    padding-bottom: 5px;
 }
 
 div.dataTables_info {

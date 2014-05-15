@@ -2,8 +2,7 @@
 # coding: utf-8
 
 
-from table.utils import Accessor
-from django.utils.safestring import mark_safe
+from table.utils import Accessor, AttributesDict
 
 
 class Column(object):
@@ -71,7 +70,7 @@ class BoundColumn(object):
                 attrs[attr_name] = attr.resolve(self.obj)
             else:
                 attrs[attr_name] = attr
-        return mark_safe(' '.join(['%s="%s"' % (attr_name, attr) for attr_name, attr in attrs.items()]))
+        return AttributesDict(attrs).render()
 
 class ColumnHeader(object):
     def __init__(self, text=None, attrs=None, row_order=0):
@@ -81,4 +80,4 @@ class ColumnHeader(object):
 
     @property
     def attrs(self):
-        return mark_safe(' '.join(['%s="%s"' % (attr_name, attr) for attr_name, attr in self.base_attrs.items()]))
+        return AttributesDict(self.base_attrs).render()

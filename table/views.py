@@ -38,7 +38,8 @@ class FeedDataView(JSONResponseMixin, BaseListView):
     The view to feed ajax data of table.
     """
     def get(self, request, *args, **kwargs):
-        self.token = kwargs["token"]
+        if not hasattr(self, 'token'):
+            self.token = kwargs["token"]
         self.columns = TableDataMap.get_columns(self.token)
 
         query_form = QueryDataForm(request.GET)

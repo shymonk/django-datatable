@@ -113,7 +113,7 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
         # tables.py
         from models import Person
         from table import Table
-	    from table.columns import Column
+		    from table.columns import Column
 
         class PersonTable(Table):
             id = Column(field='id')

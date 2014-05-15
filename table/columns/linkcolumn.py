@@ -21,23 +21,27 @@ class Link(object):
     """
     Represents a html <a> tag.
     """
-    def __init__(self, text, viewname, args=None, kwargs=None, urlconf=None,
-                 current_app=None):
+    def __init__(self, text=None, viewname=None, args=None, kwargs=None, urlconf=None,
+                 current_app=None, attrs=None):
         self.basetext = text
         self.viewname = viewname
         self.args = args or []
         self.kwargs = kwargs or {}
         self.urlconf = urlconf
         self.current_app = current_app
+        self.base_attrs = attrs or {}
 
     @property
     def text(self):
         if isinstance(self.basetext, Accessor):
-            return self.basetext.resolve(self.obj)
+            return self.basetext.resolve(self.obj) or ""
         return self.basetext
 
     @property
     def url(self):
+        if self.viewname is None:
+            return ""
+
         # The following params + if statements create optional arguments to
         # pass to Django's reverse() function.
         params = {}
@@ -60,15 +64,25 @@ class Link(object):
                                      else self.current_app)
 
         return reverse(self.viewname, **params)
+
+    @property
+    def attrs(self):
+        if self.url:
+            self.base_attrs["href"] = self.url
+        return self.base_attrs
     
     def render(self, obj):
         """ Render link as HTML output tag <a>.
         """
         self.obj = obj
-        if not self.url or not self.text:
-            return ""
-        return mark_safe(u'<a href="%s">%s</a>' % (self.url, self.text))
-
+        attrs = ' '.join([
+            '%s="%s"' % (attr_name, attr.resolve(obj))
+            if isinstance(attr, Accessor)
+            else '%s="%s"' % (attr_name, attr)
+            for attr_name, attr in self.attrs.items()
+        ])
+        return mark_safe(u'<a %s>%s</a>' % (attrs, self.text))
+            
 
 class ImageLink(Link):
     """
@@ -77,7 +91,7 @@ class ImageLink(Link):
     def __init__(self, image, image_title, *args, **kwargs):
         self.image_path = image
         self.image_title = image_title
-        super(ImageLink, self).__init__(None, *args, **kwargs)
+        super(ImageLink, self).__init__(*args, **kwargs)
 
     @property
     def image(self):
@@ -90,6 +104,6 @@ class ImageLink(Link):
                             ' title="%s">' % (path, title))
         return template.render(Context())
 
-    def render(self, obj):
-        self.obj = obj
-        return mark_safe(u'<a href="%s">%s</a>' % (self.url, self.image))
+    @property
+    def text(self):
+        return self.image
