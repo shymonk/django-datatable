@@ -97,7 +97,7 @@ $(document).ready(function() {
         }
     });
     {% if table.opts.scrollable %}
-    new FixedColumns(table, {
+    new $.fn.dataTable.FixedColumns(table, {
  		{% if table.opts.fixed_columns %}"iLeftColumns": {{ table.opts.fixed_columns }},{% endif %}
 		{% if table.opts.fixed_columns_width %}"iLeftWidth": {{ table.opts.fixed_columns_width }}{% endif %}
  	});

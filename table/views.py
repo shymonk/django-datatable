@@ -105,16 +105,10 @@ class FeedDataView(JSONResponseMixin, BaseListView):
 
     def convert_queryset_to_values_list(self, queryset):
         # FIXME: unit test
-        values_list = []
-        for obj in queryset:
-            values = []
-            for col in self.columns:
-                if isinstance(col, SequenceColumn):
-                    values.extend(col.render(obj))
-                else:
-                    values.append(col.render(obj))
-            values_list.append(values)
-        return values_list
+        return [
+            [col.render(obj) for col in self.columns]
+            for obj in queryset
+        ]
 
     def get_queryset_length(self, queryset):
         return queryset.count()
