@@ -27,8 +27,12 @@ $.extend( $.fn.dataTableExt.oStdClasses, {
 /* API method to get hidden rows */
 $.fn.dataTableExt.oApi.fnGetHiddenNodes = function ( oSettings )
 {
+
     /* Note the use of a DataTables 'private' function thought the 'oApi' object */
-    var anNodes = this.oApi._fnGetTrNodes( oSettings );
+    // DataTables 1.10
+    var api = new jQuery.fn.dataTable.Api( oSettings );
+    var anNodes = api.rows().nodes().toArray();
+    // var anNodes = this.oApi._fnGetTrNodes( oSettings );
     var anDisplay = $('tbody tr', oSettings.nTable);
       
     /* Remove nodes which are being displayed */
