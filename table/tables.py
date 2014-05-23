@@ -108,6 +108,7 @@ class TableWidgets(object):
         self.length_menu = LengthMenu(opts.length_menu)
         self.info_label = InfoLabel(opts.info, opts.info_format)
         self.pagination = Pagination(opts.pagination,
+                                     opts.page_length,
                                      opts.pagination_first,
                                      opts.pagination_last,
                                      opts.pagination_prev,
@@ -177,6 +178,7 @@ class TableOptions(object):
         self.info_format = getattr(options, 'info_format', None)
 
         self.pagination = getattr(options, 'pagination', True)
+        self.page_length = getattr(options, 'page_length', 10)
         self.pagination_first = getattr(options, 'pagination_first', None)
         self.pagination_last = getattr(options, 'pagination_last', None)
         self.pagination_prev = getattr(options, 'pagination_prev', None)

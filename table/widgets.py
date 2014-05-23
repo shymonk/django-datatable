@@ -31,8 +31,10 @@ class InfoLabel(object):
             return "<'col-sm-3 col-md-3 col-lg-3'>"
 
 class Pagination(object):
-    def __init__(self, visible=True, first=None, last=None, prev=None, next=None):
+    def __init__(self, visible=True, length=10, first=None,
+                 last=None, prev=None, next=None):
         self.visible = visible
+        self.length = length
         self.first = first or "First"
         self.last = last or "Last"
         self.prev = prev or "Prev"
