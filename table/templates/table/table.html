@@ -2,9 +2,9 @@
 {% load static %}
 
 <link href="{% static 'css/datatable.bootstrap.css' %}" rel="stylesheet" media="screen">
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="http://cdn.datatables.net/1.10.0/js/jquery.dataTables.min.js" type="text/javascript"></script>
 <script src="{% static 'js/jquery.browser.min.js' %}" type="text/javascript"></script>
-<script src="{% static 'js/FixedColumns.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/dataTables.fixedColumns.min.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/bootstrap.dataTables.js' %}" type="text/javascript"></script>
 
 <table id={{ table.opts.id }} {{ table.opts.attrs }} cellpadding="0" cellspacing="0" border="0">
@@ -39,34 +39,34 @@ $(document).ready(function() {
     };
 
     var table = $('#{{ table.opts.id }}').dataTable({
-        "sDom": "{{ table.addons.render_dom }}",
+        "dom": "{{ table.addons.render_dom }}",
+        "stateSave": true,
         {% if table.opts.ajax %}
-        "bProcessing": true,
-        "bServerSide": true,
-        "sAjaxSource": {% if table.opts.ajax_source %}"{{ table.opts.ajax_source }}"{% else %}"{% url 'feed_data' table.token %}"{% endif %},
+        "processing": true,
+        "serverSide": true,
+        "ajaxSource": {% if table.opts.ajax_source %}"{{ table.opts.ajax_source }}"{% else %}"{% url feed_data table.token %}"{% endif %},
         {% endif %}
-        {% if table.opts.disable_pagination %}
-        "bPaginate": false,
-        {% endif %}
+        "paging": {% if table.opts.pagination %}true,{% else %}false,{% endif %}
+        "pageLength": {{ table.addons.pagination.length }},
         {% if table.opts.scrollable %}
-        "sScrollX": "100%",
-        "bScrollCollapse": true,
+        "scrollX": "100%",
         "sScrollXInner": "{{ table.opts.scrollinner }}",
+        "scrollCollapse": true,
         {% endif %}
-        "aaSorting": [
+        "order": [
             {% for index, order in table.opts.sort %}
             [ {{ index }}, "{{ order }}" ],
             {% endfor %}
          ],
-        "aoColumns": [
+        "columns": [
             {% for column in table.columns %}
             {% if column.space %}
             {
-                {% if not column.searchable %}"bSearchable": false,{% endif %}
-                {% if not column.sortable %}"bSortable": false,{% endif %}
-                {% if not column.visible %}"bVisible": false,{% endif %}
+                {% if not column.searchable %}"searchable": false,{% endif %}
+                {% if not column.sortable %}"orderable": false,{% endif %}
+                {% if not column.visible %}"visible": false,{% endif %}
                 {% if column.links %}
-                "mRender": function(data, type, full) {
+                "render": function(data, type, full) {
                     return type == 'filter' ? $(data).text() : data
                 }
                 {% endif %}
@@ -74,22 +74,22 @@ $(document).ready(function() {
             {% endif %}
             {% endfor %}
         ],
-        "oLanguage": {
-            "sInfo": "{{ table.addons.info_label.format }}",
-            "sInfoEmpty": "{{ table.addons.info_label.format }}",
-            "sZeroRecords": "{{ table.opts.zero_records }}",
-            "oPaginate": {
-                "sFirst": "{{ table.addons.pagination.first }}",
-                "sLast": "{{ table.addons.pagination.last }}",
-                "sNext": "{{ table.addons.pagination.next }}",
-                "sPrevious": "{{ table.addons.pagination.prev }}"
+        "language": {
+            "info": "{{ table.addons.info_label.format }}",
+            "infoEmpty": "{{ table.addons.info_label.format }}",
+            "zeroRecords": "{{ table.opts.zero_records }}",
+            "paginate": {
+                "first": "{{ table.addons.pagination.first }}",
+                "last": "{{ table.addons.pagination.last }}",
+                "next": "{{ table.addons.pagination.next }}",
+                "previous": "{{ table.addons.pagination.prev }}"
             }
         },
-        "fnInitComplete": function(oSettings, json) {
-            {% if table.opts.ext_button_template %}
+        "initComplete": function(oSettings, json) {
+            {% if table.opts.ext_button %}
             $("#{{ table.opts.id }}_wrapper .ext-btn").append('{{ table.addons.ext_button.html }}');
             {% endif %}
-            {% if not table.opts.disable_search %}
+            {% if table.opts.search %}
             $("#{{ table.opts.id }}_wrapper .dataTables_filter input").wrap('<div class="input-group"></div>');
             $("#{{ table.opts.id }}_wrapper .dataTables_filter input").before('<span class="input-group-addon filter_icon"><i class="glyphicon glyphicon-search"></i></span>');
             $("#{{ table.opts.id }}_wrapper .dataTables_filter input").attr("placeholder", "{{ table.addons.search_box.placeholder }}");
