@@ -13,6 +13,8 @@ and mainly for the purpose of learning. I really appreciate that anyone make pul
 
 ## Requirement
 
+* Python 2.x
+
 * jQuery 1.6+
 
 * Bootstrap 3.0
@@ -68,7 +70,7 @@ Now define a PersonTable class without any options in table file.
         {% load static %}
         {% load table_tags %}
 
-        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
         <script src="{% static 'js/jquery.min.js' %}"></script>
         <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
@@ -203,6 +205,12 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
 * Link Column
 
 * Datetime Column
+
+* Checkbox Column
+ 
+* Sequence Column
+
+* Calendar Column
 
 ## Widgets
 
