@@ -7,14 +7,6 @@ from table.columns.base import Column
 from table.columns.sequencecolumn import SequenceColumn
 
 
-def get_month_remaining_days(year, month, day):
-    """
-    Get remaining days of month for date, include
-    the current day.
-    """
-    return calendar.monthrange(year, month)[1] - day + 1
-
-
 class DaysColumn(SequenceColumn):
     def __init__(self, field=None, start_date=None, end_date=None, **kwargs):
         total_days = (end_date - start_date).days + 1
@@ -95,14 +87,17 @@ class InlineMonthsColumn(MonthsColumn):
 
         y = self.start_date.year + (self.start_date.month + month_index) / 13
         m = (self.start_date.month + month_index) % 12 or 12
-        d = self.start_date.day if is_first_month else 1
         total = calendar.monthrange(y, m)[1]
-        left = calendar.monthrange(y, m)[1] - d
 
-        if is_last_month:
-            return self.end_date.day
+        if is_first_month and is_last_month:
+            return (self.end_date - self.start_date).days + 1
         else:
-            return left + 1
+            if is_first_month:
+                return total - self.start_date.day + 1
+            elif is_last_month:
+                return self.end_date.day
+            else:
+                return total
 
 
 class CalendarColumn(SequenceColumn):

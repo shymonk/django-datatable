@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from django.db import models
+import time
 
+from django.db import models
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
 
 class Accessor(str):
     """ A string describing a path from one object to another via attribute/index
@@ -49,3 +52,25 @@ class Accessor(str):
         return self.split(self.SEPARATOR)
 
 A = Accessor
+
+
+class AttributesDict(dict):
+    """
+    A `dict` wrapper to render as HTML element attributes.
+    """
+    def render(self):
+        return mark_safe(' '.join([
+            '%s="%s"' % (attr_name, escape(attr))
+            for attr_name, attr in self.items()
+        ]))
+
+
+def timeit(func):
+    def wrap(*args, **kwargs):
+        ts = time.time()
+        result = func(*args, **kwargs)
+        te = time.time()
+        print 'func: %r took: %f ms' % (func.__name__, (te-ts) * 1000)
+        return result
+    return wrap
+

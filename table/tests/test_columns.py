@@ -2,8 +2,12 @@
 # coding: utf-8
 
 from datetime import date
+
 from django.test import TestCase
+
+from table.utils import A
 from table.columns.base import Column, BoundColumn, ColumnHeader
+from table.columns.linkcolumn import LinkColumn, Link, ImageLink
 from table.columns.sequencecolumn import SequenceColumn
 from table.columns.calendarcolumn import DaysColumn, WeeksColumn, MonthsColumn, CalendarColumn
 
@@ -35,6 +39,25 @@ class BaseColumntestCase(TestCase):
         f = Foo("bar")
         column = Column("foo")
         self.assertEqual(column.render(f), "bar")
+
+
+class LinkColumnTestCase(TestCase):
+    def test_link(self):
+        link = Link(text=A("foo"))
+        self.assertEqual(link.render({}), "<a ></a>")
+        self.assertEqual(link.render({"foo": "bar"}), "<a >bar</a>")
+
+    def test_imagelink(self):
+        image_link = ImageLink(image="test.jpg", image_title="foo")
+        self.assertEqual(image_link.render({}), '<a ><img src="/static/test.jpg" title="foo"></a>')
+        image_link = ImageLink(image="test.jpg", image_title=A("foo"))
+        self.assertEqual(image_link.render({"foo": "bar"}), '<a ><img src="/static/test.jpg" title="bar"></a>')
+        
+    def test_link_column(self):
+        col = LinkColumn("Foo", links=[])
+
+    def test_link_column_without_link(self):
+        pass
 
 
 class SequenceColumnTestCase(TestCase):
@@ -129,3 +152,7 @@ class CalendarColumnTestCase(TestCase):
         self.assertEqual(column.months_column[2].header.base_attrs['colspan'], '28')
         self.assertEqual(column.months_column[3].header.base_attrs['colspan'], '1')
 
+        column = CalendarColumn(None, date(2014, 5, 4), date(2014, 5, 9))
+        self.assertEqual(len(column), 1+6+6)
+        self.assertEqual(column.months_column.headers, ['May'])
+        self.assertEqual(column.months_column[0].header.base_attrs['colspan'], '6')

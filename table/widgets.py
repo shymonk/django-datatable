@@ -31,8 +31,10 @@ class InfoLabel(object):
             return "<'col-sm-3 col-md-3 col-lg-3'>"
 
 class Pagination(object):
-    def __init__(self, visible=True, first=None, last=None, prev=None, next=None):
+    def __init__(self, visible=True, length=10, first=None,
+                 last=None, prev=None, next=None):
         self.visible = visible
+        self.length = length
         self.first = first or "First"
         self.last = last or "Last"
         self.prev = prev or "Prev"
@@ -63,7 +65,10 @@ class ExtButton(object):
         self.visible = visible
         self.context = Context(context)
         if visible:
-            self.template = Template(template) if template else get_template(template_name)
+            if template:
+                self.template = Template(unicode(template))
+            else:
+                self.template = get_template(template_name)
 
     @property
     def dom(self):

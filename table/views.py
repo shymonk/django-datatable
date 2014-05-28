@@ -38,7 +38,8 @@ class FeedDataView(JSONResponseMixin, BaseListView):
     The view to feed ajax data of table.
     """
     def get(self, request, *args, **kwargs):
-        self.token = kwargs["token"]
+        if not hasattr(self, 'token'):
+            self.token = kwargs["token"]
         self.columns = TableDataMap.get_columns(self.token)
 
         query_form = QueryDataForm(request.GET)
@@ -104,16 +105,13 @@ class FeedDataView(JSONResponseMixin, BaseListView):
 
     def convert_queryset_to_values_list(self, queryset):
         # FIXME: unit test
-        values_list = []
-        for obj in queryset:
-            values = []
-            for col in self.columns:
-                if isinstance(col, SequenceColumn):
-                    values.extend(col.render(obj))
-                else:
-                    values.append(col.render(obj))
-            values_list.append(values)
-        return values_list
+        return [
+            [col.render(obj) for col in self.columns]
+            for obj in queryset
+        ]
+
+    def get_queryset_length(self, queryset):
+        return queryset.count()
 
     def get_context_data(self, **kwargs):
         """
@@ -123,9 +121,9 @@ class FeedDataView(JSONResponseMixin, BaseListView):
         sEcho = self.query_data["sEcho"]
         queryset = kwargs.pop("object_list")
         if queryset is not None:
-            total_length = len(queryset)
+            total_length = self.get_queryset_length(queryset)
             queryset = self.filter_queryset(queryset)
-            display_length = len(queryset)
+            display_length = self.get_queryset_length(queryset)
 
             queryset = self.sort_queryset(queryset)
             queryset = self.paging_queryset(queryset)
