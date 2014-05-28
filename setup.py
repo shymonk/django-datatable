@@ -11,17 +11,17 @@ setup(
     version='1.0.0',
     packages=find_packages(exclude=['tests.*', 'tests', 'example.*', 'example']),
     include_package_data=True,
-    license='BSD License',  # example license
+    license='BSD License',
     description='A simple Django app to origanize data in tabular form.',
     long_description=README,
     url='http://www.example.com/',
-    author='guoqs',
-    author_email='guoqs@funshion.com',
+    author='shymonk',
+    author_email='hellojohn201@gmail.com',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License', # example license
+        'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         # replace these appropriately if you are using Python 3
