@@ -37,6 +37,9 @@ class FeedDataView(JSONResponseMixin, BaseListView):
     """
     The view to feed ajax data of table.
     """
+
+    context_object_name = 'object_list'
+
     def get(self, request, *args, **kwargs):
         if not hasattr(self, 'token'):
             self.token = kwargs["token"]
@@ -119,7 +122,9 @@ class FeedDataView(JSONResponseMixin, BaseListView):
         See http://www.datatables.net/usage/server-side
         """
         sEcho = self.query_data["sEcho"]
-        queryset = kwargs.pop("object_list")
+
+        context = super(BaseListView, self).get_context_data(**kwargs)
+        queryset = context["object_list"]
         if queryset is not None:
             total_length = self.get_queryset_length(queryset)
             queryset = self.filter_queryset(queryset)
