@@ -142,7 +142,7 @@ class TableOptions(object):
         # build attributes for <table> tag, use bootstrap
         # css class "table table-boarded" as default style
         attrs = getattr(options, 'attrs', {})
-        attrs['class'] = 'table table-bordered ' + attrs.get('class', '')
+        attrs['class'] = 'table ' + attrs.get('class', '')
         self.attrs = mark_safe(' '.join(['%s="%s"' % (attr_name, attr)
                                          for attr_name, attr in attrs.items()]))
         # build attributes for <thead> and <tbody>

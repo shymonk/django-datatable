@@ -160,23 +160,23 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
 			data = [{'id': 1, 'name': 'John'}, {'id': 2, 'name': 'Tom'}]
             people = PersonTable(data)
             return render(request, "index.html", {'people': people})
-					
+
 * Ajax
 
   For large number of data, load them on front-end entirely is impossible.
   So, django-table provides a simle option 'ajax' to load data from server-side asynchronous.
 
   Note that once toggle `ajax`, `model` option is necessary. Django-table will make paging/searching/sorting based on `ModelClass.objects.all()`.
-        
+
     Urls:
-        
+
         # urls.py
         urlpatterns = patterns('',
             url(r'^tabledata$', MyDataView.as_view(), name='table_data'),
         )
-        
+
     Tables:
-    
+
         # tables.py
 		from table import Table
 	    from table.columns import Column
@@ -202,13 +202,13 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
             class Meta:
                 model = Person
                 ajax = True
-                ajax_source = reverse('table_data')
+                ajax_source = reverse_lazy('table_data')
 
     Urls:
     
         # urls.py
         urlpatterns = patterns('',
-            url(r'^ajax/(?P<token>\w{32})/$', FeedDataView.as_view(), name='feed_data'),
+            url(r'^table/data/(?P<token>\w{32})/$', MyDataView.as_view(), name='my_data'),
         )
         
     Views:
