@@ -1,4 +1,4 @@
-# Django-table
+# django-datatable
 
 ![preview](https://dl.dropboxusercontent.com/u/94696700/example.png)
 
