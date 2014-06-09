@@ -15,7 +15,7 @@ setup(
     license='BSD License',
     description='A simple Django app to origanize data in tabular form.',
     long_description=README,
-    url='https://github.com/shymonk/django-table',
+    url='https://github.com/shymonk/django-datatable',
     author='shymonk',
     author_email='hellojohn201@gmail.com',
     classifiers=[
