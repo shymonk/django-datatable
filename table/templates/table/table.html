@@ -40,7 +40,6 @@ $(document).ready(function() {
 
     var table = $('#{{ table.opts.id }}').dataTable({
         "dom": "{{ table.addons.render_dom }}",
-        "stateSave": true,
         {% if table.opts.ajax %}
         "processing": true,
         "serverSide": true,
