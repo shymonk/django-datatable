@@ -8,8 +8,8 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-table',
-    version='1.0.0',
-    packages=find_packages(exclude=['tests', 'example']),
+    version='0.1.2',
+    packages=find_packages(exclude=['test*', 'example*']),
     include_package_data=True,
     zip_safe = False,
     license='BSD License',
