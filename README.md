@@ -4,7 +4,7 @@
 
 ## Overview
 
-Django-table is a simple Django app to origanize data in tabular form and 
+Django-datatable is a simple Django app to origanize data in tabular form and 
 based on [datatable](http://datatables.net) and [bootstrap](http://getbootstrap.com/).
 
 It is worth mention that design of this project makes reference to [django-table2](https://github.com/bradleyayers/django-tables2)
@@ -23,7 +23,7 @@ and mainly for the purpose of learning. I really appreciate that anyone make pul
 
 ## Quick start
 
-- Setup Django-table application in Python environment:
+- Setup Django-datatable application in Python environment:
 
         $ python setup.py install
 
@@ -250,4 +250,4 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
 
 ## API Reference
 
-* [wiki](https://github.com/shymonk/django-table/wiki/API-Reference)
+* [wiki](https://github.com/shymonk/django-datatable/wiki/API-Reference)
