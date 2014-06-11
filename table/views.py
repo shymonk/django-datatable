@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import json
+
 from django.db.models import Q
 from django.http import HttpResponse
-from django.utils import simplejson as json
 from django.views.generic.list import BaseListView
 from django.core.serializers.json import DjangoJSONEncoder
 
 from table.forms import QueryDataForm
 from table.tables import TableDataMap
-from table.columns import SequenceColumn
 
 
 class JSONResponseMixin(object):
