@@ -9,15 +9,17 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 setup(
     name='django-datatable',
     version='0.1.2',
+    author='shymonk',
+    author_email='hellojohn201@gmail.com',
+    url='https://github.com/shymonk/django-datatable',
+    description='A simple Django app to origanize data in tabular form.',
+    long_description=README,
+
     packages=find_packages(exclude=['test*', 'example*']),
     include_package_data=True,
     zip_safe = False,
+    install_requires=["django>=1.5"],
     license='BSD License',
-    description='A simple Django app to origanize data in tabular form.',
-    long_description=README,
-    url='https://github.com/shymonk/django-datatable',
-    author='shymonk',
-    author_email='hellojohn201@gmail.com',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
