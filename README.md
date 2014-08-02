@@ -4,7 +4,7 @@
 
 ## Overview
 
-django-datatable is a simple Django app to origanize data in tabular form and 
+django-datatable is a simple Django app to origanize data in tabular form and
 based on [datatable](http://datatables.net) and [bootstrap](http://getbootstrap.com/).
 
 It is worth mention that design of this project makes reference to [django-table2](https://github.com/bradleyayers/django-tables2)
@@ -47,7 +47,7 @@ Now define a PersonTable class without any options in table file.
         from models import Person
         from table import Table
         from table.columns import Column
-        
+
         class PersonTable(Table):
             id = Column(field='id')
             name = Column(field='name')
@@ -107,7 +107,7 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
 
   Similiar to **Model**, but pass queryset when you initialize table instance instead of defining model option.
   Basically, it used to filtering or sorting data your want to display in table.
-  
+
     Models:
 
         # models.py
@@ -124,9 +124,9 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
         class PersonTable(Table):
             id = Column(field='id')
             name = Column(field='name')
-    
+
     Views:
-            
+
         # views.py
         from django.shortcuts import render
         from models import Person
@@ -141,7 +141,7 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
   Use a list of directories as table data source. Fields which declared in columns correspond to the keys of directory.
 
     Tables:
-    
+
         # tables.py
 		from table import Table
 	    from table.columns import Column
@@ -172,7 +172,7 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
 
         # urls.py
         urlpatterns = patterns('',
-            url(r'^tabledata$', MyDataView.as_view(), name='table_data'),
+            url(r'^table/', include(table.urls')),
         )
 
     Tables:
@@ -193,7 +193,7 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
   implement your own Class-based View by subclassing `FeedDataView`.
 
     Tables:
-    
+
         # tables.py
 		class PersonTable(Table):
             id = Column(field='id')
@@ -205,22 +205,24 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
                 ajax_source = reverse_lazy('table_data')
 
     Urls:
-    
+
         # urls.py
         urlpatterns = patterns('',
-            url(r'^table/data/(?P<token>\w{32})/$', MyDataView.as_view(), name='my_data'),
+            url(r'^table/data/(?P<token>\w{32})/$', MyDataView.as_view(), name='table_data'),
         )
-        
+
     Views:
-    
+
         # views.py
         from table.views import FeedDataView
+        from app.tables import PersonTable
 
         class MyDataView(FeedDataView):
+
+            token = PersonTable.token
+
             def get_queryset(self):
-                # override parent function
-                queryset = super(MyDataView, self).get_queryset()
-                return queryset.filter(id__gt=5)
+                return super(MyDataView, self).get_queryset().filter(id__gt=5)
 
 ## Columns
 
@@ -231,7 +233,7 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
 * Datetime Column
 
 * Checkbox Column
- 
+
 * Sequence Column
 
 * Calendar Column
