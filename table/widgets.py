@@ -18,6 +18,7 @@ class SearchBox(object):
         else:
             return "<'col-sm-3 col-md-3 col-lg-3'>"
 
+
 class InfoLabel(object):
     def __init__(self, visible=True, format=None):
         self.visible = visible
@@ -29,6 +30,7 @@ class InfoLabel(object):
             return "<'col-sm-3 col-md-3 col-lg-3'i>"
         else:
             return "<'col-sm-3 col-md-3 col-lg-3'>"
+
 
 class Pagination(object):
     def __init__(self, visible=True, length=10, first=None,
@@ -49,6 +51,7 @@ class Pagination(object):
             return ("<'col-sm-6 col-md-6 col-lg-6 col-sm-offset-2 "
                     "col-md-offset-2 col-lg-offset-2'>")
 
+
 class LengthMenu(object):
     def __init__(self, visible=True):
         self.visible = visible
@@ -59,6 +62,7 @@ class LengthMenu(object):
             return "<'col-sm-1 col-md-1 col-lg-1'l>"
         else:
             return "<'col-sm-1 col-md-1 col-lg-1'>"
+
 
 class ExtButton(object):
     def __init__(self, visible=True, template=None, template_name=None, context=None):

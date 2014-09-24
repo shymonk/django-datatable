@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from django.core.urlresolvers import reverse, NoReverseMatch
+from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.template import Template, Context
 from table.utils import Accessor
 from .base import Column
+
 
 class LinkColumn(Column):
     def __init__(self, header=None, links=None, delimiter='&nbsp', field=None, **kwargs):
@@ -16,6 +17,7 @@ class LinkColumn(Column):
 
     def render(self, obj):
         return self.delimiter.join([link.render(obj) for link in self.links])
+
 
 class Link(object):
     """
@@ -53,7 +55,7 @@ class Link(object):
             params['kwargs'] = {}
             for key, value in self.kwargs.itmes:
                 params['kwargs'][key] = (value.resolve(self.obj)
-                                         if isinstance(value, Accessor) else value)        
+                                         if isinstance(value, Accessor) else value)
         if self.urlconf:
             params['urlconf'] = (self.urlconf.resolve(self.obj)
                                  if isinstance(self.urlconf, Accessor)
@@ -70,7 +72,7 @@ class Link(object):
         if self.url:
             self.base_attrs["href"] = self.url
         return self.base_attrs
-    
+
     def render(self, obj):
         """ Render link as HTML output tag <a>.
         """
@@ -82,7 +84,7 @@ class Link(object):
             for attr_name, attr in self.attrs.items()
         ])
         return mark_safe(u'<a %s>%s</a>' % (attrs, self.text))
-            
+
 
 class ImageLink(Link):
     """

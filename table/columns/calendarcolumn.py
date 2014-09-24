@@ -44,6 +44,7 @@ class InlineDaysColumn(DaysColumn):
         kwargs['header_attrs'].update({'class': 'calendar'})
         super(InlineDaysColumn, self).__init__(field, start_date, end_date, **kwargs)
 
+
 class InlineWeeksColumn(WeeksColumn):
     def __init__(self, start_date=None, end_date=None, **kwargs):
         kwargs['space'] = False
@@ -51,6 +52,7 @@ class InlineWeeksColumn(WeeksColumn):
         kwargs.setdefault('header_attrs', {})
         kwargs['header_attrs'].update({'class': 'calendar'})
         super(InlineWeeksColumn, self).__init__(start_date=start_date, end_date=end_date, **kwargs)
+
 
 class InlineMonthsColumn(MonthsColumn):
     def __init__(self, start_date=None, end_date=None, **kwargs):
@@ -73,7 +75,7 @@ class InlineMonthsColumn(MonthsColumn):
 
     def get_column_span(self, index):
         """
-        Get `colspan` value for <th> tag. 
+        Get `colspan` value for <th> tag.
         It will render as <th colspan="VALUE"><th>
         """
         return str(self.get_days_span(index))

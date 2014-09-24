@@ -3,6 +3,7 @@
 
 from .base import Column
 
+
 class DatetimeColumn(Column):
 
     DEFAULT_FORMAT = "%Y-%m-%d %H:%I:%S"
@@ -14,4 +15,3 @@ class DatetimeColumn(Column):
     def render(self, obj):
         datetime = super(DatetimeColumn, self).render(obj)
         return datetime.strftime(self.format)
-            

@@ -5,7 +5,6 @@ import copy
 import traceback
 from uuid import uuid4
 from django.db.models.query import QuerySet
-from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.utils.datastructures import SortedDict
 from .columns import Column, BoundColumn, SequenceColumn
@@ -16,7 +15,7 @@ class BaseTable(object):
 
     def __init__(self, data=None):
         self.data = TableData(data, self)
-        
+
         # Make a copy so that modifying this will not touch the class definition.
         self.columns = copy.deepcopy(self.base_columns)
         # Build table add-ons
@@ -78,7 +77,7 @@ class TableData(object):
 
     def __getitem__(self, key):
         return self.data[key]
-    
+
 
 class TableDataMap(object):
     """
@@ -158,7 +157,7 @@ class TableOptions(object):
         self.scrollinner = getattr(options, 'scrollinner', "150%")
         self.fixed_columns = getattr(options, 'fixed_columns', None)
         self.fixed_columns_width = getattr(options, 'fixed_columns_width', None)
-        
+
         # inspect sorting option
         self.sort = []
         for column, order in getattr(options, 'sort', []):

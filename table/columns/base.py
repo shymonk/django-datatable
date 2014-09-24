@@ -32,6 +32,7 @@ class Column(object):
     def render(self, obj):
         return Accessor(self.field).resolve(obj)
 
+
 class BoundColumn(object):
     """ A run-time version of Column. The difference between
         BoundColumn and Column is that BoundColumn objects include the
@@ -71,6 +72,7 @@ class BoundColumn(object):
             else:
                 attrs[attr_name] = attr
         return AttributesDict(attrs).render()
+
 
 class ColumnHeader(object):
     def __init__(self, text=None, attrs=None, row_order=0):

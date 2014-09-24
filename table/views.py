@@ -104,7 +104,7 @@ class FeedDataView(JSONResponseMixin, BaseListView):
         if length < 0:
             return queryset
         else:
-            return queryset[start: start+length]
+            return queryset[start: start + length]
 
     def convert_queryset_to_values_list(self, queryset):
         # FIXME: unit test

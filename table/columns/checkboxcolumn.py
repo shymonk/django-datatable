@@ -2,8 +2,8 @@
 # coding: utf-8
 
 from django.utils.safestring import mark_safe
-from table.utils import Accessor
 from table.columns import Column
+
 
 class CheckboxColumn(Column):
     def __init__(self, header=None, **kwargs):

@@ -2,4 +2,4 @@
 # coding: utf-8
 
 
-from .tables import Table, TableData
+from .tables import Table, TableData  # NOQA

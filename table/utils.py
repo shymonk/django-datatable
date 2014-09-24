@@ -3,9 +3,9 @@
 
 import time
 
-from django.db import models
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
+
 
 class Accessor(str):
     """ A string describing a path from one object to another via attribute/index
@@ -14,7 +14,7 @@ class Accessor(str):
         Relations are separated by a "." character.
     """
     SEPARATOR = '.'
-    
+
     def resolve(self, context, quiet=True):
         """
         Return an object described by the accessor by traversing the attributes
@@ -42,7 +42,7 @@ class Accessor(str):
         except Exception, e:
             if quiet:
                 return None
-            else: 
+            else:
                 raise e
 
     @property
@@ -70,7 +70,6 @@ def timeit(func):
         ts = time.time()
         result = func(*args, **kwargs)
         te = time.time()
-        print 'func: %r took: %f ms' % (func.__name__, (te-ts) * 1000)
+        print 'func: %r took: %f ms' % (func.__name__, (te - ts) * 1000)
         return result
     return wrap
-

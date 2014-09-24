@@ -2,17 +2,16 @@
 # coding: utf-8
 
 from datetime import date
-from table.columns import Column, LinkColumn, DatetimeColumn, Link
-from table.columns.calendarcolumn import MonthsColumn, WeeksColumn, DaysColumn, CalendarColumn
+from table.columns import Column
+from table.columns.calendarcolumn import CalendarColumn
 from table.columns.sequencecolumn import SequenceColumn
-from table.utils import A
 from table import Table
 from models import Person
 
 
 class PersonTable(Table):
     id = Column(field='id', header=u'#')
-    name = Column(field='name', header=u'NAME') 
+    name = Column(field='name', header=u'NAME')
 
     class Meta:
         model = Person
@@ -36,4 +35,3 @@ class AjaxDataTable(Table):
     class Meta:
         model = Person
         ajax = True
-

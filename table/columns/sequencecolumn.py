@@ -3,6 +3,7 @@
 
 from .base import Column
 
+
 class SequenceColumn(Column):
     def __init__(self, field, headers, **kwargs):
         self.headers = headers
