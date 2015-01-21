@@ -208,7 +208,7 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
 
         # urls.py
         urlpatterns = patterns('',
-            url(r'^table/data/(?P<token>\w{32})/$', MyDataView.as_view(), name='table_data'),
+            url(r'^table/data/$', MyDataView.as_view(), name='table_data'),
         )
 
     Views:
