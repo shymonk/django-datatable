@@ -1,22 +1,53 @@
 {% load table_tags %}
 
-<link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css">
-<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-<script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.2/js/bootstrap.min.js"></script>
-
-
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	    <title>person</title>
+
+        <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css">
+        <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+        <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.2/js/bootstrap.min.js"></script>
     </head>
 
     <body>
-        <div class="container" style="margin-top: 10px"> 
-        <h1>people</h1>
-        <br />
-        {% render_table people %}
+        <div class="container" style="margin-top: 10px">
+            <!-- Navigation -->
+            <nav class="navbar navbar-inverse" role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed"></button>
+                        <a class="navbar-brand" href="/">django-datatable</a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">DataSource</a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="/">Model</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="/datasource/ajax/">Ajax</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="/datasource/ajaxsource/">Ajax Source</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Columns</a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="/column/sequence/">Sequence Column</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="/column/calendar/">Calendar Column</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <br />
+            {% render_table people %}
         </div>
-    </body>    
+    </body>
 </html>

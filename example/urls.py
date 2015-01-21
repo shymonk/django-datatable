@@ -1,11 +1,18 @@
+#!/usr/bin/env python
+# coding: utf-8
 from django.conf.urls import patterns, include, url
+
+from app.views import MyDataView
 
 
 urlpatterns = patterns('',
     url(r'^$', 'app.views.base', name='base'),
-    url(r'^calendar-column/$', 'app.views.calendar_column', name='calendar_column'),
-    url(r'^sequence-column/$', 'app.views.sequence_column', name='sequence_column'),
-    url(r'^data/ajax/$', 'app.views.ajax_data', name='ajax_data'),
+    url(r'^datasource/ajax/$', 'app.views.ajax', name='ajax'),
+    url(r'^datasource/ajaxsource/$', 'app.views.ajax_source', name='ajax_source'),
+    url(r'^datasource/ajaxsource/api/$', MyDataView.as_view(), name='ajax_source_api'),
+
+    url(r'^column/sequence/$', 'app.views.sequence_column', name='sequence_column'),
+    url(r'^column/calendar/$', 'app.views.calendar_column', name='calendar_column'),
 
     url(r'^table/', include('table.urls')),
 )
