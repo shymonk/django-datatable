@@ -86,7 +86,7 @@ class FeedDataView(JSONResponseMixin, BaseListView):
             for key, value in self.query_data.items():
                 if not key.startswith("iSortCol_"):
                     continue
-                field = self.columns[value].field
+                field = self.columns[value].field.replace('.', '__')
                 dir = self.query_data["sSortDir_" + key.split("_")[1]]
                 if dir == "asc":
                     arguments.append(field)
