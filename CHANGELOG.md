@@ -7,7 +7,7 @@
     * MonthColumn
     * CalendarColumn
     * CheckboxColumn
-  
+
 * New column options:
 
     * space

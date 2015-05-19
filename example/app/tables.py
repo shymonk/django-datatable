@@ -7,7 +7,9 @@ from django.core.urlresolvers import reverse_lazy
 from table.columns import Column
 from table.columns.calendarcolumn import CalendarColumn
 from table.columns.sequencecolumn import SequenceColumn
+from table.columns.linkcolumn import LinkColumn, Link, ImageLink
 from table import Table
+from table.utils import A
 
 from app.models import Person
 
@@ -23,6 +25,7 @@ class ModelTable(Table):
 class AjaxTable(Table):
     id = Column(field='id', header=u'#')
     name = Column(field='name', header=u'NAME')
+    organization = Column(field='organization.name', header=u'ORG')
 
     class Meta:
         model = Person
@@ -48,3 +51,17 @@ class CalendarColumnTable(Table):
     id = Column(field='id', header=u'#', header_attrs={'rowspan': '3'})
     name = Column(field='name', header=u'NAME', header_attrs={'rowspan': '3'})
     calendar = CalendarColumn(field='calendar', start_date=date(2014, 4, 27), end_date=date(2014, 5, 9))
+
+
+image_url = 'https://cdn0.iconfinder.com/data/icons/users-android-l-lollipop-icon-pack/24/user-32.png'
+
+
+class LinkColumnTable(Table):
+    id = Column(field='id', header=u'#')
+    name = LinkColumn(header=u'NAME', links=[
+        Link(viewname='user_profile', args=(A('id'),), text=A('name'))])
+    avatar = LinkColumn(header=u'AVATAR', links=[
+        ImageLink(viewname='user_profile', args=(A('id'),), image=image_url, image_title='avatar')])
+
+    class Meta:
+        model = Person

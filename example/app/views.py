@@ -8,6 +8,7 @@ from table.views import FeedDataView
 from app.tables import (
     ModelTable, AjaxTable, AjaxSourceTable,
     CalendarColumnTable, SequenceColumnTable,
+    LinkColumnTable,
 )
 
 
@@ -51,6 +52,19 @@ def calendar_column(request):
     ]
     table = CalendarColumnTable(data)
     return render(request, "index.html", {'people': table})
+
+
+def link_column(request):
+    table = LinkColumnTable()
+    return render(request, "index.html", {'people': table})
+
+
+def user_profile(request, uid):
+    from app.models import Person
+    from django.http import HttpResponse
+    from django.shortcuts import get_object_or_404
+    person = get_object_or_404(Person, pk=uid)
+    return HttpResponse("User %s" % person.name)
 
 
 class MyDataView(FeedDataView):
