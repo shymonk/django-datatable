@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+from django.utils.html import escape
 
 from table.utils import Accessor, AttributesDict
 
@@ -30,7 +31,8 @@ class Column(object):
         return self.header.text
 
     def render(self, obj):
-        return Accessor(self.field).resolve(obj)
+        text = Accessor(self.field).resolve(obj)
+        return escape(text)
 
 
 class BoundColumn(object):

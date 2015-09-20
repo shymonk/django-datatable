@@ -1,3 +1,9 @@
+## v0.1.4
+* Fix bug about escape issue for ajax data source.
+
+## v0.1.3
+* Fix bug about sorting field across different relations.
+
 ## v0.1.2
 * New columns:
 

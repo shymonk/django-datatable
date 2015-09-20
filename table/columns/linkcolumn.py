@@ -3,9 +3,11 @@
 
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
+from django.utils.html import escape
 from django.template import Template, Context
+
 from table.utils import Accessor
-from .base import Column
+from table.columns.base import Column
 
 
 class LinkColumn(Column):
@@ -36,8 +38,10 @@ class Link(object):
     @property
     def text(self):
         if isinstance(self.basetext, Accessor):
-            return self.basetext.resolve(self.obj) or ""
-        return self.basetext
+            basetext = self.basetext.resolve(self.obj)
+        else:
+            basetext = self.basetext
+        return escape(basetext)
 
     @property
     def url(self):
