@@ -1,12 +1,12 @@
 /* Set the defaults for DataTables initialisation */
 $.extend( true, $.fn.dataTable.defaults, {
-	"sDom": "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
+    "sDom": "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
     "sPaginationType": "bootstrap",
     "oLanguage": {
         "sLengthMenu": "_MENU_",
         "sSearch": "",
         "sInfoFiltered": "",
-        "sProcessing": "加载中",
+        "sProcessing": "Loading",
     },
     "bAutoWidth": false,
     "fnPreDrawCallback": function(oSettings, json) {
@@ -14,7 +14,7 @@ $.extend( true, $.fn.dataTable.defaults, {
         $('.dataTables_length select').addClass('form-control input');
         $('.dataTables_info').addClass('form-control');
     }
-} );
+});
 
 
 /* Default class modification */
@@ -22,7 +22,7 @@ $.extend( $.fn.dataTableExt.oStdClasses, {
     "sWrapper": "dataTables_wrapper form-inline",
     "sFilterInput": "form-control input-sm",
     "sLengthSelect": "form-control input-sm"
-} );
+});
 
 /* API method to get hidden rows */
 $.fn.dataTableExt.oApi.fnGetHiddenNodes = function ( oSettings )
@@ -34,7 +34,7 @@ $.fn.dataTableExt.oApi.fnGetHiddenNodes = function ( oSettings )
     var anNodes = api.rows().nodes().toArray();
     // var anNodes = this.oApi._fnGetTrNodes( oSettings );
     var anDisplay = $('tbody tr', oSettings.nTable);
-      
+
     /* Remove nodes which are being displayed */
     for ( var i=0 ; i<anDisplay.length ; i++ )
     {
@@ -44,7 +44,7 @@ $.fn.dataTableExt.oApi.fnGetHiddenNodes = function ( oSettings )
             anNodes.splice( iIndex, 1 );
         }
     }
-      
+
     /* Fire back the array to the caller */
     return anNodes;
 };
@@ -180,4 +180,3 @@ if ( $.fn.DataTable.TableTools ) {
         }
     } );
 }
-
