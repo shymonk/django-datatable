@@ -6,7 +6,7 @@ $.extend( true, $.fn.dataTable.defaults, {
         "sLengthMenu": "_MENU_",
         "sSearch": "",
         "sInfoFiltered": "",
-        "sProcessing": "加载中",
+        "sProcessing": "Loading",
     },
     "bAutoWidth": false,
     "fnPreDrawCallback": function(oSettings, json) {
