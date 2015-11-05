@@ -41,7 +41,7 @@ class Accessor(str):
             return obj
         except Exception, e:
             if quiet:
-                return None
+                return ''
             else:
                 raise e
 

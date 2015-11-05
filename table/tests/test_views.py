@@ -1,17 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-from uuid import uuid4
-from datetime import datetime
+from __future__ import unicode_literals
+import json
 
 from django.test import Client, TestCase
 from django.core.urlresolvers import reverse
-from django.utils import simplejson as json
 
-from table.views import FeedDataView
-from table.forms import QueryDataForm
 from table.models import Person
-from table.columns import Column, DaysColumn
+from table.columns import Column
 from table import Table
 
 
@@ -52,8 +48,8 @@ class FeedDataViewTestCase(TestCase):
             "sEcho": "1",
             "iTotalRecords": 2,
             "iTotalDisplayRecords": 2,
-            "aaData": [[1, "Tom", "tom@mail.com"], [2, "Jerry", "jerry@mail.com"]]
-            }
+            "aaData": [["1", "Tom", "tom@mail.com"], ["2", "Jerry", "jerry@mail.com"]]
+        }
         self.assertEqual(data, expect_data)
 
     def test_queryset_data_source(self):
@@ -71,7 +67,7 @@ class FeedDataViewTestCase(TestCase):
             "sEcho": "1",
             "iTotalRecords": 2,
             "iTotalDisplayRecords": 1,
-            "aaData": [[1, "Tom", "tom@mail.com"]]
+            "aaData": [["1", "Tom", "tom@mail.com"]]
         }
         self.assertEqual(data, expect_data)
 
@@ -122,7 +118,7 @@ class FeedDataViewTestCase(TestCase):
             "sEcho": "1",
             "iTotalRecords": 2,
             "iTotalDisplayRecords": 2,
-            "aaData": [[1, "Tom", "tom@mail.com"], [2, "Jerry", "jerry@mail.com"]]
+            "aaData": [["1", "Tom", "tom@mail.com"], ["2", "Jerry", "jerry@mail.com"]]
         }
         self.assertEqual(data, expect_data)
 
@@ -141,7 +137,7 @@ class FeedDataViewTestCase(TestCase):
             "sEcho": "1",
             "iTotalRecords": 2,
             "iTotalDisplayRecords": 2,
-            "aaData": [[2, "Jerry", "jerry@mail.com"], [1, "Tom", "tom@mail.com"]]
+            "aaData": [["2", "Jerry", "jerry@mail.com"], ["1", "Tom", "tom@mail.com"]]
         }
         self.assertEqual(data, expect_data)
 
@@ -160,7 +156,7 @@ class FeedDataViewTestCase(TestCase):
             "sEcho": "1",
             "iTotalRecords": 2,
             "iTotalDisplayRecords": 2,
-            "aaData": [[1, "Tom", "tom@mail.com"]]
+            "aaData": [["1", "Tom", "tom@mail.com"]]
         }
         self.assertEqual(data, expect_data)
 
@@ -173,7 +169,7 @@ class FeedDataViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.content)
         expect_data.update({
-            "aaData": [[2, "Jerry", "jerry@mail.com"]]
+            "aaData": [["2", "Jerry", "jerry@mail.com"]]
         })
         self.assertEqual(data, expect_data)
 
@@ -190,7 +186,7 @@ class FeedDataViewTestCase(TestCase):
             "sEcho": "1",
             "iTotalRecords": 2,
             "iTotalDisplayRecords": 2,
-            "aaData": [[1, "Tom", "tom@mail.com"], [2, "Jerry", "jerry@mail.com"]]
+            "aaData": [["1", "Tom", "tom@mail.com"], ["2", "Jerry", "jerry@mail.com"]]
         }
         self.assertEqual(data, expect_data)
 
