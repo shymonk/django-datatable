@@ -23,7 +23,7 @@ class Link(object):
     """
     Represents a html <a> tag.
     """
-    def __init__(self, text=None, viewname=None, args=None, kwargs=None, urlconf=None,
+    def __init__(self, text=None, complete_url_in_text=False, viewname=None, args=None, kwargs=None, urlconf=None,
                  current_app=None, attrs=None):
         self.basetext = text
         self.viewname = viewname
@@ -41,6 +41,9 @@ class Link(object):
 
     @property
     def url(self):
+        if self.complete_url_in_text:
+            return self.text
+
         if self.viewname is None:
             return ""
 
