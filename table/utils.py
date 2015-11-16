@@ -30,7 +30,10 @@ class Accessor(str):
                     obj = obj[int(level)]
                 else:
                     if callable(getattr(obj, level)):
-                        obj = getattr(obj, level)()
+                        try:
+                            obj = getattr(obj, level)()
+                        except KeyError:
+                            obj = getattr(obj, level)
                     else:
                         # for model field that has choice set
                         # use get_xxx_display to access
