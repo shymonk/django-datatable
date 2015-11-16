@@ -57,7 +57,7 @@ class Link(object):
                               for arg in self.args]
         if self.kwargs:
             params['kwargs'] = {}
-            for key, value in self.kwargs.itmes:
+            for key, value in self.kwargs.items():
                 params['kwargs'][key] = (value.resolve(self.obj)
                                          if isinstance(value, Accessor) else value)
         if self.urlconf:
