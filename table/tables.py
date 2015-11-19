@@ -6,7 +6,7 @@ import traceback
 from uuid import uuid4
 from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
-from django.utils.datastructures import SortedDict
+from collections import OrderedDict
 from .columns import Column, BoundColumn, SequenceColumn
 from .widgets import SearchBox, InfoLabel, Pagination, LengthMenu, ExtButton
 
@@ -28,7 +28,7 @@ class BaseTable(object):
             # Binding object to each column of each row, so that
             # data structure for each row is organized like this:
             # { boundcol0: td, boundcol1: td, boundcol2: td }
-            row = SortedDict()
+            row = OrderedDict()
             columns = [BoundColumn(obj, col) for col in self.columns if col.space]
             for col in columns:
                 row[col] = col.html
