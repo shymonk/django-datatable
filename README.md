@@ -13,7 +13,7 @@ and mainly for the purpose of learning. I really appreciate that anyone make pul
 
 ## Requirement
 
-* Python 2.x
+* Python 2.x or 3.x
 
 * jQuery 1.6+
 
