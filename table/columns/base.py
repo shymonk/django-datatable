@@ -4,6 +4,7 @@
 from django.utils.html import escape
 
 from table.utils import Accessor, AttributesDict
+import collections
 
 
 class Column(object):
@@ -66,8 +67,8 @@ class BoundColumn(object):
     @property
     def attrs(self):
         attrs = {}
-        for attr_name, attr in self.base_attrs.items():
-            if callable(attr):
+        for attr_name, attr in list(self.base_attrs.items()):
+            if isinstance(attr, collections.Callable):
                 attrs[attr_name] = attr(self.obj, self.field)
             elif isinstance(attr, Accessor):
                 attrs[attr_name] = attr.resolve(self.obj)

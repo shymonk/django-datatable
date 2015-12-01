@@ -57,7 +57,7 @@ class Link(object):
                               for arg in self.args]
         if self.kwargs:
             params['kwargs'] = {}
-            for key, value in self.kwargs.items():
+            for key, value in list(self.kwargs.items()):
                 params['kwargs'][key] = (value.resolve(self.obj)
                                          if isinstance(value, Accessor) else value)
         if self.urlconf:
@@ -85,9 +85,9 @@ class Link(object):
             '%s="%s"' % (attr_name, attr.resolve(obj))
             if isinstance(attr, Accessor)
             else '%s="%s"' % (attr_name, attr)
-            for attr_name, attr in self.attrs.items()
+            for attr_name, attr in list(self.attrs.items())
         ])
-        return mark_safe(u'<a %s>%s</a>' % (attrs, self.text))
+        return mark_safe('<a %s>%s</a>' % (attrs, self.text))
 
 
 class ImageLink(Link):
