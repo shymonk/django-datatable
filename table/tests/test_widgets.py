@@ -22,7 +22,7 @@ class TableWidgetsTestCase(TestCase):
         self.assertEqual(pagination.first, "First")
         self.assertEqual(pagination.last, "Last")
         self.assertEqual(pagination.prev, "Prev")
-        self.assertEqual(pagination.__next__, "Next")
+        self.assertEqual(pagination.next, "Next")
         self.assertEqual(
             pagination.dom,
             "<'col-sm-6 col-md-6 col-lg-6 col-sm-offset-2 col-md-offset-2 col-lg-offset-2'p>"
@@ -72,7 +72,7 @@ class TableWidgetsTestCase(TestCase):
         self.assertEqual(widgets.pagination.first, "F")
         self.assertEqual(widgets.pagination.last, "L")
         self.assertEqual(widgets.pagination.prev, "P")
-        self.assertEqual(widgets.pagination.__next__, "N")
+        self.assertEqual(widgets.pagination.next, "N")
         self.assertEqual(widgets.ext_button.html, "foobar")
         self.assertEqual(
             widgets.render_dom(),
