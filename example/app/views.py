@@ -46,9 +46,9 @@ def sequence_column(request):
 
 def calendar_column(request):
     data = [
-        Foo(1, 'A', range(1, 14)),
-        Foo(2, 'B', range(1, 14)),
-        Foo(3, 'C', range(1, 14))
+        Foo(1, 'A', list(range(1, 14))),
+        Foo(2, 'B', list(range(1, 14))),
+        Foo(3, 'C', list(range(1, 14)))
     ]
     table = CalendarColumnTable(data)
     return render(request, "index.html", {'people': table})

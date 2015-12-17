@@ -143,14 +143,14 @@ class TableOptions(object):
         attrs = getattr(options, 'attrs', {})
         attrs['class'] = 'table ' + attrs.get('class', '')
         self.attrs = mark_safe(' '.join(['%s="%s"' % (attr_name, attr)
-                                         for attr_name, attr in attrs.items()]))
+                                         for attr_name, attr in list(attrs.items())]))
         # build attributes for <thead> and <tbody>
         thead_attrs = getattr(options, 'thead_attrs', {})
         self.thead_attrs = mark_safe(' '.join(['%s="%s"' % (attr_name, attr)
-                                         for attr_name, attr in thead_attrs.items()]))
+                                         for attr_name, attr in list(thead_attrs.items())]))
         tbody_attrs = getattr(options, 'tbody_attrs', {})
         self.tbody_attrs = mark_safe(' '.join(['%s="%s"' % (attr_name, attr)
-                                         for attr_name, attr in tbody_attrs.items()]))
+                                         for attr_name, attr in list(tbody_attrs.items())]))
 
         # scrolling option
         self.scrollable = getattr(options, 'scrollable', False)
@@ -190,7 +190,7 @@ class TableOptions(object):
         self.ext_button_template_name = getattr(options, 'ext_button_template_name', None)
         self.ext_button_context = getattr(options, 'ext_button_context', None)
 
-        self.zero_records = getattr(options, 'zero_records', u'No records')
+        self.zero_records = getattr(options, 'zero_records', 'No records')
 
 
 class TableMetaClass(type):
@@ -206,7 +206,7 @@ class TableMetaClass(type):
 
         # extract declared columns
         columns = []
-        for attr_name, attr in attrs.items():
+        for attr_name, attr in list(attrs.items()):
             if isinstance(attr, SequenceColumn):
                 columns.extend(attr)
             elif isinstance(attr, Column):

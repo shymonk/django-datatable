@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-from __future__ import unicode_literals
+
 from datetime import date
 
 from django.test import TestCase
@@ -121,7 +121,7 @@ class WeeksColumnTestCase(TestCase):
 
 class MonthsColumnTestCase(TestCase):
     def test_length(self):
-        column1 = MonthsColumn(None, date(2012, 12, 18), date(2013, 07, 01))
+        column1 = MonthsColumn(None, date(2012, 12, 18), date(2013, 0o7, 0o1))
         self.assertEqual(len(column1), 8)
         column2 = MonthsColumn(None, date(2012, 12, 18), date(2012, 12, 19))
         self.assertEqual(len(column2), 1)
@@ -137,7 +137,7 @@ class MonthsColumnTestCase(TestCase):
 
 class CalendarColumnTestCase(TestCase):
     def test_inline_month_columns(self):
-        column = CalendarColumn(None, date(2012, 12, 18), date(2013, 03, 01))
+        column = CalendarColumn(None, date(2012, 12, 18), date(2013, 0o3, 0o1))
         self.assertEqual(len(column), 4 + 74 + 74)
         self.assertEqual(column.months_column.headers, ['December', 'January', 'February', 'March'])
         self.assertEqual(column.months_column[0].header.base_attrs['colspan'], '14')

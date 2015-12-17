@@ -19,7 +19,7 @@ class QueryDataForm(forms.Form):
 
     def __init__(self, data=None, *args, **kwargs):
         super(QueryDataForm, self).__init__(data, *args, **kwargs)
-        for key in data.keys():
+        for key in list(data.keys()):
             if key.startswith("iSortCol"):
                 self.fields[key] = forms.IntegerField()
             if key.startswith("sSortDir"):

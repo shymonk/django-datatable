@@ -10,6 +10,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 
 from table.forms import QueryDataForm
 from table.tables import TableDataMap
+from functools import reduce
 
 
 class JSONResponseMixin(object):
@@ -83,7 +84,7 @@ class FeedDataView(JSONResponseMixin, BaseListView):
             Get list of arguments passed to `order_by()` function.
             """
             arguments = []
-            for key, value in self.query_data.items():
+            for key, value in list(self.query_data.items()):
                 if not key.startswith("iSortCol_"):
                     continue
                 field = self.columns[value].field.replace('.', '__')

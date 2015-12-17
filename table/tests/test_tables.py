@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-from __future__ import unicode_literals
+
 
 from django.test import TestCase
 
@@ -23,8 +23,8 @@ class BaseTableTestCase(TestCase):
         self.assertEqual(self.table.data.list, data)
 
     def test_rows(self):
-        first_row = self.table.rows[0].values()
-        second_row = self.table.rows[1].values()
+        first_row = list(self.table.rows[0].values())
+        second_row = list(self.table.rows[1].values())
         self.assertEqual(first_row, ['1', 'a'])
         self.assertEqual(second_row, ['2', 'b'])
 
