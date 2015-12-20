@@ -1,8 +1,7 @@
+#!/usr/bin/env python
 # coding: utf-8
-
 """ Model for test.
 """
-
 from django.db import models
 
 

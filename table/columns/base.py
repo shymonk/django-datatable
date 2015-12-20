@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
 from django.utils.html import escape
 
 from table.utils import Accessor, AttributesDict

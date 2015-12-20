@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.utils.html import escape

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
-
 import calendar
 from datetime import timedelta
+
 from table.columns.base import Column
 from table.columns.sequencecolumn import SequenceColumn
 

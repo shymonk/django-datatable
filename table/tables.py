@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-
 import copy
-import traceback
 from uuid import uuid4
 from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe

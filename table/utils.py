@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
 import time
 
 from django.utils.html import escape
