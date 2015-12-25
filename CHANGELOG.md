@@ -1,3 +1,6 @@
+## v0.1.5
+* PyPi support
+
 ## v0.1.4
 * Fix bug about escape issue for ajax data source.
 

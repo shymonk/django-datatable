@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
-import os
 from setuptools import setup, find_packages
 
-
-README = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
+try:
+    import pypandoc
+    README = pypandoc.convert('README.md', 'rst')
+except(IOError, ImportError):
+    README = open('README.md').read()
 
 setup(
     name='django-datatable',
-    version='0.1.4',
+    version='0.1.5',
     author='shymonk',
     author_email='hellojohn201@gmail.com',
     url='https://github.com/shymonk/django-datatable',
