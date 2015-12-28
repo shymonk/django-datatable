@@ -25,7 +25,7 @@ and mainly for the purpose of learning. I really appreciate that anyone make pul
 
 - Setup Django-datatable application in Python environment:
 
-        $ python setup.py install
+        $ pip install django-datatable
 
 - Add "table" to your INSTALLED_APPS setting like this:
 
