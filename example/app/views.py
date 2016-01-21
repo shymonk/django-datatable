@@ -8,7 +8,7 @@ from table.views import FeedDataView
 from app.tables import (
     ModelTable, AjaxTable, AjaxSourceTable,
     CalendarColumnTable, SequenceColumnTable,
-    LinkColumnTable,
+    LinkColumnTable, CheckboxColumnTable
 )
 
 
@@ -56,6 +56,11 @@ def calendar_column(request):
 
 def link_column(request):
     table = LinkColumnTable()
+    return render(request, "index.html", {'people': table})
+
+
+def checkbox_column(request):
+    table = CheckboxColumnTable()
     return render(request, "index.html", {'people': table})
 
 

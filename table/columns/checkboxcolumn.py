@@ -3,15 +3,19 @@
 from django.utils.safestring import mark_safe
 
 from table.columns import Column
+from table.utils import Accessor
 
 
 class CheckboxColumn(Column):
-    def __init__(self, header=None, **kwargs):
-        kwargs["field"] = None
+    def __init__(self, field=None, header=None, **kwargs):
         kwargs["safe"] = False
         kwargs["sortable"] = False
         kwargs["searchable"] = False
-        super(CheckboxColumn, self).__init__(header=header, **kwargs)
+        super(CheckboxColumn, self).__init__(field=field, header=header, **kwargs)
 
     def render(self, obj):
-        return mark_safe('<input type="checkbox">')
+        checked = bool(Accessor(self.field).resolve(obj)) if self.field else False
+        if checked:
+            return mark_safe('<input checked type="checkbox">')
+        else:
+            return mark_safe('<input type="checkbox">')

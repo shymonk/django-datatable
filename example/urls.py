@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^column/sequence/$', app.views.sequence_column, name='sequence_column'),
     url(r'^column/calendar/$', app.views.calendar_column, name='calendar_column'),
     url(r'^column/link/$', app.views.link_column, name='link_column'),
+    url(r'^column/checkbox/$', app.views.checkbox_column, name='checkbox_column'),
 
     url(r'^user/(\d+)/$', app.views.user_profile, name='user_profile'),
     url(r'^table/', include('table.urls')),

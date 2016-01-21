@@ -8,6 +8,7 @@ from table.columns import Column
 from table.columns.calendarcolumn import CalendarColumn
 from table.columns.sequencecolumn import SequenceColumn
 from table.columns.linkcolumn import LinkColumn, Link, ImageLink
+from table.columns.checkboxcolumn import CheckboxColumn
 from table import Table
 from table.utils import A
 
@@ -62,6 +63,15 @@ class LinkColumnTable(Table):
         Link(viewname='user_profile', args=(A('id'),), text=A('name'))])
     avatar = LinkColumn(header=u'AVATAR', links=[
         ImageLink(viewname='user_profile', args=(A('id'),), image=image_url, image_title='avatar')])
+
+    class Meta:
+        model = Person
+
+
+class CheckboxColumnTable(Table):
+    id = Column(field='id', header=u'#')
+    name = Column(field='name', header=u'NAME')
+    married = CheckboxColumn(field='married', header=u'MARRIED')
 
     class Meta:
         model = Person
