@@ -63,7 +63,8 @@ class LinkColumnTable(Table):
         Link(viewname='user_profile', args=(A('id'),), text=A('name'))])
     avatar = LinkColumn(header=u'AVATAR', links=[
         ImageLink(viewname='user_profile', args=(A('id'),), image=image_url, image_title='avatar')])
-
+    #image value field from DB
+    #logo= ImageColumn(field='logo.url', header=u'Logo Image', image_title='logo')
     class Meta:
         model = Person
 
