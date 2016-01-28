@@ -15,9 +15,6 @@ class ImageColumn(Column):
         super(ImageColumn, self).__init__(field=field, *args, **kwargs)
 
     def render(self, obj):
-        """ Render image as HTML output tag <img>.
-        """
-        self.obj = obj
         path = Accessor(self.field).resolve(obj)
         if isinstance(self.image_title, Accessor):
             title = self.image_title.resolve(self.obj)
