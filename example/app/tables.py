@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse_lazy
 from table.columns import Column
 from table.columns.calendarcolumn import CalendarColumn
 from table.columns.sequencecolumn import SequenceColumn
+from table.columns.imagecolumn import ImageColumn
 from table.columns.linkcolumn import LinkColumn, Link, ImageLink
 from table.columns.checkboxcolumn import CheckboxColumn
 from table import Table
@@ -63,6 +64,7 @@ class LinkColumnTable(Table):
         Link(viewname='user_profile', args=(A('id'),), text=A('name'))])
     avatar = LinkColumn(header=u'AVATAR', links=[
         ImageLink(viewname='user_profile', args=(A('id'),), image=image_url, image_title='avatar')])
+    # logo = ImageColumn(field='logo.url', header=u'Logo Image', image_title='logo')
 
     class Meta:
         model = Person
