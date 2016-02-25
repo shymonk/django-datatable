@@ -24,7 +24,7 @@
     <tfoot {% if table.opts.thead_attrs %} {{ table.opts.thead_attrs }} {% endif %}>
         <tr>
         {% for is_filterable in table.filterable_rows %}
-            <th data-is_filterable="{% if is_filterable %} 1 {% else %} 0 {% endif %}"></th>
+            <th data-is_filterable="{% if is_filterable %}1{% else %}0{% endif %}"></th>
         {% endfor %}
         </tr>
     </tfoot>
