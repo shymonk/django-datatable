@@ -7,6 +7,7 @@ import app.views
 
 urlpatterns = [
     url(r'^$', app.views.base, name='base'),
+    url(r'^filterable/$', app.views.filterable, name='filterable'),
     url(r'^datasource/ajax/$', app.views.ajax, name='ajax'),
     url(r'^datasource/ajaxsource/$', app.views.ajax_source, name='ajax_source'),
     url(r'^datasource/ajaxsource/api/$', app.views.MyDataView.as_view(), name='ajax_source_api'),
