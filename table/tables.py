@@ -47,6 +47,14 @@ class BaseTable(object):
             header_rows[header.row_order].append(header)
         return header_rows
 
+    @property
+    def filterable_rows(self):
+        filterable_rows = []
+        for column in self.columns:
+            filterable_rows.append(column.filterable)
+        return filterable_rows
+    
+
 
 class TableData(object):
     def __init__(self, data, table):
@@ -189,6 +197,7 @@ class TableOptions(object):
         self.ext_button_context = getattr(options, 'ext_button_context', None)
 
         self.zero_records = getattr(options, 'zero_records', u'No records')
+        self.using_filter_row = getattr(options, 'using_filter_row', False)
 
 
 class TableMetaClass(type):

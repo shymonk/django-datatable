@@ -23,3 +23,5 @@ class QueryDataForm(forms.Form):
                 self.fields[key] = forms.IntegerField()
             if key.startswith("sSortDir"):
                 self.fields[key] = forms.CharField()
+            if key.startswith("sSearch_"):
+                self.fields[key] = forms.CharField(required=False)

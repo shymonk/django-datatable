@@ -65,6 +65,8 @@ class FeedDataView(JSONResponseMixin, BaseListView):
             queries = []
             fields = [col.field for col in self.columns if col.searchable]
             for field in fields:
+                if field is None:
+                    continue
                 key = "__".join(field.split(".") + ["icontains"])
                 value = filter_target
                 queries.append(Q(**{key: value}))
@@ -74,6 +76,21 @@ class FeedDataView(JSONResponseMixin, BaseListView):
         if filter_text:
             for target in filter_text.split():
                 queryset = queryset.filter(get_filter_arguments(target))
+        else:
+            # individual column filtering
+            for key, value in self.query_data.items():
+                if not key.startswith("sSearch_"):
+                    continue
+
+                if value:
+                    column_num = int(''.join(t for t in key if t.isdigit()))
+
+                    if 0 <= column_num < len(self.column):
+                        column = self.columns[column_num]
+                        if column.field:
+                            key = "__".join(column.field.split(".") + ["icontains"])
+                            queryset = queryset.filter(Q(**{key : value}))
+
         return queryset
 
     def sort_queryset(self, queryset):

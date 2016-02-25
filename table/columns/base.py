@@ -13,11 +13,12 @@ class Column(object):
 
     def __init__(self, field=None, header=None, attrs=None, header_attrs=None,
                  header_row_order=0, sortable=True, searchable=True, safe=True,
-                 visible=True, space=True):
+                 visible=True, space=True, filterable=True):
         self.field = field
         self.attrs = attrs or {}
         self.sortable = sortable
         self.searchable = searchable
+        self.filterable = filterable
         self.safe = safe
         self.visible = visible
         self.space = space
