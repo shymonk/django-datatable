@@ -41,7 +41,7 @@ class Accessor(str):
                 if not obj:
                     break
             return obj
-        except Exception, e:
+        except Exception as e:
             if quiet:
                 return ''
             else:
@@ -72,6 +72,6 @@ def timeit(func):
         ts = time.time()
         result = func(*args, **kwargs)
         te = time.time()
-        print 'func: %r took: %f ms' % (func.__name__, (te - ts) * 1000)
+        print('func: %r took: %f ms'.format(func.__name__, (te - ts) * 1000))
         return result
     return wrap

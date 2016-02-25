@@ -9,7 +9,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 
 from table.forms import QueryDataForm
 from table.tables import TableDataMap
-
+from functools import reduce
 
 class JSONResponseMixin(object):
     """

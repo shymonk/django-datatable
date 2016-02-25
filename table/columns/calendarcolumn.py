@@ -87,8 +87,8 @@ class InlineMonthsColumn(MonthsColumn):
         is_first_month = month_index == 0
         is_last_month = month_index == self.__len__() - 1
 
-        y = self.start_date.year + (self.start_date.month + month_index) / 13
-        m = (self.start_date.month + month_index) % 12 or 12
+        y = int(self.start_date.year + (self.start_date.month + month_index) / 13)
+        m = int((self.start_date.month + month_index) % 12 or 12)
         total = calendar.monthrange(y, m)[1]
 
         if is_first_month and is_last_month:
