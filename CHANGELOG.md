@@ -1,4 +1,11 @@
+## v0.2.0
+* Added compatibility with Python 3
+* Make checkboxfield related to object field.
+* Added ImageColumn
+
+
 ## v0.1.5
+
 * PyPi support
 
 ## v0.1.4
