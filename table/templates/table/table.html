@@ -19,6 +19,17 @@
         </tr>
         {% endfor %}
     </thead>
+
+    {% if table.opts.using_filter_row %}
+    <tfoot {% if table.opts.thead_attrs %} {{ table.opts.thead_attrs }} {% endif %}>
+        <tr>
+        {% for is_filterable in table.filterable_rows %}
+            <th data-is_filterable="{% if is_filterable %}1{% else %}0{% endif %}"></th>
+        {% endfor %}
+        </tr>
+    </tfoot>
+    {% endif %}
+
     {% if not table.opts.ajax %}
     <tbody {% if table.opts.tbody_attrs %}{{ table.opts.tbody_attrs }}{% endif %}>
         {% for row in table.rows %}
@@ -92,6 +103,32 @@ $(document).ready(function() {
             $("#{{ table.opts.id }}_wrapper .dataTables_filter input").wrap('<div class="input-group"></div>');
             $("#{{ table.opts.id }}_wrapper .dataTables_filter input").before('<span class="input-group-addon filter_icon"><i class="glyphicon glyphicon-search"></i></span>');
             $("#{{ table.opts.id }}_wrapper .dataTables_filter input").attr("placeholder", "{{ table.addons.search_box.placeholder }}");
+            {% endif %}
+
+            {% if table.opts.using_filter_row %}
+            var table = $('#{{ table.opts.id }}').DataTable();
+
+            var r = $('#{{ table.opts.id }} tfoot tr');
+            r.find('th[data-is_filterable="1"]').each(function(){
+                $(this).css('padding', 8);
+                var title = $(this).text();
+                $(this).html( '<div class="form-group"><input class="form-control" type="text" placeholder="Search '+title+'" /></div>' );
+            });
+
+            $('#{{ table.opts.id }} thead').append(r);
+            table.columns().every( function (iter) {
+                var that = this;
+                $( 'input', this.footer() ).on( 'keyup change blur', function (e) {
+                    if(e.keyCode == 13 || e.type == 'blur') {
+                        if ( that.search() !== this.value ) {
+                            that
+                                .column(iter)
+                                .search( this.value )
+                                .draw();
+                        }
+                    }
+                } );
+            } );
             {% endif %}
         }
     });

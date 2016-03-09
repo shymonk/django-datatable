@@ -250,6 +250,28 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
 
 * extense-button
 
+## Filterable columns
+
+To use filterable columns you need add `using_filter_row = True` in your table `Meta` class.
+
+All columns in table is filterable by default, to prevent this behavior you can pass `filterable=False` in column definition:
+
+```python
+# tables.py
+from table import Table
+from table.columns import Column
+
+class PersonTable(Table):
+    # filter for id is unnesessary feature:)
+    id = Column(field='id', filterable=False)
+    name = Column(field='name')
+
+    class Meta:
+        model = Person
+        ajax = True
+        using_filter_row = True
+```
+
 ## API Reference
 
 * [wiki](https://github.com/shymonk/django-datatable/wiki/API-Reference)

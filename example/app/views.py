@@ -8,7 +8,7 @@ from table.views import FeedDataView
 from app.tables import (
     ModelTable, AjaxTable, AjaxSourceTable,
     CalendarColumnTable, SequenceColumnTable,
-    LinkColumnTable, CheckboxColumnTable
+    LinkColumnTable, CheckboxColumnTable, FilterableTable
 )
 
 
@@ -16,6 +16,9 @@ def base(request):
     table = ModelTable()
     return render(request, "index.html", {'people': table})
 
+def filterable(request):
+    table = FilterableTable()
+    return render(request, "index.html", {'people': table})
 
 def ajax(request):
     table = AjaxTable()

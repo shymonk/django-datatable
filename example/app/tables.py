@@ -77,3 +77,12 @@ class CheckboxColumnTable(Table):
 
     class Meta:
         model = Person
+
+class FilterableTable(Table):
+    id = Column(field='id', header=u'#')
+    name = Column(field='name', header=u'NAME')
+    profession = Column(field='profession', header=u'PROFESSION')
+
+    class Meta:
+        model = Person
+        using_filter_row = True
