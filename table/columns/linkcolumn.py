@@ -25,7 +25,7 @@ class Link(object):
     Represents a html <a> tag.
     """
     def __init__(self, text=None, viewname=None, args=None, kwargs=None, urlconf=None,
-                 current_app=None, attrs=None):
+                 current_app=None, attrs=None, query_strings={}):
         self.basetext = text
         self.viewname = viewname
         self.args = args or []
@@ -33,6 +33,7 @@ class Link(object):
         self.urlconf = urlconf
         self.current_app = current_app
         self.base_attrs = attrs or {}
+        self.query_strings = query_strings
 
     @property
     def text(self):
@@ -55,6 +56,7 @@ class Link(object):
                               if isinstance(arg, Accessor) else arg
                               for arg in self.args]
         if self.kwargs:
+            # import ipdb; ipdb.set_trace()
             params['kwargs'] = {}
             for key, value in self.kwargs.items():
                 params['kwargs'][key] = (value.resolve(self.obj)
@@ -68,6 +70,16 @@ class Link(object):
                                      if isinstance(self.current_app, Accessor)
                                      else self.current_app)
 
+        if self.query_strings:
+            for k, v in self.query_strings.items():
+                if self.query_strings.itervalues().next() == v:
+                    query_strings = "?%s=%s" % (k, v.resolve(self.obj)
+                                                if isinstance(v, Accessor) else v)
+                else:
+                    query_strings += "&%s=%s" % (k, v.resolve(self.obj)
+                                                 if isinstance(v, Accessor) else v)
+            return reverse(self.viewname, **params) + query_strings
+
         return reverse(self.viewname, **params)
 
     @property
@@ -79,6 +91,7 @@ class Link(object):
     def render(self, obj):
         """ Render link as HTML output tag <a>.
         """
+        # import ipdb; ipdb.set_trace()
         self.obj = obj
         attrs = ' '.join([
             '%s="%s"' % (attr_name, attr.resolve(obj))
