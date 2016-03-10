@@ -91,7 +91,6 @@ class Link(object):
     def render(self, obj):
         """ Render link as HTML output tag <a>.
         """
-        # import ipdb; ipdb.set_trace()
         self.obj = obj
         attrs = ' '.join([
             '%s="%s"' % (attr_name, attr.resolve(obj))
