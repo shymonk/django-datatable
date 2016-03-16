@@ -56,7 +56,6 @@ class Link(object):
                               if isinstance(arg, Accessor) else arg
                               for arg in self.args]
         if self.kwargs:
-            # import ipdb; ipdb.set_trace()
             params['kwargs'] = {}
             for key, value in self.kwargs.items():
                 params['kwargs'][key] = (value.resolve(self.obj)
