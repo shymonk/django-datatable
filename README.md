@@ -70,9 +70,9 @@ Now define a PersonTable class without any options in table file.
         {% load static %}
         {% load table_tags %}
 
-        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-        <script src="{% static 'js/jquery.min.js' %}"></script>
-        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <link href="{% static 'table/css/bootstrap.min.css' %}" rel="stylesheet">
+        <script src="{% static 'table/js/jquery.min.js' %}"></script>
+        <script src="{% static 'table/js/bootstrap.min.js' %}"></script>
 
         <!DOCTYPE html>
         <html>
