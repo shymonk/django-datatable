@@ -4,14 +4,14 @@
 
 ## Overview
 
-django-datatable is a simple Django app to origanize data in tabular form and
+django-datatable is a simple Django app to origanize data in tabular form
 based on [datatable](http://datatables.net) and [bootstrap](http://getbootstrap.com/).
 
-It is worth mention that design of this project makes reference to [django-table2](https://github.com/bradleyayers/django-tables2)
-and mainly for the purpose of learning. I really appreciate that anyone make pull-request to improve it.
+It is worth mentioning that the design of this project makes reference to [django-table2](https://github.com/bradleyayers/django-tables2)
+and is mainly for the purpose of learning. I really appreciate anyone making a pull-request to improve it.
 
 
-## Requirement
+## Requirements
 
 * Python 2.x
 
@@ -41,7 +41,7 @@ and mainly for the purpose of learning. I really appreciate that anyone make pul
             name = models.CharField(max_length=100)
 
 - Add some data so you have something to display in the table.
-Now define a PersonTable class without any options in table file.
+Now define a PersonTable class without any options in the table file.
 
         # example/app/tables.py
         from models import Person
@@ -100,13 +100,13 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
 
 * Model
 
-  Use a django MTV model as table data source, and queries all data in database by default.
-  see **model** in table options for details.
+  Uses a django MTV model as table data source, and queries all data in database by default.
+  See **model** in table options for details.
 
 * QuerySet
 
-  Similiar to **Model**, but pass queryset when you initialize table instance instead of defining model option.
-  Basically, it used to filtering or sorting data your want to display in table.
+  Similiar to **Model**, but pass queryset when you initialize the table instance instead of defining model option.
+  Basically, it is used to filter or sort data you want to display in table.
 
     Models:
 
@@ -138,7 +138,7 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
 
 * Dict-List
 
-  Use a list of directories as table data source. Fields which declared in columns correspond to the keys of directory.
+  Use a list of dictionaries as table data source. Fields declared in columns correspond to the dictionary keys.
 
     Tables:
 
@@ -163,10 +163,10 @@ Render the whole table by simple tag `{% render_table %}`, pass `Table` instance
 
 * Ajax
 
-  For large number of data, load them on front-end entirely is impossible.
-  So, django-table provides a simle option 'ajax' to load data from server-side asynchronous.
+  For large amounts of data, loading them on front-end entirely is impossible.
+  So, django-table provides a simle option 'ajax' to load data from the server-side asynchronously.
 
-  Note that once toggle `ajax`, `model` option is necessary. Django-table will make paging/searching/sorting based on `ModelClass.objects.all()`.
+  Note that once toggling `ajax`, the `model` option is necessary. Django-table will do paging/searching/sorting based on `ModelClass.objects.all()`.
 
     Urls:
 
