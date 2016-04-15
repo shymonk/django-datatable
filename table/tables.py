@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 import copy
-from uuid import uuid4
+from hashlib import md5
 from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
 from collections import OrderedDict
@@ -223,7 +223,8 @@ class TableMetaClass(type):
         # For ajax data source, store columns into global hash map with
         # unique token key. So that, columns can be get to construct data
         # on views layer.
-        token = uuid4().hex
+        token = md5(name.encode('utf-8')).hexdigest()
+
         if opts.ajax:
             TableDataMap.register(token, opts.model, copy.deepcopy(base_columns))
 
