@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from django.test import TestCase
+
 from table.widgets import *
 from table.tables import Table, TableWidgets
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-from .base import Column
+from table.columns.base import Column
 
 
 class SequenceColumn(Column):

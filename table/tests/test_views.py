@@ -6,9 +6,9 @@ import json
 from django.test import Client, TestCase
 from django.core.urlresolvers import reverse
 
-from table.models import Person
-from table.columns import Column
 from table import Table
+from table.columns import Column
+from table.models import Person
 
 
 class TestTable(Table):

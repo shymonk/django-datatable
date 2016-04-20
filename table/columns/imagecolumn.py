@@ -1,6 +1,5 @@
+#!/usr/bin/env python
 # coding: utf-8
-from django.utils.safestring import mark_safe
-from django.utils.html import escape
 from django.template import Template, Context
 
 from table.columns import Column

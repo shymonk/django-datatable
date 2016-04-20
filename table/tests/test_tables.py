@@ -4,8 +4,8 @@ from __future__ import unicode_literals
 
 from django.test import TestCase
 
-from ..tables import Table
-from ..columns import Column
+from table.tables import Table
+from table.columns import Column
 
 
 class TestTable(Table):

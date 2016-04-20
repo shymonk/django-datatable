@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 import copy
+from collections import OrderedDict
 from hashlib import md5
+
 from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
-from collections import OrderedDict
-from .columns import Column, BoundColumn, SequenceColumn
-from .widgets import SearchBox, InfoLabel, Pagination, LengthMenu, ExtButton
+
+from table.columns import Column, BoundColumn, SequenceColumn
+from table.widgets import SearchBox, InfoLabel, Pagination, LengthMenu, ExtButton
 
 
 class BaseTable(object):
