@@ -1,6 +1,7 @@
 # django-datatable
 
 [![Build Status](https://travis-ci.org/shymonk/django-datatable.svg?branch=master)](https://travis-ci.org/shymonk/django-datatable)
+[![PyPI](https://img.shields.io/pypi/v/django-datatable.png)](https://pypi.python.org/pypi/django-datatable)
 
 ![preview](https://dl.dropboxusercontent.com/u/94696700/example.png)
 
