@@ -11,10 +11,16 @@ from table.utils import Accessor
 class Publication(models.Model):
     title = models.CharField(max_length=30)
 
+    class Meta:
+        app_label = 'table'
+
 
 class Article(models.Model):
     headline = models.CharField(max_length=100)
     publications = models.ManyToManyField(Publication)
+
+    class Meta:
+        app_label = 'table'
 
 
 class AccessorTestCase(TestCase):
