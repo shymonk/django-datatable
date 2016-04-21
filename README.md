@@ -1,5 +1,7 @@
 # django-datatable
 
+[![Build Status](https://travis-ci.org/shymonk/django-datatable.svg?branch=master)](https://travis-ci.org/shymonk/django-datatable)
+
 ![preview](https://dl.dropboxusercontent.com/u/94696700/example.png)
 
 ## Overview
@@ -10,16 +12,15 @@ based on [datatable](http://datatables.net) and [bootstrap](http://getbootstrap.
 It is worth mentioning that the design of this project makes reference to [django-table2](https://github.com/bradleyayers/django-tables2)
 and is mainly for the purpose of learning. I really appreciate anyone making a pull-request to improve it.
 
-
 ## Requirements
 
 * Python 2.x
 
 * jQuery 1.6+
 
-* Bootstrap 3.0
-
 * Django 1.5+
+
+* Bootstrap 3.0
 
 ## Quick start
 
@@ -27,18 +28,18 @@ and is mainly for the purpose of learning. I really appreciate anyone making a p
 
         $ pip install django-datatable
 
+- Define a simple model named Person:
+
+        # example/app/models.py
+        class Person(models.Model):
+            name = models.CharField(max_length=100)
+
 - Add "table" to your INSTALLED_APPS setting like this:
 
         INSTALLED_APPS = (
             ...,
             'table',
         )
-
-- Define a simple model named Person:
-
-        # example/app/models.py
-        class Person(models.Model):
-            name = models.CharField(max_length=100)
 
 - Add some data so you have something to display in the table.
 Now define a PersonTable class without any options in the table file.
