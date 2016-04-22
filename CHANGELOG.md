@@ -1,8 +1,10 @@
+## v0.2.1
+* Fix error about loading ajax data when serving requests with multiple processes in production env.
+
 ## v0.2.0
 * Added compatibility with Python 3
 * Make checkboxfield related to object field.
 * Added ImageColumn
-
 
 ## v0.1.5
 
