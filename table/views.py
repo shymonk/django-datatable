@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
-
 import json
+from functools import reduce
 
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Q
 from django.http import HttpResponse
 from django.views.generic.list import BaseListView
-from django.core.serializers.json import DjangoJSONEncoder
 
 from table.forms import QueryDataForm
 from table.tables import TableDataMap

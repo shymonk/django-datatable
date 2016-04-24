@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
+from django.utils.html import escape
 
+from table.utils import Accessor
 from .base import Column
 
 
@@ -13,5 +15,6 @@ class DatetimeColumn(Column):
         super(DatetimeColumn, self).__init__(field, header, **kwargs)
 
     def render(self, obj):
-        datetime = super(DatetimeColumn, self).render(obj)
-        return datetime.strftime(self.format)
+        datetime = Accessor(self.field).resolve(obj)
+        text = datetime.strftime(self.format)
+        return escape(text)

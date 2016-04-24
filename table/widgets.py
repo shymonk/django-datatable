@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
 from django.template.loader import get_template
 from django.template import Context, Template
 from django.utils.safestring import mark_safe

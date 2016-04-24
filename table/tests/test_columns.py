@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
-
+from __future__ import unicode_literals
 from datetime import date
 
 from django.test import TestCase
 
 from table.utils import A
-from table.columns.base import Column, BoundColumn, ColumnHeader
-from table.columns.linkcolumn import LinkColumn, Link, ImageLink
+from table.columns.base import Column
+from table.columns.linkcolumn import Link, ImageLink
 from table.columns.sequencecolumn import SequenceColumn
 from table.columns.calendarcolumn import DaysColumn, WeeksColumn, MonthsColumn, CalendarColumn
 
@@ -26,8 +26,7 @@ class BaseColumntestCase(TestCase):
         self.assertTrue(column.space, True)
 
     def test_column_header(self):
-        column = Column("field", "A",header_attrs={"id": "col-id"},
-                        header_row_order=1)
+        column = Column("field", "A", header_attrs={"id": "col-id"}, header_row_order=1)
         self.assertEqual(column.header.text, "A")
         self.assertEqual(column.header.attrs, 'id="col-id"')
         self.assertEqual(column.header.row_order, 1)
@@ -52,12 +51,6 @@ class LinkColumnTestCase(TestCase):
         self.assertEqual(image_link.render({}), '<a ><img src="/static/test.jpg" title="foo"></a>')
         image_link = ImageLink(image="test.jpg", image_title=A("foo"))
         self.assertEqual(image_link.render({"foo": "bar"}), '<a ><img src="/static/test.jpg" title="bar"></a>')
-        
-    def test_link_column(self):
-        col = LinkColumn("Foo", links=[])
-
-    def test_link_column_without_link(self):
-        pass
 
 
 class SequenceColumnTestCase(TestCase):
@@ -137,9 +130,9 @@ class MonthsColumnTestCase(TestCase):
 
     def test_headers(self):
         column1 = MonthsColumn(None, date(2012, 12, 18), date(2012, 12, 19))
-        self.assertEqual(column1.headers, ['December',])
+        self.assertEqual(column1.headers, ['December'])
         column2 = MonthsColumn(None, date(2012, 12, 18), date(2013, 2, 1))
-        self.assertEqual(column2.headers, ['December', 'January', 'February',])
+        self.assertEqual(column2.headers, ['December', 'January', 'February'])
 
 
 class CalendarColumnTestCase(TestCase):
@@ -153,6 +146,6 @@ class CalendarColumnTestCase(TestCase):
         self.assertEqual(column.months_column[3].header.base_attrs['colspan'], '1')
 
         column = CalendarColumn(None, date(2014, 5, 4), date(2014, 5, 9))
-        self.assertEqual(len(column), 1+6+6)
+        self.assertEqual(len(column), 1 + 6 + 6)
         self.assertEqual(column.months_column.headers, ['May'])
         self.assertEqual(column.months_column[0].header.base_attrs['colspan'], '6')
