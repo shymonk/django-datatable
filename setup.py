@@ -2,11 +2,6 @@
 # coding: utf-8
 from setuptools import setup, find_packages
 
-try:
-    import pypandoc
-    README = pypandoc.convert('README.md', 'rst')
-except(IOError, ImportError):
-    README = open('README.md').read()
 
 setup(
     name='django-datatable',
@@ -15,7 +10,7 @@ setup(
     author_email='hellojohn201@gmail.com',
     url='https://github.com/shymonk/django-datatable',
     description='A simple Django app to origanize data in tabular form.',
-    long_description=README,
+    long_description=open('README.rst').read(),
     packages=find_packages(exclude=['test*', 'example*']),
     include_package_data=True,
     zip_safe=False,
