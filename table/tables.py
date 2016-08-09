@@ -192,6 +192,11 @@ class TableOptions(object):
 
         self.zero_records = getattr(options, 'zero_records', u'No records')
 
+        self.theme = getattr(options, 'theme', 'bootstrap')
+        available_themes = ['bootstrap', 'bootstrap4', 'foundation', 'jqueryui', 'material', 'semanticui', 'uikit']
+        if not self.theme in available_themes:
+            raise ValueError('Theme must be one of the following values: %s' % ', '.join(available_themes))
+
 
 class TableMetaClass(type):
     """ Meta class for create Table class instance.
