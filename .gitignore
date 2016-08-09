@@ -35,3 +35,6 @@ nosetests.xml
 .project
 .pydevproject
 .settings
+
+# vim swap files
+*.sw[po]
