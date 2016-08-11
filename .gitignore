@@ -38,3 +38,6 @@ nosetests.xml
 
 # vim swap files
 *.sw[po]
+
+# virtualenv directory
+env
