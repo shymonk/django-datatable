@@ -15,7 +15,11 @@ class TableNode(template.Node):
 
     def render(self, context):
         table = self.table.resolve(context)
-        context = Context({'table': table})
+        context = Context({
+            'table': table,
+            'js_theme_file': 'table/js/dataTables.%s.js' % table.opts.theme,
+            'css_theme_file': 'table/css/dataTables.%s.css' % table.opts.theme,
+        })
         t = template.loader.get_template(self.template_name)
         return t.render(context)
 
