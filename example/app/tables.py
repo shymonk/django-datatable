@@ -2,8 +2,13 @@
 # coding: utf-8
 
 from datetime import date
+import django
 
-from django.core.urlresolvers import reverse_lazy
+if django.VERSION >= (1, 10):
+    from django.urls import reverse_lazy
+else:
+    from django.core.urlresolvers import reverse_lazy
+
 from table.columns import Column
 from table.columns.calendarcolumn import CalendarColumn
 from table.columns.sequencecolumn import SequenceColumn
