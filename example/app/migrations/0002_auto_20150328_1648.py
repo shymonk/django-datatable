@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='person',
             name='organization',
-            field=models.ForeignKey(blank=True, to='app.Organization', null=True),
+            field=models.ForeignKey(blank=True, to='app.Organization', null=True, on_delete=models.CASCADE),
             preserve_default=True,
         ),
     ]
