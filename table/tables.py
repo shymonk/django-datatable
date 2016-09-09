@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
+from __future__ import unicode_literals
 import copy
 from collections import OrderedDict
 from hashlib import md5
@@ -191,6 +192,8 @@ class TableOptions(object):
         self.ext_button_context = getattr(options, 'ext_button_context', None)
 
         self.zero_records = getattr(options, 'zero_records', u'No records')
+        self.theme_css_file = getattr(options, 'theme_css_file', 'table/css/datatable.bootstrap.css')
+        self.theme_js_file = getattr(options, 'theme_js_file', 'table/js/bootstrap.dataTables.js')
 
 
 class TableMetaClass(type):
@@ -236,4 +239,4 @@ class TableMetaClass(type):
         return super(TableMetaClass, cls).__new__(cls, name, bases, attrs)
 
 
-Table = TableMetaClass('Table', (BaseTable,), {})
+Table = TableMetaClass(str('Table'), (BaseTable,), {})
