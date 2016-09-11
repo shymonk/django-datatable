@@ -1,11 +1,11 @@
 {% spaceless %}
 {% load static %}
 
-<link href="{% static 'table/css/datatable.bootstrap.css' %}" rel="stylesheet" media="screen">
+<link href="{% static table.opts.theme_css_file  %}" rel="stylesheet" media="screen">
 <script src="{% static 'table/js/jquery.dataTables.min.js' %}" type="text/javascript"></script>
 <script src="{% static 'table/js/jquery.browser.min.js' %}" type="text/javascript"></script>
 <script src="{% static 'table/js/dataTables.fixedColumns.min.js' %}" type="text/javascript"></script>
-<script src="{% static 'table/js/bootstrap.dataTables.js' %}" type="text/javascript"></script>
+<script src="{% static table.opts.theme_js_file %}" type="text/javascript"></script>
 
 <table id={{ table.opts.id }} {{ table.opts.attrs }} cellpadding="0" cellspacing="0" border="0">
     <thead {% if table.opts.thead_attrs %}{{ table.opts.thead_attrs }}{% endif %}>
