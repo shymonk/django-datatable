@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
-from django.core.urlresolvers import reverse
+import django
+
+if django.VERSION >= (1, 10):
+    from django.urls import reverse
+else:
+    from django.core.urlresolvers import reverse
+
 from django.utils.safestring import mark_safe
 from django.utils.html import escape
 from django.template import Template, Context
