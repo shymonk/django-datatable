@@ -8,7 +8,7 @@ from .base import Column
 
 class DatetimeColumn(Column):
 
-    DEFAULT_FORMAT = "%Y-%m-%d %H:%I:%S"
+    DEFAULT_FORMAT = "%Y-%m-%d %H:%M:%S"
 
     def __init__(self, field, header=None, format=None, **kwargs):
         self.format = format or DatetimeColumn.DEFAULT_FORMAT
