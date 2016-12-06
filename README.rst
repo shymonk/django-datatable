@@ -9,7 +9,7 @@ django-datatable
 Overview
 --------
 
-django-datatable is a simple Django app to origanize data in tabular
+django-datatable is a simple Django app to organize data in tabular
 form based on `datatable <http://datatables.net>`__ and
 `bootstrap <http://getbootstrap.com/>`__.
 
