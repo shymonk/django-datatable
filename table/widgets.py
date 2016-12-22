@@ -6,9 +6,10 @@ from django.utils.safestring import mark_safe
 
 
 class SearchBox(object):
-    def __init__(self, visible=True, placeholder=None):
+    def __init__(self, visible=True, placeholder=None, label=None):
         self.visible = visible
         self.placeholder = placeholder or "Search"
+        self.label = label or "Search:"
 
     @property
     def dom(self):
@@ -19,9 +20,11 @@ class SearchBox(object):
 
 
 class InfoLabel(object):
-    def __init__(self, visible=True, format=None):
+    def __init__(self, visible=True, format=None, filtered=None, post_fix=None):
         self.visible = visible
         self.format = format or "Total _TOTAL_"
+        self.filtered = filtered or '(filtered from _MAX_ total entries)'
+        self.post_fix = post_fix or ""
 
     @property
     def dom(self):
@@ -52,8 +55,9 @@ class Pagination(object):
 
 
 class LengthMenu(object):
-    def __init__(self, visible=True):
+    def __init__(self, visible=True, format=None):
         self.visible = visible
+        self.format = format or "Show _MENU_ entries"
 
     @property
     def dom(self):
