@@ -1,106 +1,10 @@
 {% spaceless %}
 {% load static %}
 
-<link href="{% static table.opts.theme_css_file  %}" rel="stylesheet" media="screen">
-<script src="{% static 'table/js/jquery.dataTables.min.js' %}" type="text/javascript"></script>
-<script src="{% static 'table/js/jquery.browser.min.js' %}" type="text/javascript"></script>
-<script src="{% static 'table/js/dataTables.fixedColumns.min.js' %}" type="text/javascript"></script>
-<script src="{% static table.opts.theme_js_file %}" type="text/javascript"></script>
+{% include 'table/includes/media.html' %}
 
-<table id={{ table.opts.id }} {{ table.opts.attrs }} cellpadding="0" cellspacing="0" border="0">
-    <thead {% if table.opts.thead_attrs %}{{ table.opts.thead_attrs }}{% endif %}>
-        {% for row in table.header_rows %}
-        <tr>
-            {% for header in row %}
-            <th {% if header.attrs %}{{ header.attrs }}{% endif %}>
-            {{ header.text }}
-            </th>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </thead>
-    {% if not table.opts.ajax %}
-    <tbody {% if table.opts.tbody_attrs %}{{ table.opts.tbody_attrs }}{% endif %}>
-        {% for row in table.rows %}
-        <tr>
-            {% for column, td in row.items %}
-            <td {% if column.attrs %}{{ column.attrs }}{% endif %}>{% if column.safe %}{{ td }}{% else %}{{ td|safe }}{% endif %}</td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </tbody>
-    {% endif %}
-</table>
+{% include 'table/includes/table.html' %}
 
-<script type="text/javascript" charset="utf-8">
-$(document).ready(function() {
-    var filterFunc = function (sData) {
-        return sData.replace(/\n/g," ").replace( /<.*?>/g, "" );
-    };
+{% include 'table/includes/script.html' %}
 
-    var table = $('#{{ table.opts.id }}').dataTable({
-        "dom": "{{ table.addons.render_dom }}",
-        {% if table.opts.ajax %}
-        "processing": true,
-        "serverSide": true,
-        "ajaxSource": {% if table.opts.ajax_source %}"{{ table.opts.ajax_source }}"{% else %}"{% url 'feed_data' table.token %}"{% endif %},
-        {% endif %}
-        "paging": {% if table.opts.pagination %}true,{% else %}false,{% endif %}
-        "pageLength": {{ table.addons.pagination.length }},
-        {% if table.opts.scrollable %}
-        "scrollX": "100%",
-        "sScrollXInner": "{{ table.opts.scrollinner }}",
-        "scrollCollapse": true,
-        {% endif %}
-        "order": [
-            {% for index, order in table.opts.sort %}
-            [ {{ index }}, "{{ order }}" ],
-            {% endfor %}
-         ],
-        "columns": [
-            {% for column in table.columns %}
-            {% if column.space %}
-            {
-                {% if not column.searchable %}"searchable": false,{% endif %}
-                {% if not column.sortable %}"orderable": false,{% endif %}
-                {% if not column.visible %}"visible": false,{% endif %}
-                {% if column.links %}
-                "render": function(data, type, full) {
-                    return type == 'filter' ? $(data).text() : data
-                }
-                {% endif %}
-            },
-            {% endif %}
-            {% endfor %}
-        ],
-        "language": {
-            "info": "{{ table.addons.info_label.format }}",
-            "infoEmpty": "{{ table.addons.info_label.format }}",
-            "zeroRecords": "{{ table.opts.zero_records }}",
-            "paginate": {
-                "first": "{{ table.addons.pagination.first }}",
-                "last": "{{ table.addons.pagination.last }}",
-                "next": "{{ table.addons.pagination.next }}",
-                "previous": "{{ table.addons.pagination.prev }}"
-            }
-        },
-        "initComplete": function(oSettings, json) {
-            {% if table.opts.ext_button %}
-            $("#{{ table.opts.id }}_wrapper .ext-btn").append('{{ table.addons.ext_button.html }}');
-            {% endif %}
-            {% if table.opts.search %}
-            $("#{{ table.opts.id }}_wrapper .dataTables_filter input").wrap('<div class="input-group"></div>');
-            $("#{{ table.opts.id }}_wrapper .dataTables_filter input").before('<span class="input-group-addon filter_icon"><i class="glyphicon glyphicon-search"></i></span>');
-            $("#{{ table.opts.id }}_wrapper .dataTables_filter input").attr("placeholder", "{{ table.addons.search_box.placeholder }}");
-            {% endif %}
-        }
-    });
-    {% if table.opts.scrollable %}
-    new $.fn.dataTable.FixedColumns(table, {
- 		{% if table.opts.fixed_columns %}"iLeftColumns": {{ table.opts.fixed_columns }},{% endif %}
-		{% if table.opts.fixed_columns_width %}"iLeftWidth": {{ table.opts.fixed_columns_width }}{% endif %}
- 	});
-    {% endif %}
-});
-</script>
 {% endspaceless %}
