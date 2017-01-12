@@ -195,6 +195,21 @@ class TableOptions(object):
         self.theme_css_file = getattr(options, 'theme_css_file', 'table/css/datatable.bootstrap.css')
         self.theme_js_file = getattr(options, 'theme_js_file', 'table/js/bootstrap.dataTables.js')
 
+        # option cutomize list of static to load
+        self.media_js = getattr(options, 'media_js',
+                                ('table/js/jquery.dataTables.min.js',
+                                 'table/js/jquery.browser.min.js',
+                                 'table/js/dataTables.fixedColumns.min.js'
+                                 )
+        )
+
+        # option stateSave
+        self.stateSave = getattr(options, 'stateSave', False)
+        self.stateDuration = getattr(options, 'stateDuration', 604800)
+
+        # option language json
+        self.language_static_json = getattr(options, 'language_static_json', 'datatables/i18n/datatables.english.json')
+
 
 class TableMetaClass(type):
     """ Meta class for create Table class instance.
