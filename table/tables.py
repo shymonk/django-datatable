@@ -10,7 +10,7 @@ from django.utils.safestring import mark_safe
 
 from table.columns import Column, BoundColumn, SequenceColumn
 from table.widgets import SearchBox, InfoLabel, Pagination, LengthMenu, ExtButton
-
+from table.settings import *
 
 class BaseTable(object):
 
@@ -141,7 +141,7 @@ class TableOptions(object):
 
         # build attributes for <table> tag, use bootstrap
         # css class "table table-boarded" as default style
-        attrs = getattr(options, 'attrs', {})
+        attrs = getattr(options, 'attrs', TABLE_ATTR_ATTRS)
         attrs['class'] = 'table ' + attrs.get('class', '')
         self.attrs = mark_safe(' '.join(['%s="%s"' % (attr_name, attr)
                                          for attr_name, attr in attrs.items()]))
@@ -154,10 +154,10 @@ class TableOptions(object):
                                          for attr_name, attr in tbody_attrs.items()]))
 
         # scrolling option
-        self.scrollable = getattr(options, 'scrollable', False)
-        self.scrollinner = getattr(options, 'scrollinner', "150%")
-        self.fixed_columns = getattr(options, 'fixed_columns', None)
-        self.fixed_columns_width = getattr(options, 'fixed_columns_width', None)
+        self.scrollable = getattr(options, 'scrollable', TABLE_ATTR_SCROLLABLE)
+        self.scrollinner = getattr(options, 'scrollinner', TABLE_ATTR_SCROLLINNER)
+        self.fixed_columns = getattr(options, 'fixed_columns', TABLE_ATTR_FIXED_COLUMNS)
+        self.fixed_columns_width = getattr(options, 'fixed_columns_width', TABLE_ATTR_FIXED_COLUMNS_WIDTH)
 
         # inspect sorting option
         self.sort = []
@@ -171,44 +171,39 @@ class TableOptions(object):
             self.sort.append((column, order))
 
         # options for table add-on
-        self.search = getattr(options, 'search', True)
-        self.search_placeholder = getattr(options, 'search_placeholder', None)
+        self.search = getattr(options, 'search', TABLE_ATTR_SEARCH)
+        self.search_placeholder = getattr(options, 'search_placeholder', TABLE_ATTR_SEARCH_PLACEHOLDER)
 
-        self.info = getattr(options, 'info', True)
-        self.info_format = getattr(options, 'info_format', None)
+        self.info = getattr(options, 'info', TABLE_ATTR_INFO)
+        self.info_format = getattr(options, 'info_format', TABLE_ATTR_INFO_FORMAT)
 
-        self.pagination = getattr(options, 'pagination', True)
-        self.page_length = getattr(options, 'page_length', 10)
-        self.pagination_first = getattr(options, 'pagination_first', None)
-        self.pagination_last = getattr(options, 'pagination_last', None)
-        self.pagination_prev = getattr(options, 'pagination_prev', None)
-        self.pagination_next = getattr(options, 'pagination_next', None)
+        self.pagination = getattr(options, 'pagination', TABLE_ATTR_PAGINATION)
+        self.page_length = getattr(options, 'page_length', TABLE_ATTR_PAGE_LENGTH)
+        self.pagination_first = getattr(options, 'pagination_first', TABLE_ATTR_PAGINATION_FIRST)
+        self.pagination_last = getattr(options, 'pagination_last', TABLE_ATTR_PAGINATION_LAST)
+        self.pagination_prev = getattr(options, 'pagination_prev', TABLE_ATTR_PAGINATION_PREV)
+        self.pagination_next = getattr(options, 'pagination_next', TABLE_ATTR_PAGINATION_NEXT)
 
-        self.length_menu = getattr(options, 'length_menu', True)
+        self.length_menu = getattr(options, 'length_menu', TABLE_ATTR_LENGTH_MENU)
 
-        self.ext_button = getattr(options, 'ext_button', False)
-        self.ext_button_template = getattr(options, 'ext_button_template', None)
-        self.ext_button_template_name = getattr(options, 'ext_button_template_name', None)
-        self.ext_button_context = getattr(options, 'ext_button_context', None)
+        self.ext_button = getattr(options, 'ext_button', TABLE_ATTR_EXT_BUTTON)
+        self.ext_button_template = getattr(options, 'ext_button_template', TABLE_ATTR_EXT_BUTTON_TEMPLATE)
+        self.ext_button_template_name = getattr(options, 'ext_button_template_name', TABLE_ATTR_EXT_BUTTON_TEMPLATE_NAME)
+        self.ext_button_context = getattr(options, 'ext_button_context', TABLE_ATTR_EXT_BUTTON_CONTEXT)
 
-        self.zero_records = getattr(options, 'zero_records', u'No records')
-        self.theme_css_file = getattr(options, 'theme_css_file', 'table/css/datatable.bootstrap.css')
-        self.theme_js_file = getattr(options, 'theme_js_file', 'table/js/bootstrap.dataTables.js')
+        self.zero_records = getattr(options, 'zero_records', TABLE_ATTR_ZERO_RECORDS)
+        self.theme_css_file = getattr(options, 'theme_css_file', TABLE_ATTR_THEME_CSS_FILE)
+        self.theme_js_file = getattr(options, 'theme_js_file', TABLE_ATTR_THEME_JS_FILE)
 
         # option cutomize list of static to load
-        self.media_js = getattr(options, 'media_js',
-                                ('table/js/jquery.dataTables.min.js',
-                                 'table/js/jquery.browser.min.js',
-                                 'table/js/dataTables.fixedColumns.min.js'
-                                 )
-        )
+        self.media_js = getattr(options, 'media_js',TABLE_ATTR_MEDIA_JS)
 
         # option stateSave
-        self.stateSave = getattr(options, 'stateSave', False)
-        self.stateDuration = getattr(options, 'stateDuration', 604800)
+        self.stateSave = getattr(options, 'stateSave', TABLE_ATTR_STATESAVE)
+        self.stateDuration = getattr(options, 'stateDuration', TABLE_ATTR_STATEDURATION)
 
         # option language json
-        self.language_static_json = getattr(options, 'language_static_json', 'datatables/i18n/datatables.english.json')
+        self.language_static_json = getattr(options, 'language_static_json', TABLE_ATTR_LANGUAGE_STATIC_JSON)
 
 
 class TableMetaClass(type):
