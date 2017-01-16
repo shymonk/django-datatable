@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-datatable',
-    version='0.2.4',
+    version='0.2.5',
     author='gpannullo',
     author_email='giuseppe.pannullo@gmail.com',
     url='https://github.com/gpannullo/django-datatable',
