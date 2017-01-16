@@ -2,7 +2,7 @@
 # coding: utf-8
 from django.utils.html import escape
 
-from table.settings import TABLE_ATTR_DEFAULT_TIME_FORMAT
+from table.settings import TABLE_ATTR_DEFAULT_DATE_FORMAT
 from table.utils import Accessor
 from .base import Column
 
