@@ -93,7 +93,7 @@ class Link(object):
         """ Render link as HTML output tag <a>.
         """
         self.obj = obj
-        text = self.text
+        text = escape(self.text)
         if self.html:
             text = self.html
         attrs = ' '.join([
