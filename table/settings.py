@@ -44,4 +44,4 @@ TABLE_ATTR_LANGUAGE_STATIC_JSON = getattr(settings, 'TABLE_ATTR_LANGUAGE_STATIC_
                                           'datatables/i18n/datatables.english.json')
 
 
-TABLE_ATTR_DEFAULT_TIME_FORMAT = getattr(settings, 'TABLE_ATTR_DEFAULT_TIME_FORMAT',"%Y-%m-%d %H:%M:%S")
+TABLE_ATTR_DEFAULT_DATE_FORMAT = getattr(settings, 'TABLE_ATTR_DEFAULT_DATE_FORMAT',"%Y-%m-%d %H:%M:%S")

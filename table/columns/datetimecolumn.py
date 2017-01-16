@@ -9,7 +9,7 @@ from .base import Column
 
 class DatetimeColumn(Column):
 
-    DEFAULT_FORMAT = TABLE_ATTR_DEFAULT_TIME_FORMAT
+    DEFAULT_FORMAT = TABLE_ATTR_DEFAULT_DATE_FORMAT
 
     def __init__(self, field, header=None, format=None, **kwargs):
         self.format = format or DatetimeColumn.DEFAULT_FORMAT
