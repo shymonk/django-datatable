@@ -43,7 +43,7 @@
             ],
             "columnDefs": [
                 {% for column in table.columns %}
-                        {"target":{{ forloop0 }},
+                        {"target":{{ forloop.counter0 }},
                         "width": "5%",
                         {% if column.space %}
                             "searchable": {% if not column.searchable %}false{% else %}true{% endif %},
