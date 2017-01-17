@@ -39,6 +39,9 @@ TABLE_ATTR_MEDIA_JS = getattr(settings, 'TABLE_ATTR_MEDIA_JS', ('table/js/jquery
 TABLE_ATTR_STATESAVE = getattr(settings, 'TABLE_ATTR_STATESAVE', False)
 TABLE_ATTR_STATEDURATION = getattr(settings, 'TABLE_ATTR_STATEDURATION', 604800)
 
+# option responsive
+TABLE_ATTR_RESPONSIVE = getattr(settings, 'TABLE_ATTR_RESPONSIVE', False)
+
 # option language json
 TABLE_ATTR_LANGUAGE_STATIC_JSON = getattr(settings, 'TABLE_ATTR_LANGUAGE_STATIC_JSON',
                                           'datatables/i18n/datatables.english.json')

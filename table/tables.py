@@ -205,6 +205,9 @@ class TableOptions(object):
         # option language json
         self.language_static_json = getattr(options, 'language_static_json', TABLE_ATTR_LANGUAGE_STATIC_JSON)
 
+        # option responsive
+        self.responsive = getattr(options, 'responsive', TABLE_ATTR_RESPONSIVE)
+
 
 class TableMetaClass(type):
     """ Meta class for create Table class instance.
