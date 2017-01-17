@@ -12,15 +12,8 @@
             {% if table.opts.ajax %}
                 "processing": true,
                 "serverSide": true,
-                "ajax": {
-                    "url": "{% if table.opts.ajax_source %}{{ table.opts.ajax_source }}{% else %}{% url 'feed_data' table.token %}{% endif %}",
-                    "dataSrc": function (json) {
-                        rowCount = json.recordsFiltered;
-                        var fileList = document.getElementById("recordsFiltered-");
-                        $("#recordsFiltered-").text(rowCount);
-                        return json.data;
-                    },
-                },
+                "ajaxSource": {% if table.opts.ajax_source %}"{{ table.opts.ajax_source }}"
+                    {% else %}"{% url 'feed_data' table.token %}"{% endif %},
             {% endif %}
             {% if table.opts.stateSave  %}
                 "stateSave": true,
@@ -46,14 +39,14 @@
                         {"target":{{ forloop.counter0 }},
                         "width": "5%",
                         {% if column.space %}
-                            "searchable": {% if not column.searchable %}false{% else %}true{% endif %},
-                            "orderable": {% if not column.sortable %}false{% else %}true{% endif %},
-                            "visible":{% if not column.visible %}false{% else %}true{% endif %},
-                            {% if column.links %}
-                                "render": function (data, type, full) {
-                                    return type == 'filter' ? $(data).text() : data
-                                }
-                            {% endif %}{% endif %}
+                        "searchable": {% if not column.searchable %}false{% else %}true{% endif %},
+                        "orderable": {% if not column.sortable %}false{% else %}true{% endif %},
+                        "visible":{% if not column.visible %}false{% else %}true{% endif %},
+                        {% if column.links %}
+                        "render": function (data, type, full) {
+                            return type == 'filter' ? $(data).text() : data
+                        }
+                        {% endif %}{% endif %}
                         },
                 {% endfor %}
             ],
