@@ -12,8 +12,15 @@
             {% if table.opts.ajax %}
                 "processing": true,
                 "serverSide": true,
-                "ajaxSource": {% if table.opts.ajax_source %}"{{ table.opts.ajax_source }}"
-                    {% else %}"{% url 'feed_data' table.token %}"{% endif %},
+                "ajax": {
+                    "url": "{% if table.opts.ajax_source %}{{ table.opts.ajax_source }}{% else %}{% url 'feed_data' table.token %}{% endif %}",
+                    "dataSrc": function (json) {
+                        rowCount = json.recordsFiltered;
+                        var fileList = document.getElementById("recordsFiltered-");
+                        $("#recordsFiltered-").text(rowCount);
+                        return json.data;
+                    },
+                },
             {% endif %}
             {% if table.opts.stateSave  %}
                 "stateSave": true,
@@ -34,17 +41,20 @@
                     [{{ index }}, "{{ order }}"],
                 {% endfor %}
             ],
-            "columns": [
-                    {% for column in table.columns %}{% if column.space %}{
-                    {% if not column.searchable %}"searchable": false,{% endif %}
-                    {% if not column.sortable %}"orderable": false,{% endif %}
-                    {% if not column.visible %}"visible": false,{% endif %}
-                    {% if column.links %}
-                        "render": function (data, type, full) {
-                            return type == 'filter' ? $(data).text() : data
-                        }
-                    {% endif %}},
-                {% endif %}
+            "columnDefs": [
+                {% for column in table.columns %}
+                        {"target":{{ forloop0 }},
+                        "width": "5%",
+                        {% if column.space %}
+                            "searchable": {% if not column.searchable %}false{% else %}true{% endif %},
+                            "orderable": {% if not column.sortable %}false{% else %}true{% endif %},
+                            "visible":{% if not column.visible %}false{% else %}true{% endif %},
+                            {% if column.links %}
+                                "render": function (data, type, full) {
+                                    return type == 'filter' ? $(data).text() : data
+                                }
+                            {% endif %}{% endif %}
+                        },
                 {% endfor %}
             ],
             "language": {
