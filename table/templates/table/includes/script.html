@@ -34,7 +34,7 @@
                     [{{ index }}, "{{ order }}"],
                 {% endfor %}
             ],
-            "columnDefs": [
+            "columns": [
                 {% for column in table.columns %}
                         {"target":{{ forloop.counter0 }},
                         "width": "5%",
