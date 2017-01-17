@@ -1,6 +1,6 @@
 {% spaceless %}
 
-<table id={{ table.opts.id }} {{ table.opts.attrs }} cellspacing="0" width="100%">
+<table id={{ table.opts.id }} {{ table.opts.attrs }}>
     <thead {% if table.opts.thead_attrs %}{{ table.opts.thead_attrs }}{% endif %}>
         {% for row in table.header_rows %}
         <tr>
