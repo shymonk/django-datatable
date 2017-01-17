@@ -19,6 +19,9 @@
                 "stateSave": true,
                 "stateDuration": {{ table.opts.stateDuration }},
             {% endif %}
+            {% if table.opts.responsive  %}
+                "responsive": true,
+            {% endif %}
             "paging": {% if table.opts.pagination %}true{% else %}false{% endif %},
             "pageLength": {{ table.addons.pagination.length }},
             {% if table.opts.scrollable %}
