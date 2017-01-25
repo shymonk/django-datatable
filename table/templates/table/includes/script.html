@@ -36,18 +36,19 @@
             ],
             "columns": [
                 {% for column in table.columns %}
-                        {"target":{{ forloop.counter0 }},
-                        "width": "5%",
+                    {
+                        "target":{{ forloop.counter0 }},
+                        {% if column.width %}"width": "{{ column.width }}",{% endif %}
                         {% if column.space %}
                         "searchable": {% if not column.searchable %}false{% else %}true{% endif %},
                         "orderable": {% if not column.sortable %}false{% else %}true{% endif %},
-                        "visible":{% if not column.visible %}false{% else %}true{% endif %},
+                        "visible": {% if not column.visible %}false{% else %}true{% endif %},
                         {% if column.links %}
                         "render": function (data, type, full) {
                             return type == 'filter' ? $(data).text() : data
                         }
                         {% endif %}{% endif %}
-                        },
+                    },
                 {% endfor %}
             ],
             "language": {
@@ -64,8 +65,16 @@
                 {% if table.addons.search_box.placeholder %}
                     $("#{{ table.opts.id }}_wrapper .dataTables_filter input").attr("placeholder", "{{ table.addons.search_box.placeholder }}");
                 {% endif %}
+            },
+            "drawCallback": function (settings) {
+                {% if table.opts.tooltip_name %}
+                    console.log('Chiamata drawCallback');
+                $('[data-toggle="{{ table.opts.tooltip_name }}"]').tooltip({
+                    placement: 'bottom'
+                });
+                {% endif %}
 
-            }
+            },
         });
         {% if table.opts.scrollable %}
             new $.fn.dataTable.FixedColumns(table, {

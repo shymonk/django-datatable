@@ -208,6 +208,9 @@ class TableOptions(object):
         # option responsive
         self.responsive = getattr(options, 'responsive', TABLE_ATTR_RESPONSIVE)
 
+        # option tooltip
+        self.tooltip_name = getattr(options, 'tooltip_name', '')
+
 
 class TableMetaClass(type):
     """ Meta class for create Table class instance.
