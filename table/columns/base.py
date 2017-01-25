@@ -13,14 +13,17 @@ class Column(object):
 
     def __init__(self, field=None, header=None, attrs=None, header_attrs=None,
                  header_row_order=0, sortable=True, searchable=True, safe=True,
-                 visible=True, space=True):
+                 visible=True, space=True, html=False, width='auto', model_function=''):
         self.field = field
         self.attrs = attrs or {}
+        self.width = width
         self.sortable = sortable
         self.searchable = searchable
         self.safe = safe
         self.visible = visible
         self.space = space
+        self.html = html
+        self.model_function = model_function
         self.header = ColumnHeader(header, header_attrs, header_row_order)
 
         self.instance_order = Column.instance_order
@@ -30,7 +33,11 @@ class Column(object):
         return self.header.text
 
     def render(self, obj):
+        if self.model_function:
+            self.field = self.model_function
         text = Accessor(self.field).resolve(obj)
+        if self.html:
+            return text
         return escape(text)
 
 
