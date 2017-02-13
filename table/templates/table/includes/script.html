@@ -6,7 +6,7 @@
             return sData.replace(/\n/g, " ").replace(/<.*?>/g, "");
         };
 
-        var table = $('#{{ table.opts.id }}').dataTable({
+        var {{ table.opts.id }} = $('#{{ table.opts.id }}').dataTable({
 
             //"dom": "{{ table.addons.render_dom }}",
             {% if table.opts.ajax %}
@@ -64,6 +64,13 @@
                 {% endif %}
                 {% if table.addons.search_box.placeholder %}
                     $("#{{ table.opts.id }}_wrapper .dataTables_filter input").attr("placeholder", "{{ table.addons.search_box.placeholder }}");
+                {% endif %}
+
+                {% if table.opts.init_complete %}
+                    //Add Custom code
+                    {% autoescape off %}
+                    {{ table.opts.init_complete }}
+                    {% endautoescape %}
                 {% endif %}
             },
             "drawCallback": function (settings) {

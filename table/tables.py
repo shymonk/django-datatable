@@ -211,6 +211,9 @@ class TableOptions(object):
         # option tooltip
         self.tooltip_name = getattr(options, 'tooltip_name', '')
 
+        #Add custom function to InitComplete function
+        self.init_complete = getattr(options, 'init_complete', 'dddd')
+
 
 class TableMetaClass(type):
     """ Meta class for create Table class instance.
