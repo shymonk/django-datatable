@@ -123,12 +123,14 @@ Render the whole table by simple tag ``{% render_table %}``, pass
 DataSource
 ----------
 
--  Model
+Model
+`````
 
 Uses a django MTV model as table data source, and queries all data in
 database by default. See **model** in table options for details.
 
--  QuerySet
+QuerySet
+````````
 
 Similiar to **Model**, but pass queryset when you initialize the table
 instance instead of defining model option. Basically, it is used to
@@ -164,7 +166,8 @@ filter or sort data you want to display in table.
             people = PersonTable(Person.objects.all())
             return render(request, "index.html", {'people': people})
 
--  Dict-List
+Dict-List
+`````````
 
 Use a list of dictionaries as table data source. Fields declared in
 columns correspond to the dictionary keys.
@@ -192,7 +195,8 @@ columns correspond to the dictionary keys.
             people = PersonTable(data)
             return render(request, "index.html", {'people': people})
 
--  Ajax
+Built-in Ajax
+`````````````
 
 For large amounts of data, loading them on front-end entirely is
 impossible. So, django-table provides a simle option 'ajax' to load data
@@ -224,6 +228,9 @@ Django-table will do paging/searching/sorting based on
             class Meta:
                 model = Person
                 ajax = True
+
+Custom Ajax
+```````````
 
 If you want to customize base data, use ``ajax_source`` option and
 implement your own Class-based View by subclassing ``FeedDataView``.
