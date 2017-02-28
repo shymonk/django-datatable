@@ -8,9 +8,9 @@ register = template.Library()
 
 
 class TableNode(template.Node):
-    template_name = "table/table.html"
 
-    def __init__(self, table):
+    def __init__(self, table, template_name):
+        self.template_name = template_name
         self.table = template.Variable(table)
 
     def render(self, context):
@@ -20,25 +20,21 @@ class TableNode(template.Node):
         return t.render(context)
 
 
-class SimpleTableNode(TableNode):
-    template_name = "table/simple_table.html"
-
-
 @register.tag
-def render_table(parser, token):
+def render_table(parser, token, template_name="table/table.html"):
     try:
         tag, table = token.split_contents()
     except ValueError:
         msg = '%r tag requires a single arguments' % token.split_contents()[0]
         raise template.TemplateSyntaxError(msg)
-    return TableNode(table)
+    return TableNode(table, template_name)
 
 
 @register.tag
-def render_simple_table(parser, token):
+def render_simple_table(parser, token, template_name="table/simple_table.html"):
     try:
         tag, table = token.split_contents()
     except ValueError:
         msg = '%r tag requires a single arguments' % token.split_contents()[0]
         raise template.TemplateSyntaxError(msg)
-    return SimpleTableNode(table)
+    return TableNode(table, template_name)
