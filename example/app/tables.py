@@ -33,6 +33,10 @@ class AjaxTable(Table):
     id = Column(field='id', header=u'#')
     name = Column(field='name', header=u'NAME')
     organization = Column(field='organization.name', header=u'ORG')
+    organization1 = Column(field='organization.name', header=u'ORG1')
+    organization2 = Column(field='organization.name', header=u'ORG2')
+    organization3 = Column(field='organization.name', header=u'ORG3')
+    organization4 = Column(field='organization.name', header=u'ORG4')
 
     class Meta:
         model = Person

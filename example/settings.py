@@ -162,3 +162,11 @@ LOGGING = {
         },
     }
 }
+
+ALLOWED_HOSTS = ['127.0.0.1',]
+
+
+try:
+    from example.settings_custom import *
+except ImportError:
+    pass

@@ -31,7 +31,7 @@ class Link(object):
     Represents a html <a> tag.
     """
     def __init__(self, text=None, viewname=None, args=None, kwargs=None, urlconf=None,
-                 current_app=None, attrs=None):
+                 current_app=None, attrs=None, html=None):
         self.basetext = text
         self.viewname = viewname
         self.args = args or []
@@ -39,6 +39,13 @@ class Link(object):
         self.urlconf = urlconf
         self.current_app = current_app
         self.base_attrs = attrs or {}
+        self.basehtml = html
+
+    @property
+    def html(self):
+        if self.basehtml:
+            return self.basehtml
+        return None
 
     @property
     def text(self):
@@ -86,13 +93,16 @@ class Link(object):
         """ Render link as HTML output tag <a>.
         """
         self.obj = obj
+        text = escape(self.text)
+        if self.html:
+            text = self.html
         attrs = ' '.join([
             '%s="%s"' % (attr_name, attr.resolve(obj))
             if isinstance(attr, Accessor)
             else '%s="%s"' % (attr_name, attr)
             for attr_name, attr in self.attrs.items()
         ])
-        return mark_safe(u'<a %s>%s</a>' % (attrs, self.text))
+        return mark_safe(u'<a %s>%s</a>' % (attrs, text))
 
 
 class ImageLink(Link):

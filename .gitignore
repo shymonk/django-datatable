@@ -35,3 +35,6 @@ nosetests.xml
 .project
 .pydevproject
 .settings
+.idea/
+.env/
+/example/settings_custom.py

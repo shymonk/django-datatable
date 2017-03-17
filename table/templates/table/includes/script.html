@@ -1,0 +1,93 @@
+{% load static %}
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+        var filterFunc = function (sData) {
+            return sData.replace(/\n/g, " ").replace(/<.*?>/g, "");
+        };
+
+        var {{ table.opts.id }} = $('#{{ table.opts.id }}').dataTable({
+
+            //"dom": "{{ table.addons.render_dom }}",
+            {% if table.opts.ajax %}
+                "processing": true,
+                "serverSide": true,
+                "ajaxSource": {% if table.opts.ajax_source %}"{{ table.opts.ajax_source }}"
+                    {% else %}"{% url 'feed_data' table.token %}"{% endif %},
+            {% endif %}
+            {% if table.opts.stateSave  %}
+                "stateSave": true,
+                "stateDuration": {{ table.opts.stateDuration }},
+            {% endif %}
+            {% if table.opts.responsive  %}
+                "responsive": true,
+            {% endif %}
+            "paging": {% if table.opts.pagination %}true{% else %}false{% endif %},
+            "pageLength": {{ table.addons.pagination.length }},
+            {% if table.opts.scrollable %}
+                "scrollX": "100%",
+                "sScrollXInner": "{{ table.opts.scrollinner }}",
+                "scrollCollapse": true,
+            {% endif %}
+            "order": [
+                {% for index, order in table.opts.sort %}
+                    [{{ index }}, "{{ order }}"],
+                {% endfor %}
+            ],
+            "columns": [
+                {% for column in table.columns %}
+                    {
+                        "target":{{ forloop.counter0 }},
+                        {% if column.width %}"width": "{{ column.width }}",{% endif %}
+                        {% if column.space %}
+                        "searchable": {% if not column.searchable %}false{% else %}true{% endif %},
+                        "orderable": {% if not column.sortable %}false{% else %}true{% endif %},
+                        "visible": {% if not column.visible %}false{% else %}true{% endif %},
+                        {% if column.links %}
+                        "render": function (data, type, full) {
+                            return type == 'filter' ? $(data).text() : data
+                        }
+                        {% endif %}{% endif %}
+                    },
+                {% endfor %}
+            ],
+            "language": {
+                "url": "{% static table.opts.language_static_json %}"
+            },
+            "initComplete": function (oSettings, json) {
+                {% if table.opts.ext_button %}$("#{{ table.opts.id }}_wrapper .ext-btn")
+                    .append('{{ table.addons.ext_button.html }}');
+                {% endif %}
+                {% if table.opts.search %}
+                    $("#{{ table.opts.id }}_wrapper .dataTables_filter input").wrap('<div class="input-group"></div>');
+                    $("#{{ table.opts.id }}_wrapper .dataTables_filter input").before('<span class="input-group-addon filter_icon"><i class="glyphicon glyphicon-search"></i></span>');
+                {% endif %}
+                {% if table.addons.search_box.placeholder %}
+                    $("#{{ table.opts.id }}_wrapper .dataTables_filter input").attr("placeholder", "{{ table.addons.search_box.placeholder }}");
+                {% endif %}
+
+                {% if table.opts.init_complete %}
+                    //Add Custom code
+                    {% autoescape off %}
+                    {{ table.opts.init_complete }}
+                    {% endautoescape %}
+                {% endif %}
+            },
+            "drawCallback": function (settings) {
+                {% if table.opts.tooltip_name %}
+                    console.log('Chiamata drawCallback');
+                $('[data-toggle="{{ table.opts.tooltip_name }}"]').tooltip({
+                    placement: 'bottom'
+                });
+                {% endif %}
+
+            },
+        });
+        {% if table.opts.scrollable %}
+            new $.fn.dataTable.FixedColumns(table, {
+                {% if table.opts.fixed_columns %}"iLeftColumns": {{ table.opts.fixed_columns }},{% endif %}
+                {% if table.opts.fixed_columns_width %}"iLeftWidth": {{ table.opts.fixed_columns_width }}{% endif %}
+            });
+        {% endif %}
+    });
+</script>
