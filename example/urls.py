@@ -16,6 +16,8 @@ urlpatterns = [
     url(r'^column/link/$', app.views.link_column, name='link_column'),
     url(r'^column/checkbox/$', app.views.checkbox_column, name='checkbox_column'),
 
+    url(r'^extensions/buttons/$', app.views.buttons_extension, name='buttons_extension'),
+
     url(r'^user/(\d+)/$', app.views.user_profile, name='user_profile'),
     url(r'^table/', include('table.urls')),
 ]

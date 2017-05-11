@@ -52,3 +52,8 @@
 ## v0.1.0
 
 First commit for codebase.
+
+## v0.11.0
+
+* Deprecate table option `ext_button`.
+* Make table template inheritable.

@@ -8,7 +8,8 @@ from table.views import FeedDataView
 from app.tables import (
     ModelTable, AjaxTable, AjaxSourceTable,
     CalendarColumnTable, SequenceColumnTable,
-    LinkColumnTable, CheckboxColumnTable
+    LinkColumnTable, CheckboxColumnTable,
+    ButtonsExtensionTable
 )
 
 
@@ -63,6 +64,10 @@ def checkbox_column(request):
     table = CheckboxColumnTable()
     return render(request, "index.html", {'people': table})
 
+
+def buttons_extension(request):
+    table = ButtonsExtensionTable()
+    return render(request, "index.html", {'people': table})
 
 def user_profile(request, uid):
     from app.models import Person
