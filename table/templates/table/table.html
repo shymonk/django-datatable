@@ -1,11 +1,11 @@
 {% spaceless %}
 {% load static %}
 
+{% block css %}
 <link href="{% static table.opts.theme_css_file  %}" rel="stylesheet" media="screen">
-<script src="{% static 'table/js/jquery.dataTables.min.js' %}" type="text/javascript"></script>
-<script src="{% static 'table/js/jquery.browser.min.js' %}" type="text/javascript"></script>
-<script src="{% static 'table/js/dataTables.fixedColumns.min.js' %}" type="text/javascript"></script>
-<script src="{% static table.opts.theme_js_file %}" type="text/javascript"></script>
+{% endblock css %}
+{% block extra_css %}{% endblock extra_css %}
+
 
 <table id={{ table.opts.id }} {{ table.opts.attrs }} cellpadding="0" cellspacing="0" border="0">
     <thead {% if table.opts.thead_attrs %}{{ table.opts.thead_attrs }}{% endif %}>
@@ -32,6 +32,15 @@
     {% endif %}
 </table>
 
+{% block js %}
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="{% static 'table/js/jquery.browser.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'table/js/dataTables.fixedColumns.min.js' %}" type="text/javascript"></script>
+<script src="{% static table.opts.theme_js_file %}" type="text/javascript"></script>
+{% endblock js %}
+{% block extra_js %}{% endblock extra_js %}
+
+{% block table_init_js %}
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
     var filterFunc = function (sData) {
@@ -39,7 +48,10 @@ $(document).ready(function() {
     };
 
     var table = $('#{{ table.opts.id }}').dataTable({
+        {% block table_options %}
+        {% block table_dom %}
         "dom": "{{ table.addons.render_dom }}",
+        {% endblock table_dom %}
         {% if table.opts.ajax %}
         "processing": true,
         "serverSide": true,
@@ -85,15 +97,14 @@ $(document).ready(function() {
             }
         },
         "initComplete": function(oSettings, json) {
-            {% if table.opts.ext_button %}
-            $("#{{ table.opts.id }}_wrapper .ext-btn").append('{{ table.addons.ext_button.html }}');
-            {% endif %}
             {% if table.opts.search %}
             $("#{{ table.opts.id }}_wrapper .dataTables_filter input").wrap('<div class="input-group"></div>');
             $("#{{ table.opts.id }}_wrapper .dataTables_filter input").before('<span class="input-group-addon filter_icon"><i class="glyphicon glyphicon-search"></i></span>');
             $("#{{ table.opts.id }}_wrapper .dataTables_filter input").attr("placeholder", "{{ table.addons.search_box.placeholder }}");
             {% endif %}
-        }
+        },
+        {% endblock table_options %}
+        {% block table_extra_options %}{% endblock %}
     });
     {% if table.opts.scrollable %}
     new $.fn.dataTable.FixedColumns(table, {
@@ -103,4 +114,5 @@ $(document).ready(function() {
     {% endif %}
 });
 </script>
+{% endblock table_init_js %}
 {% endspaceless %}

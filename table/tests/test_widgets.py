@@ -46,14 +46,6 @@ class TableWidgetsTestCase(TestCase):
         menu = LengthMenu(visible=False)
         self.assertEqual(menu.dom, "<'col-sm-1 col-md-1 col-lg-1'>")
 
-    def test_extense_button(self):
-        btn = ExtButton(template="foo{{ var }}", context={"var": "bar"})
-        self.assertEqual(btn.dom, "<'col-sm-9 col-md-9 col-lg-9 ext-btn'>")
-        self.assertEqual(btn.html, "foobar")
-        btn = ExtButton(visible=False)
-        self.assertEqual(btn.dom, "<'col-sm-9 col-md-9 col-lg-9'>")
-        self.assertEqual(btn.html, "")
-
     def test_widgets_dom(self):
         class TestTable(Table):
             class Meta:
@@ -63,9 +55,7 @@ class TableWidgetsTestCase(TestCase):
                 pagination_last = "L"
                 pagination_prev = "P"
                 pagination_next = "N"
-                ext_button = True
-                ext_button_template = "foo{{ var }}"
-                ext_button_context = {"var": "bar"}
+
         table = TestTable([])
         widgets = TableWidgets(table)
         self.assertEqual(widgets.search_box.placeholder, "test")
@@ -74,10 +64,9 @@ class TableWidgetsTestCase(TestCase):
         self.assertEqual(widgets.pagination.last, "L")
         self.assertEqual(widgets.pagination.prev, "P")
         self.assertEqual(widgets.pagination.next, "N")
-        self.assertEqual(widgets.ext_button.html, "foobar")
         self.assertEqual(
             widgets.render_dom(),
-            "<'row'<'col-sm-9 col-md-9 col-lg-9 ext-btn'>"
+            "<'row'<'col-sm-9 col-md-9 col-lg-9'>"
             "<'col-sm-3 col-md-3 col-lg-3'f>>"
             "rt"
             "<'row'<'col-sm-3 col-md-3 col-lg-3'i>"

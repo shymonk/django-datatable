@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
 from datetime import date
 import django
 
@@ -22,17 +21,17 @@ from app.models import Person
 
 
 class ModelTable(Table):
-    id = Column(field='id', header=u'#')
-    name = Column(field='name', header=u'NAME')
+    id = Column(field='id', header='#')
+    name = Column(field='name', header='NAME')
 
     class Meta:
         model = Person
 
 
 class AjaxTable(Table):
-    id = Column(field='id', header=u'#')
-    name = Column(field='name', header=u'NAME')
-    organization = Column(field='organization.name', header=u'ORG')
+    id = Column(field='id', header='#')
+    name = Column(field='name', header='NAME')
+    organization = Column(field='organization.name', header='ORG')
 
     class Meta:
         model = Person
@@ -40,8 +39,8 @@ class AjaxTable(Table):
 
 
 class AjaxSourceTable(Table):
-    id = Column(field='id', header=u'#')
-    name = Column(field='name', header=u'NAME')
+    id = Column(field='id', header='#')
+    name = Column(field='name', header='NAME')
 
     class Meta:
         model = Person
@@ -50,13 +49,13 @@ class AjaxSourceTable(Table):
 
 
 class SequenceColumnTable(Table):
-    id = Column(field='id', header=u'#')
+    id = Column(field='id', header='#')
     seq = SequenceColumn(field='calendar', headers=["A", "B", "C", "D", "E"])
 
 
 class CalendarColumnTable(Table):
-    id = Column(field='id', header=u'#', header_attrs={'rowspan': '3'})
-    name = Column(field='name', header=u'NAME', header_attrs={'rowspan': '3'})
+    id = Column(field='id', header='#', header_attrs={'rowspan': '3'})
+    name = Column(field='name', header='NAME', header_attrs={'rowspan': '3'})
     calendar = CalendarColumn(field='calendar', start_date=date(2014, 4, 27), end_date=date(2014, 5, 9))
 
 
@@ -64,21 +63,31 @@ image_url = 'https://cdn0.iconfinder.com/data/icons/users-android-l-lollipop-ico
 
 
 class LinkColumnTable(Table):
-    id = Column(field='id', header=u'#')
-    name = LinkColumn(header=u'NAME', links=[
+    id = Column(field='id', header='#')
+    name = LinkColumn(header='NAME', links=[
         Link(viewname='user_profile', args=(A('id'),), text=A('name'))])
-    avatar = LinkColumn(header=u'AVATAR', links=[
+    avatar = LinkColumn(header='AVATAR', links=[
         ImageLink(viewname='user_profile', args=(A('id'),), image=image_url, image_title='avatar')])
-    # logo = ImageColumn(field='logo.url', header=u'Logo Image', image_title='logo')
+    # logo = ImageColumn(field='logo.url', header='Logo Image', image_title='logo')
 
     class Meta:
         model = Person
 
 
 class CheckboxColumnTable(Table):
-    id = Column(field='id', header=u'#')
-    name = Column(field='name', header=u'NAME')
-    married = CheckboxColumn(field='married', header=u'MARRIED')
+    id = Column(field='id', header='#')
+    name = Column(field='name', header='NAME')
+    married = CheckboxColumn(field='married', header='MARRIED')
 
     class Meta:
         model = Person
+
+
+class ButtonsExtensionTable(Table):
+    id = Column(field='id', header='#')
+    name = Column(field='name', header='NAME')
+    organization = Column(field='organization.name', header='ORGANIZATION')
+
+    class Meta:
+        model = Person
+        template_name = 'buttons_table.html'

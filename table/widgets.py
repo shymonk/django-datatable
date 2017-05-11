@@ -61,28 +61,3 @@ class LengthMenu(object):
             return "<'col-sm-1 col-md-1 col-lg-1'l>"
         else:
             return "<'col-sm-1 col-md-1 col-lg-1'>"
-
-
-class ExtButton(object):
-    def __init__(self, visible=True, template=None, template_name=None, context=None):
-        self.visible = visible
-        self.context = Context(context)
-        if visible:
-            if template:
-                self.template = Template(unicode(template))
-            else:
-                self.template = get_template(template_name)
-
-    @property
-    def dom(self):
-        if self.visible:
-            return "<'col-sm-9 col-md-9 col-lg-9 ext-btn'>"
-        else:
-            return "<'col-sm-9 col-md-9 col-lg-9'>"
-
-    @property
-    def html(self):
-        if self.visible:
-            return mark_safe(self.template.render(self.context).strip())
-        else:
-            return ''
