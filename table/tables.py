@@ -9,7 +9,7 @@ from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
 
 from table.columns import Column, BoundColumn, SequenceColumn
-from table.widgets import SearchBox, InfoLabel, Pagination, LengthMenu, ExtButton
+from table.widgets import SearchBox, InfoLabel, Pagination, LengthMenu
 
 
 class BaseTable(object):
@@ -113,15 +113,11 @@ class TableWidgets(object):
                                      opts.pagination_last,
                                      opts.pagination_prev,
                                      opts.pagination_next)
-        self.ext_button = ExtButton(opts.ext_button,
-                                    opts.ext_button_template,
-                                    opts.ext_button_template_name,
-                                    opts.ext_button_context)
 
     def render_dom(self):
         dom = ''
-        if self.search_box.visible or self.ext_button.visible:
-            dom += "<'row'" + ''.join([self.ext_button.dom, self.search_box.dom]) + ">"
+        if self.search_box.visible:
+            dom += "<'row'<'col-sm-9 col-md-9 col-lg-9'>" + self.search_box.dom + ">"
         dom += "rt"
         if self.info_label.visible or self.pagination.visible or self.length_menu.visible:
             dom += "<'row'" + ''.join([self.info_label.dom, self.pagination.dom, self.length_menu.dom]) + ">"
@@ -186,12 +182,8 @@ class TableOptions(object):
 
         self.length_menu = getattr(options, 'length_menu', True)
 
-        self.ext_button = getattr(options, 'ext_button', False)
-        self.ext_button_template = getattr(options, 'ext_button_template', None)
-        self.ext_button_template_name = getattr(options, 'ext_button_template_name', None)
-        self.ext_button_context = getattr(options, 'ext_button_context', None)
-
         self.zero_records = getattr(options, 'zero_records', u'No records')
+        self.template_name = getattr(options, 'template_name', None)
         self.theme_css_file = getattr(options, 'theme_css_file', 'table/css/datatable.bootstrap.css')
         self.theme_js_file = getattr(options, 'theme_js_file', 'table/js/bootstrap.dataTables.js')
 
