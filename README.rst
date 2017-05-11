@@ -295,7 +295,7 @@ Widgets
 
 -  length-menu
 
--  extense-button
+-  exten-button(deprecated)
 
 API Reference
 -------------
