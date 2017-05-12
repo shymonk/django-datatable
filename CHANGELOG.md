@@ -53,7 +53,10 @@
 
 First commit for codebase.
 
-## v0.11.0
+## v0.3.0
 
 * Deprecate table option `ext_button`.
 * Make table template inheritable.
+
+## v.0.3.1
+* Fix bug about template context, campatible with Django 1.10 & 1.11.
