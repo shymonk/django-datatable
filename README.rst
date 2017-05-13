@@ -3,8 +3,10 @@ django-datatable
 
 |Build Status| |PyPI|
 
-.. figure:: https://dl.dropboxusercontent.com/u/94696700/example.png
+.. figure:: https://www.shymonk.com/django-datatable/static/django_datatable_example.png
    :alt: preview
+
+`online demo <https://www.shymonk.com/django-datatable/datasource/model/>`__
 
 Overview
 --------
