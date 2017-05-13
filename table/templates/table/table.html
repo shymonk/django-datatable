@@ -86,14 +86,27 @@ $(document).ready(function() {
             {% endfor %}
         ],
         "language": {
+            "decimal": "{{ table.opts.decimal_format }}",
+            "emptyTable": "{{ table.opts.empty_table }}",
             "info": "{{ table.addons.info_label.format }}",
             "infoEmpty": "{{ table.addons.info_label.format }}",
+            "infoFiltered": "{{ table.addons.info_label.filtered }}",
+            "infoPostFix": "{{ table.addons.info_label.post_fix }}",
+            "thousands": "{{ table.opts.thousands_format }}",
+            "lengthMenu": "{{ table.addons.length_menu.format }}",
+            "loadingRecords": "{{ table.opts.loading_records }}",
+            "processing": "{{ table.opts.processing }}",
+            "search": "{{ table.addons.search.label }}",
             "zeroRecords": "{{ table.opts.zero_records }}",
             "paginate": {
                 "first": "{{ table.addons.pagination.first }}",
                 "last": "{{ table.addons.pagination.last }}",
                 "next": "{{ table.addons.pagination.next }}",
                 "previous": "{{ table.addons.pagination.prev }}"
+            },
+            "aria": {
+                "sortAscending":  "{{ table.opts.aria_sort_ascending }}",
+                "sortDescending": "{{ table.opts.aria_sort_decending }}"
             }
         },
         "initComplete": function(oSettings, json) {

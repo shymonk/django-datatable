@@ -104,9 +104,9 @@ class TableDataMap(object):
 class TableWidgets(object):
     def __init__(self, table):
         opts = table.opts
-        self.search_box = SearchBox(opts.search, opts.search_placeholder)
-        self.length_menu = LengthMenu(opts.length_menu)
-        self.info_label = InfoLabel(opts.info, opts.info_format)
+        self.search_box = SearchBox(opts.search, opts.search_placeholder, opts.search_label)
+        self.length_menu = LengthMenu(opts.length_menu, opts.length_menu_format)
+        self.info_label = InfoLabel(opts.info, opts.info_format, opts.info_filtered, opts.info_post_fix)
         self.pagination = Pagination(opts.pagination,
                                      opts.page_length,
                                      opts.pagination_first,
@@ -169,9 +169,12 @@ class TableOptions(object):
         # options for table add-on
         self.search = getattr(options, 'search', True)
         self.search_placeholder = getattr(options, 'search_placeholder', None)
+        self.search_label = getattr(options, 'search_label', None)
 
         self.info = getattr(options, 'info', True)
         self.info_format = getattr(options, 'info_format', None)
+        self.info_filtered = getattr(options, 'info_filtered', None)
+        self.info_post_fix = getattr(options, 'info_post_fix', None)
 
         self.pagination = getattr(options, 'pagination', True)
         self.page_length = getattr(options, 'page_length', 10)
@@ -181,11 +184,20 @@ class TableOptions(object):
         self.pagination_next = getattr(options, 'pagination_next', None)
 
         self.length_menu = getattr(options, 'length_menu', True)
+        self.length_menu_format = getattr(options, 'length_menu_format', None)
 
         self.zero_records = getattr(options, 'zero_records', u'No records')
         self.template_name = getattr(options, 'template_name', None)
         self.theme_css_file = getattr(options, 'theme_css_file', 'table/css/datatable.bootstrap.css')
         self.theme_js_file = getattr(options, 'theme_js_file', 'table/js/bootstrap.dataTables.js')
+
+        self.decimal_format = getattr(options, 'decimal_format', u'')
+        self.thousands_format = getattr(options, 'thousands_format', u',')
+        self.empty_table = getattr(options, 'empty_table', u'No data available in table')
+        self.loading_records = getattr(options, 'loading_records', u'Loading...')
+        self.processing = getattr(options, 'processing', u'Processing...')
+        self.aria_sort_ascending = getattr(options, '', u': activate to sort column ascending')
+        self.aria_sort_decending = getattr(options, '', u': activate to sort column decending')
 
 
 class TableMetaClass(type):
