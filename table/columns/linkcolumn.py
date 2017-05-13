@@ -12,7 +12,7 @@ from django.utils.html import escape
 from django.template import Template, Context
 
 from table.utils import Accessor
-from table.columns.base import Column
+from .base import Column
 
 
 class LinkColumn(Column):
@@ -30,7 +30,7 @@ class Link(object):
     """
     Represents a html <a> tag.
     """
-    def __init__(self, text=None, viewname=None, args=None, kwargs=None, urlconf=None,
+    def __init__(self, text=None, complete_url_in_text=False, viewname=None, args=None, kwargs=None, urlconf=None,
                  current_app=None, attrs=None):
         self.basetext = text
         self.viewname = viewname
@@ -43,13 +43,16 @@ class Link(object):
     @property
     def text(self):
         if isinstance(self.basetext, Accessor):
-            basetext = self.basetext.resolve(self.obj)
+            return self.basetext.resolve(self.obj) or ""
         else:
             basetext = self.basetext
         return escape(basetext)
 
     @property
     def url(self):
+        if self.complete_url_in_text:
+            return self.text
+
         if self.viewname is None:
             return ""
 
@@ -62,7 +65,7 @@ class Link(object):
                               for arg in self.args]
         if self.kwargs:
             params['kwargs'] = {}
-            for key, value in self.kwargs.items():
+            for key, value in self.kwargs.itmes:
                 params['kwargs'][key] = (value.resolve(self.obj)
                                          if isinstance(value, Accessor) else value)
         if self.urlconf:
