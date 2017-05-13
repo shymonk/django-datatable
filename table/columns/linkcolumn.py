@@ -23,6 +23,10 @@ class LinkColumn(Column):
         super(LinkColumn, self).__init__(field, header, **kwargs)
 
     def render(self, obj):
+        for link in self.links:
+          if self.field != None:
+            link.basetext = Accessor(self.field).resolve(obj)
+      
         return self.delimiter.join([link.render(obj) for link in self.links])
 
 
