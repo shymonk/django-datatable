@@ -15,7 +15,7 @@ class TableNode(template.Node):
 
     def render(self, context):
         table = self.table.resolve(context)
-        context = Context({'table': table})
+        context = dict({'table': table})
         t = template.loader.get_template(self.template_name)
         return t.render(context)
 
