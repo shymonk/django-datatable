@@ -214,7 +214,7 @@ Django-table will do paging/searching/sorting based on
 
         # urls.py
         urlpatterns = patterns('',
-            url(r'^table/', include(table.urls')),
+            url(r'^table/', include('table.urls')),
         )
 
     Tables:
